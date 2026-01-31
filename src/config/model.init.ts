@@ -1,0 +1,1 @@
+const initDatabase = async (): Promise<void> => {};
