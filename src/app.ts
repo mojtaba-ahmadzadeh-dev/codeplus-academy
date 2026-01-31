@@ -7,7 +7,7 @@ import path from "path";
 export class Application {
   private app: ExpressApp;
   private port: number;
-  private sequelize: Sequelize; 
+  private sequelize: Sequelize;
 
   constructor(port: number, sequelize: Sequelize) {
     this.port = port;
