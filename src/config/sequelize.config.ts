@@ -1,23 +1,12 @@
 import { Sequelize, Dialect } from "sequelize";
-import dotenv from "dotenv";
+import { env } from "./env";
 
-/** Load environment file based on runtime mode */
-const envFile =
-  process.env.NODE_ENV === "production"
-    ? ".env.production"
-    : ".env.development";
-
-dotenv.config({ path: envFile });
-
-/** Sequelize database connection instance */
-const sequelize = new Sequelize({
-  dialect: process.env.DB_DIALECT as Dialect,
-  host: process.env.DB_HOST as string,
-  port: Number(process.env.DB_PORT),
-  username: process.env.DB_USERNAME as string,
-  password: process.env.DB_PASSWORD as string,
-  database: process.env.DB_NAME as string,
+export const sequelize = new Sequelize({
+  dialect: env.DB.DIALECT as Dialect,
+  host: env.DB.HOST,
+  port: env.DB.PORT,
+  username: env.DB.USERNAME,
+  password: env.DB.PASSWORD,
+  database: env.DB.NAME,
   logging: false,
 });
-
-export { sequelize };

@@ -2,7 +2,7 @@ import path from "path";
 import swaggerJsDocs from "swagger-jsdoc";
 import swaggerUi from "swagger-ui-express";
 import { fileURLToPath } from "url";
-import type { Application } from "express"; // ✅ فقط Application
+import type { Application } from "express";
 
 /** Resolve current directory (ESM compatible) */
 const __filename = fileURLToPath(import.meta.url);

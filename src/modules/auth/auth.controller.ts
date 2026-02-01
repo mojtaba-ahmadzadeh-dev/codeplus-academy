@@ -20,11 +20,12 @@ class AuthController {
         abortEarly: false,
       });
 
-      await this.service.sendOTP(mobile);
+      const user = await this.service.sendOTP(mobile);
 
       return res.status(StatusCodes.CREATED).json({
         statusCode: StatusCodes.CREATED,
         message: authMessage.OTP_SENT_SUCCESS,
+        data: user,
       });
     } catch (error) {
       next(error);
@@ -37,14 +38,33 @@ class AuthController {
         abortEarly: false,
       });
 
-      await this.service.checkOTP(mobile, code);
+      const { accessToken, refreshToken, user } = await this.service.checkOTP(  mobile,  code,);
+
+      res.cookie("refreshToken", refreshToken, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "strict",
+        maxAge: 7 * 24 * 60 * 60 * 1000,
+      });
+
+      res.cookie("accessToken", refreshToken, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "strict",
+        maxAge: 7 * 24 * 60 * 60 * 1000,
+      });
 
       return res.status(StatusCodes.OK).json({
         statusCode: StatusCodes.OK,
         message: authMessage.OTP_VERIFIED_SUCCESS,
+        data: {
+          user,
+          accessToken,
+          refreshToken
+        },
       });
     } catch (error) {
-      next(error)
+      next(error);
     }
   }
 }
