@@ -4,5 +4,6 @@ import authController from "./auth.controller";
 const authRouter: Router = Router();
 
 authRouter.post("/send-otp", authController.sendOTP);
+authRouter.post("/check-otp", authController.checkOTP);
 
 export default authRouter;

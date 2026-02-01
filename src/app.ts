@@ -4,7 +4,7 @@ import { Sequelize } from "sequelize"; // Import Sequelize
 import dotenv from "dotenv";
 import path from "path";
 import { AllRoutes } from "./routes/index.routes.js";
-import { initDatabase } from "./config/model.init";
+import { initDatabase } from "./config/model.init.js";
 
 export class Application {
   private app: ExpressApp;
@@ -75,7 +75,6 @@ async start(): Promise<void> {
     process.exit(1);
   }
 }
-
 
   /** Get Express app instance (for testing or additional configuration) */
   public getApp(): ExpressApp {

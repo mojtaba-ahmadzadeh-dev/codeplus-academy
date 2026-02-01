@@ -1,5 +1,5 @@
 import { sequelize } from "../config/sequelize.config";
-import { OTP, User } from "../module/user/user.model";
+import { OTP, User } from "../modules/user/user.model";
 
 const initDatabase = async (): Promise<void> => {
   User.hasMany(OTP, { foreignKey: "user_id", as: "otps" });
