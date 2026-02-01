@@ -13,12 +13,12 @@ const SwaggerConfig = (app: Application): void => {
     definition: {
       openapi: "3.0.0",
       info: {
-        title: "Store Management API",
+        title: "Codeplus Academy API",
         version: "1.0.0",
         description: "API documentation for Store Management project",
       },
     },
-    apis: [path.join(__dirname, "../modules/**/*.swagger.js")],
+    apis: [path.join(__dirname, "../module/**/*.swagger.{ts,js}")],
   };
 
   const swaggerSpec = swaggerJsDocs(swaggerOptions);

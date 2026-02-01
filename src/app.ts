@@ -3,6 +3,8 @@ import SwaggerConfig from "./config/swagger.config.js";
 import { Sequelize } from "sequelize"; // Import Sequelize
 import dotenv from "dotenv";
 import path from "path";
+import { AllRoutes } from "./routes/index.routes.js";
+import { initDatabase } from "./config/model.init";
 
 export class Application {
   private app: ExpressApp;
@@ -27,6 +29,7 @@ export class Application {
     // Initialize core application layers
     this.initializeMiddlewares();
     this.initializeSwagger();
+    this.setupRoutes();
   }
 
   /** Register global middlewares */
@@ -51,23 +54,28 @@ export class Application {
     }
   }
 
-  /** Start HTTP server */
-  async start(): Promise<void> {
-    try {
-      // First initialize database
-      await this.initDatabase();
-
-      // Then start the server
-      this.app.listen(this.port, () => {
-        console.log(`🚀 Server running on port ${this.port}`);
-        console.log(`📚 Swagger: http://localhost:${this.port}/api-docs`);
-        console.log(`🌍 Environment: ${process.env.NODE_ENV || "development"}`);
-      });
-    } catch (error) {
-      console.error("Failed to start application:", error);
-      process.exit(1);
-    }
+  async setupRoutes(): Promise<void> {
+    this.app.use(AllRoutes)
   }
+
+  /** Start HTTP server */
+async start(): Promise<void> {
+  try {
+    // initialize database with sync
+    await initDatabase();
+
+    // سپس سرور را استارت بزن
+    this.app.listen(this.port, () => {
+      console.log(`🚀 Server running on port ${this.port}`);
+      console.log(`📚 Swagger: http://localhost:${this.port}/api-docs`);
+      console.log(`🌍 Environment: ${process.env.NODE_ENV || "development"}`);
+    });
+  } catch (error) {
+    console.error("Failed to start application:", error);
+    process.exit(1);
+  }
+}
+
 
   /** Get Express app instance (for testing or additional configuration) */
   public getApp(): ExpressApp {
