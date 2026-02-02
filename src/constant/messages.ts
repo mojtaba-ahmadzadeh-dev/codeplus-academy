@@ -18,4 +18,5 @@ export enum authMessage {
   UNAUTHORIZED = "کاربر مجاز نیست، لطفاً وارد شوید",
   GET_ME_SUCCESS = "اطلاعات کاربر با موفقیت دریافت شد",
   LOGOUT_SUCCESS = "خروج با موفقیت انجام شد",
+  ACCESS_TOKEN_EXPIRED = "زمان اعتبار توکن شما به پایان رسیده است. لطفاً دوباره وارد شوید.",
 }
