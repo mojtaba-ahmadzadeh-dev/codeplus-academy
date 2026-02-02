@@ -268,3 +268,42 @@
  *           type: string
  *           example: "Please log in"
  */
+
+/**
+ * @swagger
+ * /auth/logout:
+ *   post:
+ *     summary: Logout the current user
+ *     description: |
+ *       Logs out the currently authenticated user by clearing the accessToken and refreshToken cookies.
+ *       - No request body is required  
+ *       - After logout, the user must login again to access protected routes
+ *     tags: [Authentication 🔐]
+ *     responses:
+ *       200:
+ *         description: Successfully logged out
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 200
+ *                 message:
+ *                   type: string
+ *                   example: "خروج از حساب با موفقیت انجام شد"
+ *       500:
+ *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 500
+ *                 message:
+ *                   type: string
+ *                   example: Internal server error
+ */

@@ -12,11 +12,11 @@ class AuthController {
   private service = authService;
 
   constructor() {
-
     this.sendOTP = this.sendOTP.bind(this);
     this.verifyOTP = this.verifyOTP.bind(this);
     this.refreshToken = this.refreshToken.bind(this);
     this.getMe = this.getMe.bind(this);
+    this.logout = this.logout.bind(this);
   }
 
   async sendOTP(req: Request, res: Response, next: NextFunction) {
@@ -112,12 +112,15 @@ class AuthController {
 
       const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET;
       if (!ACCESS_TOKEN_SECRET) {
-        throw createHttpError.InternalServerError(authMessage.ACCESS_TOKEN_NOT_DEFINED);
-      } 
+        throw createHttpError.InternalServerError(
+          authMessage.ACCESS_TOKEN_NOT_DEFINED,
+        );
+      }
 
       const payload = jwt.verify(token, ACCESS_TOKEN_SECRET) as JwtPayload;
 
-      if (!payload?.userId) throw createHttpError.Unauthorized(authMessage.ACCESS_TOKEN_INVALID);
+      if (!payload?.userId)
+        throw createHttpError.Unauthorized(authMessage.ACCESS_TOKEN_INVALID);
 
       const user = await this.service.getMe(payload.userId);
 
@@ -125,6 +128,29 @@ class AuthController {
         statusCode: StatusCodes.OK,
         message: authMessage.GET_ME_SUCCESS,
         data: user,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async logout(req: Request, res: Response, next: NextFunction) {
+    try {
+      res.clearCookie("accessToken", {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "strict",
+      });
+
+      res.clearCookie("refreshToken", {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "strict",
+      });
+
+      return res.status(StatusCodes.OK).json({
+        statusCode: StatusCodes.OK,
+        message: authMessage.LOGOUT_SUCCESS,
       });
     } catch (error) {
       next(error);

@@ -16,6 +16,6 @@ export enum authMessage {
   REFRESH_TOKEN_SUCCESS = "توکن با موفقیت رفرش شد",
   REFRESH_TOKEN_NOT_FOUND = "رفرش توکن پیدا نشد",
   UNAUTHORIZED = "کاربر مجاز نیست، لطفاً وارد شوید",
-  GET_ME_SUCCESS = "اطلاعات کاربر با موفقیت دریافت شد"
+  GET_ME_SUCCESS = "اطلاعات کاربر با موفقیت دریافت شد",
+  LOGOUT_SUCCESS = "خروج با موفقیت انجام شد",
 }
-
