@@ -64,7 +64,6 @@ async start(): Promise<void> {
     // initialize database with sync
     await initDatabase();
 
-    // سپس سرور را استارت بزن
     this.app.listen(this.port, () => {
       console.log(`🚀 Server running on port ${this.port}`);
       console.log(`📚 Swagger: http://localhost:${this.port}/api-docs`);

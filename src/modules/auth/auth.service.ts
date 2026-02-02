@@ -18,21 +18,33 @@ class AuthService {
     const now = new Date();
 
     let user = await this.userModel.findOne({ where: { mobile } });
-
-    if (!user) user = await this.userModel.create({ mobile });
+    if (!user) {
+      user = await this.userModel.create({ mobile });
+    }
 
     const code = randomInt(100000, 999999).toString().padStart(6, "0");
 
     const expires_in = new Date(now.getTime() + 2 * 60 * 1000);
 
-    await this.otpModel.create({
-      user_id: user.id,
-      code,
-      expires_in,
+    const existingOtp = await this.otpModel.findOne({
+      where: { user_id: user.id },
     });
+
+    if (existingOtp) {
+      await existingOtp.update({ code, expires_in });
+    } else {
+      await this.otpModel.create({
+        user_id: user.id,
+        code,
+        expires_in,
+      });
+    }
   }
 
-async checkOTP(mobile: string, code: string): Promise<{ accessToken: string; refreshToken: string; user: any }> {
+  async checkOTP(
+    mobile: string,
+    code: string,
+  ): Promise<{ accessToken: string; refreshToken: string; user: any }> {
     const user = await this.userModel.findOne({ where: { mobile } });
 
     if (!user) throw createHttpError.NotFound(authMessage.USER_NOT_FOUND);
@@ -65,7 +77,7 @@ async checkOTP(mobile: string, code: string): Promise<{ accessToken: string; ref
       user: {
         id: user.id,
         mobile: user.mobile,
-      }
+      },
     };
   }
 
