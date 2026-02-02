@@ -4,7 +4,7 @@ import { randomInt } from "crypto";
 import { authMessage } from "../../constant/messages";
 import jwt, { JwtPayload, SignOptions } from "jsonwebtoken";
 import { env } from "../../config/env";
-import { TokenPair } from "../types/index.types";
+import { TokenPair } from "./types/index.types";
 
 class AuthService {
   private userModel: typeof User;
