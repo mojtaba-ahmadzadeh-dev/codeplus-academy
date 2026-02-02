@@ -5,16 +5,18 @@ import { authMessage } from "../../constant/messages";
 import { checkOTPSchema, sendOTPSchema } from "./auth.validation";
 import createHttpError from "http-errors";
 import tokenService from "./token.service";
+import { JwtPayload } from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 
 class AuthController {
   private service = authService;
 
   constructor() {
-    this.service = authService;
 
     this.sendOTP = this.sendOTP.bind(this);
     this.verifyOTP = this.verifyOTP.bind(this);
     this.refreshToken = this.refreshToken.bind(this);
+    this.getMe = this.getMe.bind(this);
   }
 
   async sendOTP(req: Request, res: Response, next: NextFunction) {
@@ -76,8 +78,7 @@ class AuthController {
       if (!token)
         throw createHttpError.Unauthorized(authMessage.REFRESH_TOKEN_NOT_FOUND);
 
-      const { accessToken, refreshToken } =
-        tokenService.refreshTokens(token);
+      const { accessToken, refreshToken } = tokenService.refreshTokens(token);
 
       res.cookie("refreshToken", refreshToken, {
         httpOnly: true,
@@ -102,6 +103,33 @@ class AuthController {
       next(error);
     }
   };
+
+  async getMe(req: Request, res: Response, next: NextFunction) {
+    try {
+      const token = req.cookies.accessToken;
+      if (!token)
+        throw createHttpError.Unauthorized(authMessage.ACCESS_TOKEN_INVALID);
+
+      const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET;
+      if (!ACCESS_TOKEN_SECRET) {
+        throw createHttpError.InternalServerError(authMessage.ACCESS_TOKEN_NOT_DEFINED);
+      } 
+
+      const payload = jwt.verify(token, ACCESS_TOKEN_SECRET) as JwtPayload;
+
+      if (!payload?.userId) throw createHttpError.Unauthorized(authMessage.ACCESS_TOKEN_INVALID);
+
+      const user = await this.service.getMe(payload.userId);
+
+      return res.status(StatusCodes.OK).json({
+        statusCode: StatusCodes.OK,
+        message: authMessage.GET_ME_SUCCESS,
+        data: user,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
 }
 
 export default new AuthController();

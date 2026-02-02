@@ -7,3 +7,8 @@ export interface TokenPair {
   accessToken: string;
   refreshToken: string;
 }
+
+export interface UserDTO {
+  id: number;
+  mobile: string;
+}

@@ -1,5 +1,5 @@
 export enum authMessage {
-  OTP_SENT_SUCCESS = "کاربر با موفقعیت ثبت نام شد",
+  OTP_SENT_SUCCESS = "کاربر با موفقیت ثبت نام شد",
   OTP_VERIFIED_SUCCESS = "کد تأیید با موفقیت بررسی شد",
   MOBILE_INVALID = "شماره موبایل وارد شده نامعتبر است",
   MOBILE_REQUIRED = "وارد کردن شماره موبایل الزامی است",
@@ -10,8 +10,12 @@ export enum authMessage {
   OTP_EXPIRED = "کد تأیید منقضی شده است",
   OTP_INCORRECT = "کد تأیید وارد شده نامعتبر است",
   ACCESS_TOKEN_INVALID = "توکن دسترسی معتبر نیست",
+  ACCESS_TOKEN_NOT_DEFINED = "توکن دسترسی در سرور تعریف نشده است",
   REFRESH_TOKEN_INVALID = "توکن معتبر نیست",
   REFRESH_TOKEN_EXPIRED = "رفرش توکن نامعتبر یا منقضی شده است",
   REFRESH_TOKEN_SUCCESS = "توکن با موفقیت رفرش شد",
   REFRESH_TOKEN_NOT_FOUND = "رفرش توکن پیدا نشد",
+  UNAUTHORIZED = "کاربر مجاز نیست، لطفاً وارد شوید",
+  GET_ME_SUCCESS = "اطلاعات کاربر با موفقیت دریافت شد"
 }
+

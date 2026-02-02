@@ -217,3 +217,54 @@
  *           type: string
  *           example: "09123456789"
  */
+
+/**
+ * @swagger
+ * /auth/me:
+ *   get:
+ *     summary: Get current user information
+ *     tags: [Authentication 🔐]
+ *     description: |
+ *       Retrieve information of the currently logged-in user
+ *       - Requires a valid accessToken
+ *       - Token must be sent in the Authorization header
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Successfully retrieved user information
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 200
+ *                 message:
+ *                   type: string
+ *                   example: "User information retrieved successfully"
+ *                 data:
+ *                   $ref: '#/components/schemas/User'
+ *       401:
+ *         description: Invalid or missing access token
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
+ */
+
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     ErrorResponse:
+ *       type: object
+ *       properties:
+ *         statusCode:
+ *           type: integer
+ *           example: 401
+ *         message:
+ *           type: string
+ *           example: "Please log in"
+ */
