@@ -73,7 +73,7 @@
 
 /**
  * @swagger
- * /auth/check-otp:
+ * /auth/verify-otp:
  *   post:
  *     summary: Verify OTP for a user
  *     description: |

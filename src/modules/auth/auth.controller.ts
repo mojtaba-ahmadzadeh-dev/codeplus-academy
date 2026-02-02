@@ -4,6 +4,7 @@ import { StatusCodes } from "http-status-codes";
 import { authMessage } from "../../constant/messages";
 import { checkOTPSchema, sendOTPSchema } from "./auth.validation";
 import createHttpError from "http-errors";
+import tokenService from "./token.service";
 
 class AuthController {
   private service = authService;
@@ -12,8 +13,8 @@ class AuthController {
     this.service = authService;
 
     this.sendOTP = this.sendOTP.bind(this);
-    this.checkOTP = this.checkOTP.bind(this);
-    this.refreshToken = this.refreshToken.bind(this); //
+    this.verifyOTP = this.verifyOTP.bind(this);
+    this.refreshToken = this.refreshToken.bind(this);
   }
 
   async sendOTP(req: Request, res: Response, next: NextFunction) {
@@ -34,13 +35,13 @@ class AuthController {
     }
   }
 
-  async checkOTP(req: Request, res: Response, next: NextFunction) {
+  async verifyOTP(req: Request, res: Response, next: NextFunction) {
     try {
       const { mobile, code } = await checkOTPSchema.validateAsync(req.body, {
         abortEarly: false,
       });
 
-      const { accessToken, refreshToken, user } = await this.service.checkOTP(
+      const { accessToken, refreshToken, user } = await this.service.verifyOTP(
         mobile,
         code,
       );
@@ -49,24 +50,20 @@ class AuthController {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
         sameSite: "strict",
-        maxAge: 7 * 24 * 60 * 60 * 1000,
+        maxAge: 15 * 60 * 1000,
       });
 
-      res.cookie("accessToken", refreshToken, {
+      res.cookie("accessToken", accessToken, {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
         sameSite: "strict",
-        maxAge: 7 * 24 * 60 * 60 * 1000,
+        maxAge: 15 * 60 * 1000,
       });
 
       return res.status(StatusCodes.OK).json({
         statusCode: StatusCodes.OK,
         message: authMessage.OTP_VERIFIED_SUCCESS,
-        data: {
-          user,
-          accessToken,
-          refreshToken,
-        },
+        data: { user },
       });
     } catch (error) {
       next(error);
@@ -80,7 +77,7 @@ class AuthController {
         throw createHttpError.Unauthorized(authMessage.REFRESH_TOKEN_NOT_FOUND);
 
       const { accessToken, refreshToken } =
-        await this.service.verifyRefreshToken(token);
+        tokenService.refreshTokens(token);
 
       res.cookie("refreshToken", refreshToken, {
         httpOnly: true,
