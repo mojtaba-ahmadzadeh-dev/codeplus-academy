@@ -7,6 +7,11 @@ export enum authMessage {
   CODE_INVALID = "کد تأیید وارد شده نامعتبر است",
   USER_NOT_FOUND = "کاربر با این شماره موبایل یافت نشد.",
   OTP_NOT_FOUND = "کد تأیید یافت نشد",
-  OTP_EXPIRED = "کد تأیید منقضی شده است", 
-  OTP_INCORRECT = "کد تأیید وارد شده نامعتبر است", 
+  OTP_EXPIRED = "کد تأیید منقضی شده است",
+  OTP_INCORRECT = "کد تأیید وارد شده نامعتبر است",
+  ACCESS_TOKEN_INVALID = "توکن دسترسی معتبر نیست",
+  REFRESH_TOKEN_INVALID = "توکن معتبر نیست",
+  REFRESH_TOKEN_EXPIRED = "رفرش توکن نامعتبر یا منقضی شده است",
+  REFRESH_TOKEN_SUCCESS = "توکن با موفقیت رفرش شد",
+  REFRESH_TOKEN_NOT_FOUND = "رفرش توکن پیدا نشد",
 }

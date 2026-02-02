@@ -4,6 +4,7 @@ import { randomInt } from "crypto";
 import { authMessage } from "../../constant/messages";
 import jwt, { JwtPayload, SignOptions } from "jsonwebtoken";
 import { env } from "../../config/env";
+import { TokenPair } from "../types/index.types";
 
 class AuthService {
   private userModel: typeof User;
@@ -93,6 +94,20 @@ class AuthService {
     } as SignOptions);
 
     return { accessToken, refreshToken };
+  }
+
+  async verifyRefreshToken(token: string): Promise<TokenPair> {
+    try {
+      const payload = jwt.verify(token, env.JWT.REFRESH_SECRET) as JwtPayload;
+      if (!payload?.userId)
+        throw createHttpError.Unauthorized(authMessage.REFRESH_TOKEN_INVALID);
+      return this.generateTokens({
+        userId: payload.userId,
+        mobile: payload.mobile,
+      });
+    } catch (error) {
+      throw createHttpError.Unauthorized(authMessage.REFRESH_TOKEN_EXPIRED);
+    }
   }
 }
 

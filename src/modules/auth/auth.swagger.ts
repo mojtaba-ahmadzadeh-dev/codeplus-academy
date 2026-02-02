@@ -166,3 +166,54 @@
  *                   type: string
  *                   example: Internal server error
  */
+
+/**
+ * @swagger
+ * /auth/refresh-token:
+ *   post:
+ *     summary: Refresh access and refresh tokens
+ *     description: |
+ *       Refreshes the user's access and refresh tokens using the refresh token stored in HTTP-only cookie.  
+ *       Returns new accessToken and refreshToken.
+ *     tags: [Authentication 🔐]
+ *     responses:
+ *       200:
+ *         description: Tokens refreshed successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 200
+ *                 message:
+ *                   type: string
+ *                   example: Tokens refreshed successfully
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     accessToken:
+ *                       type: string
+ *                     refreshToken:
+ *                       type: string
+ *       401:
+ *         description: Refresh token not found, invalid, or expired
+ *       500:
+ *         description: Internal server error
+ */
+
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     User:
+ *       type: object
+ *       properties:
+ *         id:
+ *           type: integer
+ *           example: 1
+ *         mobile:
+ *           type: string
+ *           example: "09123456789"
+ */

@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 import path from "path";
 import { AllRoutes } from "./routes/index.routes.js";
 import { initDatabase } from "./config/model.init.js";
+import cookieParser from "cookie-parser";
 
 export class Application {
   private app: ExpressApp;
@@ -36,6 +37,7 @@ export class Application {
   private initializeMiddlewares(): void {
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: true }));
+    this.app.use(cookieParser()); 
   }
 
   /** Setup Swagger documentation */
