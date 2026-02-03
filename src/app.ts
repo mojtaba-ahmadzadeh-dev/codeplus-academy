@@ -6,6 +6,7 @@ import path from "path";
 import { AllRoutes } from "./routes/index.routes.js";
 import { initDatabase } from "./config/model.init.js";
 import cookieParser from "cookie-parser";
+import { errorHandler } from "./exception/error-handler.js";
 
 export class Application {
   private app: ExpressApp;
@@ -30,6 +31,7 @@ export class Application {
     // Initialize core application layers
     this.initializeMiddlewares();
     this.initializeSwagger();
+    this.initializeErrorHandler();
     this.setupRoutes();
   }
 
@@ -58,6 +60,10 @@ export class Application {
 
   async setupRoutes(): Promise<void> {
     this.app.use(AllRoutes);
+  }
+
+  async initializeErrorHandler(): Promise<void> {
+    this.app.use(errorHandler);
   }
 
   /** Start HTTP server */
