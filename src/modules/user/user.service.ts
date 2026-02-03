@@ -16,6 +16,16 @@ class UserService {
     const user = await User.findByPk(id);
     return user;
   }
+
+  async updateUserById (id: number, payload: Partial<User>) {
+    const user = await User.findByPk(id);
+
+    if (!user) throw new Error("User not found");
+
+    await user.update(payload)
+
+    return user
+  }
 }
 
 export default new UserService();

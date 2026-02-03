@@ -30,4 +30,6 @@ export enum authMessage {
 
 export enum userMessage {
   GET_ALL_USERS_SUCCESSFULLY = "تمام کاربران با موفقیت دریافت شدند",
+  GET_USER_SUCCESSFULLY = "کاربر با موفقیت دریافت شد",
+  UPDATE_USER_SUCCESSFULLY = "کاربر با موفقیت بروزرسانی شد",
 }

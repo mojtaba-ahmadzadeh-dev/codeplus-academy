@@ -11,6 +11,7 @@ class UserController {
 
     this.getAllUsers = this.getAllUsers.bind(this);
     this.getUserById = this.getUserById.bind(this);
+    this.updateUserById = this.updateUserById.bind(this);
   }
 
   async getAllUsers(req: Request, res: Response, next: NextFunction) {
@@ -35,8 +36,32 @@ class UserController {
 
       res.status(StatusCodes.OK).json({
         statusCode: 200,
-        message: "User retrieved successfully",
+        message: userMessage.GET_USER_SUCCESSFULLY,
         data: user,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async updateUserById(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id } = req.params;
+      const payload = req.body;
+
+      if (req.file) {
+        payload.avatar = `/uploads/avatars/${req.file.filename}`;
+      }
+
+      const updatedUser = await this.service.updateUserById(
+        Number(id),
+        payload,
+      );
+
+      res.status(StatusCodes.OK).json({
+        statusCode: StatusCodes.OK,
+        message: userMessage.UPDATE_USER_SUCCESSFULLY,
+        data: updatedUser,
       });
     } catch (error) {
       next(error);
