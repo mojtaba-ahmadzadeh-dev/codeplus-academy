@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import userService from "./user.service";
 import { StatusCodes } from "http-status-codes";
 import { userMessage } from "../../constant/messages";
+import createHttpError from "http-errors";
 
 class UserController {
   private service: typeof userService;
@@ -13,6 +14,7 @@ class UserController {
     this.getUserById = this.getUserById.bind(this);
     this.updateUserById = this.updateUserById.bind(this);
     this.removeUserById = this.removeUserById.bind(this);
+    this.changeRole = this.changeRole.bind(this);
   }
 
   async getAllUsers(req: Request, res: Response, next: NextFunction) {
@@ -76,9 +78,29 @@ class UserController {
 
       res.status(StatusCodes.OK).json({
         statusCode: StatusCodes.OK,
-        message:
-          userMessage.DELETE_USER_SUCCESSFULLY,
+        message: userMessage.DELETE_USER_SUCCESSFULLY,
         data: deletedUser,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async changeRole(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id } = req.params;
+      const { role } = req.body;
+
+      if (!role) {
+        throw createHttpError.BadRequest(userMessage.ROLE_IS_REQUIRED);
+      }
+
+      const updatedUser = await this.service.changeRole(Number(id), role);
+
+      res.status(StatusCodes.OK).json({
+        statusCode: StatusCodes.OK,
+        message: userMessage.UPDATE_USER_SUCCESSFULLY,
+        data: updatedUser,
       });
     } catch (error) {
       next(error);

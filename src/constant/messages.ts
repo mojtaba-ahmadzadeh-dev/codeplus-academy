@@ -33,5 +33,6 @@ export enum userMessage {
   GET_USER_SUCCESSFULLY = "کاربر با موفقیت دریافت شد",
   UPDATE_USER_SUCCESSFULLY = "کاربر با موفقیت بروزرسانی شد",
   DELETE_USER_SUCCESSFULLY = "کاربر موردنظر با موفقیت حذف شد",
-  USER_NOT_FOUND = "کاربر موردنظر یافت نشد"
+  USER_NOT_FOUND = "کاربر موردنظر یافت نشد",
+   ROLE_IS_REQUIRED = "نقش کاربر الزامی است",
 }

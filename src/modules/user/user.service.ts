@@ -36,6 +36,16 @@ class UserService {
     await user.destroy();
     return user;
   }
+
+  async changeRole(id: number, role: string) {
+    const user = await this.model.findByPk(id);
+
+    if (!user) throw new Error(userMessage.USER_NOT_FOUND);
+
+    await user.update({ role });
+
+    return user;
+  }
 }
 
 export default new UserService();

@@ -10,10 +10,7 @@
  * /users:
  *   get:
  *     summary: Get all users
- *     description: |
- *       This API returns all users in the system.
- *       - Requires a valid access token.
- *       - Token must be sent in the Authorization header.
+ *     description: Get all users in the system. Requires a valid access token.
  *     tags: [Users 👥]
  *     security:
  *       - bearerAuth: []
@@ -29,39 +26,14 @@
  *                   type: integer
  *                 message:
  *                   type: string
- *                 data:
+ *                 users:
  *                   type: array
  *                   items:
- *                     type: object
- *                     properties:
- *                       id:
- *                         type: integer
- *                       mobile:
- *                         type: string
- *                       name:
- *                         type: string
+ *                     $ref: '#/components/schemas/User'
  *       401:
  *         description: Unauthorized
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 statusCode:
- *                   type: integer
- *                 message:
- *                   type: string
  *       500:
  *         description: Internal server error
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 statusCode:
- *                   type: integer
- *                 message:
- *                   type: string
  */
 
 /**
@@ -69,10 +41,6 @@
  * /users/{id}:
  *   get:
  *     summary: Get a specific user by ID
- *     description: |
- *       This API returns the details of a specific user in the system.
- *       - Requires a valid access token.
- *       - Token must be sent in the Authorization header.
  *     tags: [Users 👥]
  *     security:
  *       - bearerAuth: []
@@ -80,7 +48,7 @@
  *       - name: id
  *         in: path
  *         required: true
- *         description: The ID of the user to retrieve
+ *         description: User ID
  *         schema:
  *           type: integer
  *     responses:
@@ -93,76 +61,29 @@
  *               properties:
  *                 statusCode:
  *                   type: integer
- *                   example: 200
  *                 message:
  *                   type: string
- *                   example: "User retrieved successfully"
  *                 data:
- *                   type: object
- *                   properties:
- *                     id:
- *                       type: integer
- *                     mobile:
- *                       type: string
- *                     name:
- *                       type: string
- *       401:
- *         description: Unauthorized
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 statusCode:
- *                   type: integer
- *                   example: 401
- *                 message:
- *                   type: string
- *                   example: "Access token is missing or invalid"
+ *                   $ref: '#/components/schemas/User'
  *       404:
  *         description: User not found
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 statusCode:
- *                   type: integer
- *                   example: 404
- *                 message:
- *                   type: string
- *                   example: "User not found"
- *       500:
- *         description: Internal server error
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 statusCode:
- *                   type: integer
- *                   example: 500
- *                 message:
- *                   type: string
- *                   example: "Internal server error"
  */
 
 /**
  * @swagger
- * /users/{id}:
+ * /users/update/{id}:
  *   put:
  *     summary: Update a user
  *     tags: [Users 👥]
- *     description: Update a user's full name or avatar. Avatar can be uploaded as a file.
  *     security:
  *       - bearerAuth: []
  *     parameters:
- *       - in: path
- *         name: id
+ *       - name: id
+ *         in: path
  *         required: true
+ *         description: User ID
  *         schema:
  *           type: integer
- *         description: The ID of the user to update
  *     requestBody:
  *       required: true
  *       content:
@@ -172,11 +93,9 @@
  *             properties:
  *               full_name:
  *                 type: string
- *                 description: User's full name
  *               avatar:
  *                 type: string
  *                 format: binary
- *                 description: Upload an avatar image file
  *     responses:
  *       200:
  *         description: User updated successfully
@@ -187,30 +106,17 @@
  *               properties:
  *                 statusCode:
  *                   type: integer
- *                   example: 200
  *                 message:
  *                   type: string
- *                   example: "User updated successfully"
  *                 data:
  *                   $ref: '#/components/schemas/User'
- *       400:
- *         description: Invalid user ID
- *       404:
- *         description: User not found
- *       500:
- *         description: Internal server error
  */
 
 /**
  * @swagger
- * /users/{id}:
+ * /users/remove/{id}:
  *   delete:
  *     summary: Delete a user
- *     description: |
- *       Deletes a specific user by their ID.
- *       - Requires a valid access token.
- *       - Token must be sent in the Authorization header.
- *       - Only authorized users (e.g., admin) can delete users.
  *     tags: [Users 👥]
  *     security:
  *       - bearerAuth: []
@@ -218,7 +124,7 @@
  *       - name: id
  *         in: path
  *         required: true
- *         description: The ID of the user to delete
+ *         description: User ID
  *         schema:
  *           type: integer
  *     responses:
@@ -231,25 +137,43 @@
  *               properties:
  *                 statusCode:
  *                   type: integer
- *                   example: 200
  *                 message:
  *                   type: string
- *                   example: "User deleted successfully"
  *                 data:
- *                   type: object
- *                   properties:
- *                     id:
- *                       type: integer
- *                     mobile:
- *                       type: string
- *                     full_name:
- *                       type: string
- *                     avatar:
- *                       type: string
- *                     is_banned:
- *                       type: boolean
- *       401:
- *         description: Unauthorized
+ *                   $ref: '#/components/schemas/User'
+ */
+
+/**
+ * @swagger
+ * /users/change-role/{id}:
+ *   patch:
+ *     summary: Change user role
+ *     tags: [Users 👥]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         description: User ID
+ *         schema:
+ *           type: integer
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - role
+ *             properties:
+ *               role:
+ *                 type: string
+ *                 description: New role for user (e.g., "admin", "user")
+ *                 example: "admin"
+ *     responses:
+ *       200:
+ *         description: User role updated successfully
  *         content:
  *           application/json:
  *             schema:
@@ -257,34 +181,38 @@
  *               properties:
  *                 statusCode:
  *                   type: integer
- *                   example: 401
  *                 message:
  *                   type: string
- *                   example: "Access token is missing or invalid"
+ *                 data:
+ *                   $ref: '#/components/schemas/User'
+ *       400:
+ *         description: Role is required
  *       404:
  *         description: User not found
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 statusCode:
- *                   type: integer
- *                   example: 404
- *                 message:
- *                   type: string
- *                   example: "User not found"
  *       500:
  *         description: Internal server error
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 statusCode:
- *                   type: integer
- *                   example: 500
- *                 message:
- *                   type: string
- *                   example: "Internal server error"
+ */
+
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     User:
+ *       type: object
+ *       properties:
+ *         id:
+ *           type: integer
+ *         mobile:
+ *           type: string
+ *         full_name:
+ *           type: string
+ *         avatar:
+ *           type: string
+ *         is_banned:
+ *           type: boolean
+ *         role:
+ *           type: string
+ *         created_at:
+ *           type: string
+ *           format: date-time
  */

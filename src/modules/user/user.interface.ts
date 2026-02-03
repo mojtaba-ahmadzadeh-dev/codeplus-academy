@@ -7,6 +7,7 @@ export interface IUser {
   avatar?: string | null;
   is_banned?: boolean;
   isAdmin?: boolean;
+  role: string;
   created_at?: Date;
 }
 

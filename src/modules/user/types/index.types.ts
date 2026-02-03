@@ -1,3 +1,4 @@
+import { CreationOptional } from "sequelize";
 import { User } from "../user.model";
 
 export interface IUser {
@@ -7,6 +8,7 @@ export interface IUser {
   avatar?: string | null;
   is_banned?: boolean;
   isAdmin?: boolean;
+  role?: CreationOptional<string>;
   created_at?: Date;
 }
 

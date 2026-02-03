@@ -8,6 +8,7 @@ export class User extends Model<IUser> implements IUser {
   declare full_name: string | null;
   declare avatar: string | null;
   declare is_banned: boolean;
+  declare role: CreationOptional<string>;;
   declare created_at: CreationOptional<Date>;
 }
 
@@ -18,6 +19,11 @@ User.init(
     full_name: { type: DataTypes.STRING(100), allowNull: true },
     avatar: { type: DataTypes.STRING, allowNull: true, defaultValue: null },
     is_banned: { type: DataTypes.BOOLEAN, defaultValue: false },
+    role: {
+      type: DataTypes.STRING(20),
+      allowNull: false,
+      defaultValue: "user",
+    },
   },
   {
     sequelize,
@@ -35,7 +41,7 @@ export class OTP extends Model<IOTP> implements IOTP {
   declare code: string;
   declare expires_in: Date;
   declare created_at: CreationOptional<Date>;
-  declare user?: User; 
+  declare user?: User;
 }
 
 OTP.init(
