@@ -1,6 +1,6 @@
 import { DataTypes, Model, CreationOptional } from "sequelize";
 import { sequelize } from "../../config/sequelize.config";
-import { IUser, IOTP } from "./user.interface";
+import { IUser, IOTP } from "./types/index.types";
 
 export class User extends Model<IUser> implements IUser {
   declare id: CreationOptional<number>;
