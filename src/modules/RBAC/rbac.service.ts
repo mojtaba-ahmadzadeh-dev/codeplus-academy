@@ -1,6 +1,10 @@
 import createHttpError from "http-errors";
 import { Permission, Role } from "./rbac.model";
-import { CreatePermissionDTO, CreateRoleDTO } from "./types/index.types";
+import {
+  AssignPermissionToRoleDTO,
+  CreatePermissionDTO,
+  CreateRoleDTO,
+} from "./types/index.types";
 import { RBACMessags } from "../../constant/messages";
 
 class RBACService {
@@ -42,6 +46,31 @@ class RBACService {
     const role = await this.roleModel.create({ name, description });
     return role;
   }
+
+async assignPermissionToRole(data: AssignPermissionToRoleDTO) {
+  const { roleId, permissionIds } = data;
+
+  const role = await this.roleModel.findByPk(roleId);
+  if (!role) {
+    throw createHttpError.NotFound(RBACMessags.ROLE_NOT_FOUND);
+  }
+
+  const permissions = await Permission.findAll({
+    where: { id: permissionIds },
+  });
+
+  if (permissions.length !== permissionIds.length) {
+    throw createHttpError.NotFound(RBACMessags.PERMISSION_NOT_FOUND);
+  }
+
+  await role.addPermissions(permissions);
+
+  return {
+    roleId,
+    permissionIds,
+  };
+}
+
 }
 
 export default new RBACService();

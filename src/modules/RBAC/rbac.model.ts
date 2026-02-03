@@ -1,11 +1,12 @@
-import { DataTypes, Model, CreationOptional } from "sequelize";
+import { DataTypes, Model, CreationOptional, BelongsToManyAddAssociationsMixin } from "sequelize";
 import { sequelize } from "../../config/sequelize.config";
 
 export class Role extends Model {
   declare id: CreationOptional<number>;
-  declare name: string; 
+  declare name: string;
   declare description: string | null;
   declare created_at: CreationOptional<Date>;
+  declare addPermissions: BelongsToManyAddAssociationsMixin<Permission, number>;
 }
 
 Role.init(
@@ -21,13 +22,12 @@ Role.init(
     updatedAt: false,
     modelName: "role",
     tableName: "roles",
-  }
+  },
 );
-
 
 export class Permission extends Model {
   declare id: CreationOptional<number>;
-  declare name: string; 
+  declare name: string;
   declare description: string | null;
   declare created_at: CreationOptional<Date>;
 }
@@ -45,9 +45,8 @@ Permission.init(
     updatedAt: false,
     modelName: "permission",
     tableName: "permissions",
-  }
+  },
 );
-
 
 export class RolePermission extends Model {
   declare id: CreationOptional<number>;
@@ -66,7 +65,7 @@ RolePermission.init(
     timestamps: false,
     modelName: "role_permission",
     tableName: "role_permissions",
-  }
+  },
 );
 
 export class UserRole extends Model {
@@ -86,5 +85,5 @@ UserRole.init(
     timestamps: false,
     modelName: "user_role",
     tableName: "user_roles",
-  }
+  },
 );

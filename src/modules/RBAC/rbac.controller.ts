@@ -1,7 +1,11 @@
 import { NextFunction, Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 import rbacService from "./rbac.service";
-import { CreatePermissionDTO, CreateRoleDTO } from "./types/index.types";
+import {
+  AssignPermissionToRoleDTO,
+  CreatePermissionDTO,
+  CreateRoleDTO,
+} from "./types/index.types";
 import { RBACMessags } from "../../constant/messages";
 
 class RBACController {
@@ -12,6 +16,7 @@ class RBACController {
 
     this.createPermission = this.createPermission.bind(this);
     this.createRole = this.createRole.bind(this);
+    this.assignPermissionToRole = this.assignPermissionToRole.bind(this);
   }
 
   async createPermission(
@@ -40,7 +45,7 @@ class RBACController {
   async createRole(
     req: Request<{}, {}, CreateRoleDTO>,
     res: Response,
-    next: NextFunction
+    next: NextFunction,
   ) {
     try {
       const { name, description } = req.body;
@@ -51,6 +56,24 @@ class RBACController {
         success: true,
         message: RBACMessags.ROLE_ASSIGN_SUCCESS,
         data: role,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async assignPermissionToRole(
+    req: Request<{}, {}, AssignPermissionToRoleDTO>,
+    res: Response,
+    next: NextFunction,
+  ) {
+    try {
+      const result = await rbacService.assignPermissionToRole(req.body);
+
+      res.status(StatusCodes.OK).json({
+        success: true,
+        message: RBACMessags.PERMISSION_ASSIGN_SUCCESS,
+        data: result,
       });
     } catch (error) {
       next(error);

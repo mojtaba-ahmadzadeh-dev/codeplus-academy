@@ -192,3 +192,40 @@
  *                   type: string
  *                   example: "Internal server error"
  */
+
+/**
+ * @swagger
+ * /rbac/assign-permission-to-role:
+ *   post:
+ *     summary: Assign permissions to a role
+ *     tags: [RBAC 🛡️]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - roleId
+ *               - permissionIds
+ *             properties:
+ *               roleId:
+ *                 type: integer
+ *                 example: 1
+ *                 description: The ID of the role
+ *               permissionIds:
+ *                 type: array
+ *                 items:
+ *                   type: integer
+ *                 example: [1, 2, 3]
+ *                 description: Array of permission IDs to assign to the role
+ *     responses:
+ *       200:
+ *         description: Permissions successfully assigned to the role
+ *       404:
+ *         description: Role or permission not found
+ *       400:
+ *         description: Invalid request body
+ *       500:
+ *         description: Internal server error
+ */

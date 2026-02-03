@@ -1,10 +1,11 @@
 import { Router } from "express";
 import rbacController from "./rbac.controller";
-import { validateCreatePermission, validateCreateRole } from "./rbac.validation";
+import { validateAssignPermissionToRole, validateCreatePermission, validateCreateRole } from "./rbac.validation";
 
 const RBACRouter: Router = Router();
 
 RBACRouter.post('/create-permission', validateCreatePermission, rbacController.createPermission)
 RBACRouter.post('/create-role', validateCreateRole, rbacController.createRole)
+RBACRouter.post('/assign-permission-to-role', validateAssignPermissionToRole, rbacController.assignPermissionToRole)
 
 export default RBACRouter

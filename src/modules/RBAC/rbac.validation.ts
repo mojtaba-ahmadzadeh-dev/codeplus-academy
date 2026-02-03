@@ -24,6 +24,39 @@ const createRoleSchema = Joi.object({
   }),
 });
 
+const assignPermissionToRoleSchema = Joi.object({
+  roleId: Joi.number().integer().required().messages({
+    "any.required": "شناسه نقش الزامی است",
+    "number.base": "شناسه نقش باید عدد باشد",
+    "number.integer": "شناسه نقش باید یک عدد صحیح باشد",
+  }),
+  permissionIds: Joi.array().items(
+    Joi.number().integer().required().messages({
+      "number.base": "شناسه مجوز باید عدد باشد",
+      "number.integer": "شناسه مجوز باید یک عدد صحیح باشد",
+    })
+  ).min(1).required().messages({
+    "any.required": "لیست شناسه‌های مجوز الزامی است",
+    "array.min": "حداقل یک مجوز باید ارسال شود"
+  })
+});
+
+export function validateAssignPermissionToRole(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  const { error } = assignPermissionToRoleSchema.validate(req.body, { abortEarly: false });
+
+  if (error) {
+    const messages = error.details.map(d => d.message).join(", ");
+    return next(createHttpError(400, messages));
+  }
+
+  next();
+}
+
+
 export function validateCreateRole(
   req: Request,
   res: Response,
