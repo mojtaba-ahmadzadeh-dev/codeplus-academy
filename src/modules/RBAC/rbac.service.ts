@@ -1,13 +1,21 @@
 import createHttpError from "http-errors";
-import { Permission } from "./rbac.model";
-import { CreatePermissionDTO } from "./types/index.types";
+import { Permission, Role } from "./rbac.model";
+import { CreatePermissionDTO, CreateRoleDTO } from "./types/index.types";
 import { RBACMessags } from "../../constant/messages";
 
 class RBACService {
+  private permissionModel: typeof Permission;
+  private roleModel: typeof Role;
+
+  constructor() {
+    this.permissionModel = Permission;
+    this.roleModel = Role;
+  }
+
   async createPermission(data: CreatePermissionDTO) {
     const { name, description } = data;
 
-    const exists = await Permission.findOne({
+    const exists = await this.permissionModel.findOne({
       where: { name },
     });
 
@@ -21,6 +29,18 @@ class RBACService {
     });
 
     return permission;
+  }
+
+  async createRole(data: CreateRoleDTO) {
+    const { name, description } = data;
+
+    const exists = await this.roleModel.findOne({ where: { name } });
+    if (exists) {
+      throw createHttpError.Conflict(RBACMessags.ROLE_ALREADY_EXISTS);
+    }
+
+    const role = await this.roleModel.create({ name, description });
+    return role;
   }
 }
 
