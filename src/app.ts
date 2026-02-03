@@ -31,8 +31,8 @@ export class Application {
     // Initialize core application layers
     this.initializeMiddlewares();
     this.initializeSwagger();
-    this.initializeErrorHandler();
     this.setupRoutes();
+    this.initializeErrorHandler();
   }
 
   /** Register global middlewares */
