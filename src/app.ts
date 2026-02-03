@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 import path from "path";
 import { AllRoutes } from "./routes/index.routes.js";
 import { initDatabase } from "./config/model.init.js";
+import { errorHandler } from "./exception/error-handler.js";
 import cookieParser from "cookie-parser";
 
 export class Application {
@@ -30,6 +31,7 @@ export class Application {
     // Initialize core application layers
     this.initializeMiddlewares();
     this.initializeSwagger();
+    this.initializeErrorHandler();
     this.setupRoutes();
   }
 
@@ -58,6 +60,10 @@ export class Application {
 
   async setupRoutes(): Promise<void> {
     this.app.use(AllRoutes);
+  }
+
+  async initializeErrorHandler(): Promise<void> {
+    this.app.use(errorHandler);
   }
 
   /** Start HTTP server */
