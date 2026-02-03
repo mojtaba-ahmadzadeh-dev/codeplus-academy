@@ -37,7 +37,7 @@ export class Application {
   private initializeMiddlewares(): void {
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: true }));
-    this.app.use(cookieParser()); 
+    this.app.use(cookieParser());
   }
 
   /** Setup Swagger documentation */
@@ -57,25 +57,25 @@ export class Application {
   }
 
   async setupRoutes(): Promise<void> {
-    this.app.use(AllRoutes)
+    this.app.use(AllRoutes);
   }
 
   /** Start HTTP server */
-async start(): Promise<void> {
-  try {
-    // initialize database with sync
-    await initDatabase();
+  async start(): Promise<void> {
+    try {
+      // initialize database with sync
+      await initDatabase();
 
-    this.app.listen(this.port, () => {
-      console.log(`🚀 Server running on port ${this.port}`);
-      console.log(`📚 Swagger: http://localhost:${this.port}/api-docs`);
-      console.log(`🌍 Environment: ${process.env.NODE_ENV || "development"}`);
-    });
-  } catch (error) {
-    console.error("Failed to start application:", error);
-    process.exit(1);
+      this.app.listen(this.port, () => {
+        console.log(`🚀 Server running on port ${this.port}`);
+        console.log(`📚 Swagger: http://localhost:${this.port}/api-docs`);
+        console.log(`🌍 Environment: ${process.env.NODE_ENV || "development"}`);
+      });
+    } catch (error) {
+      console.error("Failed to start application:", error);
+      process.exit(1);
+    }
   }
-}
 
   /** Get Express app instance (for testing or additional configuration) */
   public getApp(): ExpressApp {
