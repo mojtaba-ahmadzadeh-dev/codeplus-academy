@@ -2,7 +2,7 @@ import path from "path";
 import swaggerJsDocs from "swagger-jsdoc";
 import swaggerUi from "swagger-ui-express";
 import { fileURLToPath } from "url";
-import type { Application } from "express"; // ✅ فقط Application
+import type { Application } from "express";
 
 /** Resolve current directory (ESM compatible) */
 const __filename = fileURLToPath(import.meta.url);
@@ -13,12 +13,12 @@ const SwaggerConfig = (app: Application): void => {
     definition: {
       openapi: "3.0.0",
       info: {
-        title: "Store Management API",
+        title: "Codeplus Academy API",
         version: "1.0.0",
-        description: "API documentation for Store Management project",
+        description: "API documentation for Codeplus Academy project",
       },
     },
-    apis: [path.join(__dirname, "../modules/**/*.swagger.js")],
+   apis: [path.join(__dirname, "../modules/**/*.ts")],
   };
 
   const swaggerSpec = swaggerJsDocs(swaggerOptions);
