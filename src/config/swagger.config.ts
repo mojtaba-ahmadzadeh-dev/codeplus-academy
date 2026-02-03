@@ -18,7 +18,7 @@ const SwaggerConfig = (app: Application): void => {
         description: "API documentation for Store Management project",
       },
     },
-    apis: [path.join(__dirname, "../modules/**/*.swagger.js")],
+    apis: [path.join(__dirname, "../modules/**/*.swagger.ts")],
   };
 
   const swaggerSpec = swaggerJsDocs(swaggerOptions);

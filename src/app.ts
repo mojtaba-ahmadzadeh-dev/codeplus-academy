@@ -3,6 +3,7 @@ import SwaggerConfig from "./config/swagger.config.js";
 import { Sequelize } from "sequelize"; // Import Sequelize
 import dotenv from "dotenv";
 import path from "path";
+import { errorHandler } from "./exception/error-handler.js";
 
 export class Application {
   private app: ExpressApp;
@@ -27,6 +28,7 @@ export class Application {
     // Initialize core application layers
     this.initializeMiddlewares();
     this.initializeSwagger();
+    this.initializeErrorHandler();
   }
 
   /** Register global middlewares */
@@ -38,6 +40,11 @@ export class Application {
   /** Setup Swagger documentation */
   private initializeSwagger(): void {
     SwaggerConfig(this.app);
+  }
+
+  /** Register global error handler */
+  private initializeErrorHandler(): void {
+    this.app.use(errorHandler);
   }
 
   /** Initialize database connection */
