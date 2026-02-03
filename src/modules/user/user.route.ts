@@ -7,5 +7,6 @@ const userRouter: Router = Router();
 userRouter.get("/", userController.getAllUsers);
 userRouter.get("/:id", userController.getAllUsers);
 userRouter.put("/:id", upload.single("avatar"), userController.updateUserById);
+userRouter.delete("/:id", userController.removeUserById);
 
 export default userRouter;

@@ -32,4 +32,6 @@ export enum userMessage {
   GET_ALL_USERS_SUCCESSFULLY = "تمام کاربران با موفقیت دریافت شدند",
   GET_USER_SUCCESSFULLY = "کاربر با موفقیت دریافت شد",
   UPDATE_USER_SUCCESSFULLY = "کاربر با موفقیت بروزرسانی شد",
+  DELETE_USER_SUCCESSFULLY = "کاربر موردنظر با موفقیت حذف شد",
+  USER_NOT_FOUND = "کاربر موردنظر یافت نشد"
 }

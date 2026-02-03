@@ -12,6 +12,7 @@ class UserController {
     this.getAllUsers = this.getAllUsers.bind(this);
     this.getUserById = this.getUserById.bind(this);
     this.updateUserById = this.updateUserById.bind(this);
+    this.removeUserById = this.removeUserById.bind(this);
   }
 
   async getAllUsers(req: Request, res: Response, next: NextFunction) {
@@ -62,6 +63,22 @@ class UserController {
         statusCode: StatusCodes.OK,
         message: userMessage.UPDATE_USER_SUCCESSFULLY,
         data: updatedUser,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async removeUserById(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id } = req.params;
+      const deletedUser = await this.service.removeUserById(Number(id));
+
+      res.status(StatusCodes.OK).json({
+        statusCode: StatusCodes.OK,
+        message:
+          userMessage.DELETE_USER_SUCCESSFULLY,
+        data: deletedUser,
       });
     } catch (error) {
       next(error);

@@ -1,3 +1,4 @@
+import { userMessage } from "../../constant/messages";
 import { User } from "./user.model";
 
 class UserService {
@@ -17,14 +18,23 @@ class UserService {
     return user;
   }
 
-  async updateUserById (id: number, payload: Partial<User>) {
+  async updateUserById(id: number, payload: Partial<User>) {
     const user = await User.findByPk(id);
 
     if (!user) throw new Error("User not found");
 
-    await user.update(payload)
+    await user.update(payload);
 
-    return user
+    return user;
+  }
+
+  async removeUserById(id: number) {
+    const user = await this.model.findByPk(id);
+
+    if (!user) throw new Error(userMessage.USER_NOT_FOUND);
+
+    await user.destroy();
+    return user;
   }
 }
 
