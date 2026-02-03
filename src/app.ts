@@ -3,7 +3,9 @@ import SwaggerConfig from "./config/swagger.config.js";
 import { Sequelize } from "sequelize"; // Import Sequelize
 import dotenv from "dotenv";
 import path from "path";
-import { errorHandler } from "./exception/error-handler.js";
+import { AllRoutes } from "./routes/index.routes.js";
+import { initDatabase } from "./config/model.init.js";
+import cookieParser from "cookie-parser";
 
 export class Application {
   private app: ExpressApp;
@@ -28,23 +30,19 @@ export class Application {
     // Initialize core application layers
     this.initializeMiddlewares();
     this.initializeSwagger();
-    this.initializeErrorHandler();
+    this.setupRoutes();
   }
 
   /** Register global middlewares */
   private initializeMiddlewares(): void {
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: true }));
+    this.app.use(cookieParser());
   }
 
   /** Setup Swagger documentation */
   private initializeSwagger(): void {
     SwaggerConfig(this.app);
-  }
-
-  /** Register global error handler */
-  private initializeErrorHandler(): void {
-    this.app.use(errorHandler);
   }
 
   /** Initialize database connection */
@@ -58,13 +56,16 @@ export class Application {
     }
   }
 
+  async setupRoutes(): Promise<void> {
+    this.app.use(AllRoutes);
+  }
+
   /** Start HTTP server */
   async start(): Promise<void> {
     try {
-      // First initialize database
-      await this.initDatabase();
+      // initialize database with sync
+      await initDatabase();
 
-      // Then start the server
       this.app.listen(this.port, () => {
         console.log(`🚀 Server running on port ${this.port}`);
         console.log(`📚 Swagger: http://localhost:${this.port}/api-docs`);
