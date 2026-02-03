@@ -36,3 +36,8 @@ export enum userMessage {
   USER_NOT_FOUND = "کاربر موردنظر یافت نشد",
    ROLE_IS_REQUIRED = "نقش کاربر الزامی است",
 }
+
+export enum RBACMessags {
+  PERMISSION_ALREADY_EXISTS = "مجوز از قبل وجود دارد",
+  PERMISSION_ASSIGN_SUCCESS = "مجوز با موفقیت ایجاد شد",
+}
