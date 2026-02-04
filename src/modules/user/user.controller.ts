@@ -3,6 +3,7 @@ import userService from "./user.service";
 import { StatusCodes } from "http-status-codes";
 import { userMessage } from "../../constant/messages";
 import createHttpError from "http-errors";
+import jwt from "jsonwebtoken";
 
 class UserController {
   private service: typeof userService;
@@ -97,10 +98,28 @@ class UserController {
 
       const updatedUser = await this.service.changeRole(Number(id), role);
 
+      const secret = process.env.ACCESS_TOKEN_SECRET;
+      if (!secret)
+        throw createHttpError.InternalServerError(
+          userMessage.ACCESS_TOKEN_SECRET_NOT_DEFINED,
+        );
+
+      const newToken = jwt.sign(
+        { userId: updatedUser.id, mobile: updatedUser.mobile },
+        secret,
+        { expiresIn: "1h" },
+      );
+
+      res.cookie("accessToken", newToken, {
+        httpOnly: true,
+        sameSite: "strict",
+      });
+
       res.status(StatusCodes.OK).json({
         statusCode: StatusCodes.OK,
         message: userMessage.UPDATE_USER_SUCCESSFULLY,
         data: updatedUser,
+        accessToken: newToken,
       });
     } catch (error) {
       next(error);

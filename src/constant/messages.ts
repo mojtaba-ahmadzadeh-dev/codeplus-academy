@@ -35,20 +35,23 @@ export enum userMessage {
   DELETE_USER_SUCCESSFULLY = "کاربر موردنظر با موفقیت حذف شد",
   USER_NOT_FOUND = "کاربر موردنظر یافت نشد",
   ROLE_IS_REQUIRED = "نقش کاربر الزامی است",
+  ACCESS_TOKEN_SECRET_NOT_DEFINED = "ACCESS_TOKEN_SECRET not defined"
 }
 
 export enum RBACMessags {
-  PERMISSION_ALREADY_EXISTS = "مجوز از قبل وجود دارد",
+  PERMISSION_ALREADY_EXISTS = "مجوز مورد نظر از قبل وجود دارد",
   PERMISSION_CREATE_SUCCESS = "مجوز با موفقیت ایجاد شد",
 
-  ROLE_ALREADY_EXISTS = "نقش از قبل وجود دارد",
-  ROLE_CREATE_SUCCESS = "نقش با موفقیت ساخته شد",
-  ROLE_ASSIGN_SUCCESS = "نقش با موفقیت ساخته شد",
+  ROLE_ALREADY_EXISTS = "نقش مورد نظر از قبل وجود دارد",
+  ROLE_CREATE_SUCCESS = "نقش با موفقیت ایجاد شد",
+  ROLE_ASSIGN_SUCCESS = "نقش با موفقیت اختصاص داده شد",
 
   ROLE_NOT_FOUND = "نقش مورد نظر یافت نشد",
   PERMISSION_NOT_FOUND = "یک یا چند مجوز یافت نشد",
 
   PERMISSION_ASSIGN_SUCCESS = "مجوزها با موفقیت به نقش اختصاص داده شدند",
 
-  USER_NOT_FOUND = "کاربر موردنظر یافت نشد",
-}
+  USER_NOT_FOUND = "کاربر مورد نظر یافت نشد",
+  UNAUTHORIZED = "دسترسی غیرمجاز. لطفاً وارد شوید",
+  FORBIDDEN = "دسترسی غیرمجاز. تنها ادمین مجاز است",
+};

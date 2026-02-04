@@ -7,6 +7,16 @@
 
 /**
  * @swagger
+ * components:
+ *   securitySchemes:
+ *     BearerAuth:
+ *       type: http
+ *       scheme: bearer
+ *       bearerFormat: JWT
+ */
+
+/**
+ * @swagger
  * /rbac/create-permission:
  *   post:
  *     summary: Create a new permission
@@ -15,6 +25,8 @@
  *       create-permission define **what actions are possible** in the application  
  *       (e.g. create_user, delete_user, update_role).
  *     tags: [RBAC 🛡️]
+ *     security:
+ *       - BearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -60,43 +72,10 @@
  *                       format: date-time
  *       409:
  *         description: Permission already exists
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 statusCode:
- *                   type: integer
- *                   example: 409
- *                 message:
- *                   type: string
- *                   example: "Permission already exists"
  *       400:
  *         description: Invalid request body
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 statusCode:
- *                   type: integer
- *                   example: 400
- *                 message:
- *                   type: string
- *                   example: "Invalid input"
  *       500:
  *         description: Internal server error
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 statusCode:
- *                   type: integer
- *                   example: 500
- *                 message:
- *                   type: string
- *                   example: Internal server error
  */
 
 /**
@@ -104,11 +83,9 @@
  * /rbac/create-role:
  *   post:
  *     summary: Create a new role
- *     description: |
- *       Create a new role in the system.  
- *       Roles define **groups of permissions** that can be assigned to users.  
- *       Example roles: admin, moderator, editor.
  *     tags: [RBAC 🛡️]
+ *     security:
+ *       - BearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -121,76 +98,18 @@
  *               name:
  *                 type: string
  *                 example: "admin"
- *                 description: Unique role name
  *               description:
  *                 type: string
  *                 example: "Administrator role with all permissions"
- *                 description: Optional description for the role
  *     responses:
  *       201:
  *         description: Role created successfully
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 statusCode:
- *                   type: integer
- *                   example: 201
- *                 role:
- *                   type: object
- *                   properties:
- *                     id:
- *                       type: integer
- *                       example: 1
- *                     name:
- *                       type: string
- *                       example: "admin"
- *                     description:
- *                       type: string
- *                       example: "Administrator role with all permissions"
- *                     created_at:
- *                       type: string
- *                       format: date-time
  *       409:
  *         description: Role already exists
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 statusCode:
- *                   type: integer
- *                   example: 409
- *                 message:
- *                   type: string
- *                   example: "Role already exists"
  *       400:
  *         description: Invalid request body
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 statusCode:
- *                   type: integer
- *                   example: 400
- *                 message:
- *                   type: string
- *                   example: "Invalid input"
  *       500:
  *         description: Internal server error
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 statusCode:
- *                   type: integer
- *                   example: 500
- *                 message:
- *                   type: string
- *                   example: "Internal server error"
  */
 
 /**
@@ -199,6 +118,8 @@
  *   post:
  *     summary: Assign permissions to a role
  *     tags: [RBAC 🛡️]
+ *     security:
+ *       - BearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -212,13 +133,11 @@
  *               roleId:
  *                 type: integer
  *                 example: 1
- *                 description: The ID of the role
  *               permissionIds:
  *                 type: array
  *                 items:
  *                   type: integer
  *                 example: [1, 2, 3]
- *                 description: Array of permission IDs to assign to the role
  *     responses:
  *       200:
  *         description: Permissions successfully assigned to the role
@@ -236,6 +155,8 @@
  *   post:
  *     summary: Assign roles to a user
  *     tags: [RBAC 🛡️]
+ *     security:
+ *       - BearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
