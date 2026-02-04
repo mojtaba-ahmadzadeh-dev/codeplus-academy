@@ -12,3 +12,8 @@ export interface AssignPermissionToRoleDTO {
   roleId: number;
   permissionIds: number[];
 }
+
+export interface AssignRoleToUserDTO {
+  userId: number;
+  roleIds: number[];
+}

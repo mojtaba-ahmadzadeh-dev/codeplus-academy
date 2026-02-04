@@ -229,3 +229,38 @@
  *       500:
  *         description: Internal server error
  */
+
+/**
+ * @swagger
+ * /rbac/assign-role-to-user:
+ *   post:
+ *     summary: Assign roles to a user
+ *     tags: [RBAC 🛡️]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - userId
+ *               - roleIds
+ *             properties:
+ *               userId:
+ *                 type: integer
+ *                 example: 5
+ *               roleIds:
+ *                 type: array
+ *                 items:
+ *                   type: integer
+ *                 example: [1, 2]
+ *     responses:
+ *       200:
+ *         description: Roles successfully assigned to user
+ *       404:
+ *         description: User or role not found
+ *       400:
+ *         description: Invalid request body
+ *       500:
+ *         description: Internal server error
+ */

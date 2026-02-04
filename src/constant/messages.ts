@@ -40,14 +40,15 @@ export enum userMessage {
 export enum RBACMessags {
   PERMISSION_ALREADY_EXISTS = "مجوز از قبل وجود دارد",
   PERMISSION_CREATE_SUCCESS = "مجوز با موفقیت ایجاد شد",
-  
+
   ROLE_ALREADY_EXISTS = "نقش از قبل وجود دارد",
   ROLE_CREATE_SUCCESS = "نقش با موفقیت ساخته شد",
-  ROLE_ASSIGN_SUCCESS = "نقش با موفقیت ساخته شد", 
+  ROLE_ASSIGN_SUCCESS = "نقش با موفقیت ساخته شد",
 
   ROLE_NOT_FOUND = "نقش مورد نظر یافت نشد",
   PERMISSION_NOT_FOUND = "یک یا چند مجوز یافت نشد",
 
   PERMISSION_ASSIGN_SUCCESS = "مجوزها با موفقیت به نقش اختصاص داده شدند",
-  
+
+  USER_NOT_FOUND = "کاربر موردنظر یافت نشد",
 }
