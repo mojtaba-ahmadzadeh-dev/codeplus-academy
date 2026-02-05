@@ -68,4 +68,10 @@ RBACRouter.delete(
   rbacController.deleteRole,
 );
 
+RBACRouter.delete(
+  "/permission/:id",
+  rbacGuard([Roles.ADMIN]),
+  rbacController.deletePermission,
+);
+
 export default RBACRouter;

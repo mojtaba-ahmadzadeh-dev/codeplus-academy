@@ -57,5 +57,6 @@ export enum RBACMessags {
   ROLE_UPDATE_SUCCESS = "نقش مورد نطر با موفقیت بروزرسانی شد",
   PERMISSIONS_FETCH_SUCCESS = "مجوزها با موفقیت دریافت شدند",
   PERMISSION_UPDATE_SUCCESS = "مجوز موردنظر با موفقیت بروزرسانی شد",
-  ROLE_DELETE_SUCCESS = "نقش موردنظر با موفقیت حذف شد"
+  ROLE_DELETE_SUCCESS = "نقش موردنظر با موفقیت حذف شد",
+  PERMISSION_DELETE_SUCCESS = "مجوز مورد نظر با موفقیت حذف شد",
 };

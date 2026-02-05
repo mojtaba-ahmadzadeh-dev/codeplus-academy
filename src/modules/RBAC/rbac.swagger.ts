@@ -405,3 +405,46 @@
  *       500:
  *         description: Internal server error
  */
+
+/**
+ * @swagger
+ * /rbac/permission/{id}:
+ *   delete:
+ *     summary: Delete a permission
+ *     description: Delete an existing permission by its ID
+ *     tags: [RBAC 🛡️]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: Permission ID to delete
+ *     responses:
+ *       200:
+ *         description: Permission deleted successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: "Permission deleted successfully"
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     id:
+ *                       type: integer
+ *                     message:
+ *                       type: string
+ *       404:
+ *         description: Permission not found
+ *       500:
+ *         description: Internal server error
+ */

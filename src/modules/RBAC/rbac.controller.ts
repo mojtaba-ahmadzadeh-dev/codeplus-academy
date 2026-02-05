@@ -24,6 +24,7 @@ class RBACController {
     this.updateRole = this.updateRole.bind(this);
     this.updatePermission = this.updatePermission.bind(this);
     this.deleteRole = this.deleteRole.bind(this);
+    this.deletePermission = this.deletePermission.bind(this);
   }
 
   async createPermission(
@@ -195,6 +196,25 @@ class RBACController {
       res.status(StatusCodes.OK).json({
         success: true,
         message: RBACMessags.ROLE_DELETE_SUCCESS,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async deletePermission(
+    req: Request<{ id: string }, {}, {}>,
+    res: Response,
+    next: NextFunction,
+  ) {
+    try {
+      const { id } = req.params;
+      const result = await this.service.deletePermission(Number(id));
+
+      res.status(StatusCodes.OK).json({
+        success: true,
+        message: RBACMessags.PERMISSION_DELETE_SUCCESS,
+        data: result,
       });
     } catch (error) {
       next(error);

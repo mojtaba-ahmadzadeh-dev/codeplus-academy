@@ -163,6 +163,17 @@ class RBACService {
 
     return true;
   }
+
+  async deletePermission(permissionId: number) {
+  const permission = await this.permissionModel.findByPk(permissionId);
+  if (!permission) {
+    throw createHttpError.NotFound(RBACMessags.PERMISSION_NOT_FOUND);
+  }
+
+  await permission.destroy();
+
+  return { id: permissionId, message: RBACMessags.PERMISSION_DELETE_SUCCESS };
+}
 }
 
 export default new RBACService();
