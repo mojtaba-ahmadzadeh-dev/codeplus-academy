@@ -5,7 +5,6 @@ import { authMessage } from "../../constant/messages";
 import { TokenPair } from "./types/index.types";
 
 class TokenService {
-
   generateTokens(payload: JwtPayload): TokenPair {
     const accessToken = jwt.sign(payload, env.JWT.ACCESS_SECRET, {
       expiresIn: env.JWT.ACCESS_EXPIRES_IN,
@@ -29,12 +28,12 @@ class TokenService {
       return this.generateTokens({
         userId: payload.userId,
         mobile: payload.mobile,
+        roles: payload.roles || [], // اضافه کردن نقش‌ها
       });
     } catch (error) {
       throw createHttpError.Unauthorized(authMessage.REFRESH_TOKEN_EXPIRED);
     }
   }
-  
 }
 
 export default new TokenService();
