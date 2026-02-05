@@ -48,14 +48,23 @@ class UserService {
     return user;
   }
 
-async createUser(payload: CreateUserDTO) {
-  // چک موبایل تکراری
-  const exists = await this.model.findOne({ where: { mobile: payload.mobile } });
-  if (exists) throw new Error(userMessage.MOBILE_ALREADY_EXISTS);
+  async createUser(payload: CreateUserDTO) {
+    const exists = await this.model.findOne({
+      where: { mobile: payload.mobile },
+    });
+    if (exists) throw new Error(userMessage.MOBILE_ALREADY_EXISTS);
 
-  const user = await this.model.create(payload);
-  return user;
-}
+    const user = await this.model.create(payload);
+    return user;
+  }
+
+  async banUser(id: number, isBanned: boolean) {
+    const user = await this.model.findByPk(id);
+    if (!user) throw new Error(userMessage.USER_NOT_FOUND);
+
+    await user.update({ is_banned: isBanned });
+    return user;
+  }
 }
 
 export default new UserService();

@@ -276,3 +276,54 @@
  *       500:
  *         description: Internal server error
  */
+
+/**
+ * @swagger
+ * /users/ban/{id}:
+ *   patch:
+ *     summary: Ban or unban a user
+ *     description: This API allows an admin to ban or unban a user by setting the `is_banned` flag.
+ *     tags: [Users 👥]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         description: User ID
+ *         schema:
+ *           type: integer
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - is_banned
+ *             properties:
+ *               is_banned:
+ *                 type: boolean
+ *                 description: Ban status for the user (true = banned, false = unbanned)
+ *                 example: true
+ *     responses:
+ *       200:
+ *         description: User ban status updated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 statusCode:
+ *                   type: integer
+ *                 message:
+ *                   type: string
+ *                 data:
+ *                   $ref: '#/components/schemas/User'
+ *       400:
+ *         description: Invalid input or missing is_banned field
+ *       404:
+ *         description: User not found
+ *       500:
+ *         description: Internal server error
+ */

@@ -37,4 +37,7 @@ export enum userMessage {
   ROLE_IS_REQUIRED = "نقش کاربر الزامی است",
   USER_CREATED_SUCCESSFULLY = "کاربر با موفقیت ساخته شد",
   MOBILE_ALREADY_EXISTS = "شماره موبایل وارد شده قبلاً ثبت شده است",
+  BAN_STATUS_REQUIRED = "وضعیت مسدودسازی کاربر الزامی است",
+  USER_BANNED = "کاربر با موفقیت مسدود شد",
+  USER_UNBANNED = "کاربر از حالت مسدود خارج شد",
 }
