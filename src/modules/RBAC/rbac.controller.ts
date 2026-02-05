@@ -22,6 +22,7 @@ class RBACController {
     this.getAllRoles = this.getAllRoles.bind(this);
     this.getAllPermissions = this.getAllPermissions.bind(this);
     this.updateRole = this.updateRole.bind(this);
+    this.updatePermission = this.updatePermission.bind(this);
   }
 
   async createPermission(
@@ -147,6 +148,33 @@ class RBACController {
         success: true,
         message: RBACMessags.ROLE_UPDATE_SUCCESS,
         data: updatedRole,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async updatePermission(
+    req: Request<{ id: string }, {}, Partial<CreatePermissionDTO>>,
+    res: Response,
+    next: NextFunction,
+  ) {
+    try {
+      const { id } = req.params;
+      const { name, description } = req.body;
+
+      const updatedPermission = await this.service.updatePermission(
+        Number(id),
+        {
+          name,
+          description,
+        },
+      );
+
+      res.status(StatusCodes.OK).json({
+        success: true,
+        message: RBACMessags.PERMISSION_UPDATE_SUCCESS,
+        data: updatedPermission,
       });
     } catch (error) {
       next(error);

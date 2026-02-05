@@ -303,3 +303,67 @@
  *       500:
  *         description: Internal server error
  */
+
+/**
+ * @swagger
+ * /rbac/permission/{id}:
+ *   put:
+ *     summary: Update a permission
+ *     description: Update name or description of an existing permission.
+ *     tags: [RBAC 🛡️]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: Permission ID to update
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *                 example: "delete_user"
+ *                 description: Updated permission name
+ *               description:
+ *                 type: string
+ *                 example: "Allows deleting users"
+ *                 description: Updated description
+ *     responses:
+ *       200:
+ *         description: Permission updated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: "Permission updated successfully"
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     id:
+ *                       type: integer
+ *                     name:
+ *                       type: string
+ *                     description:
+ *                       type: string
+ *       404:
+ *         description: Permission not found
+ *       409:
+ *         description: Permission name already exists
+ *       400:
+ *         description: Invalid request body
+ *       500:
+ *         description: Internal server error
+ */

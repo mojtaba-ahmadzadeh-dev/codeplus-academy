@@ -55,5 +55,6 @@ export enum RBACMessags {
   UNAUTHORIZED = "دسترسی غیرمجاز. لطفاً وارد شوید",
   FORBIDDEN = "دسترسی غیرمجاز. تنها ادمین و مدرس مجاز است",
   ROLE_UPDATE_SUCCESS = "نقش مورد نطر با موفقیت بروزرسانی شد",
-  PERMISSIONS_FETCH_SUCCESS = "مجوزها با موفقیت دریافت شدند"
+  PERMISSIONS_FETCH_SUCCESS = "مجوزها با موفقیت دریافت شدند",
+  PERMISSION_UPDATE_SUCCESS = "مجوز موردنظر با موفقیت بروزرسانی شد"
 };

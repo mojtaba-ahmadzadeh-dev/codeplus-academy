@@ -56,4 +56,10 @@ RBACRouter.put(
   rbacController.updateRole,
 );
 
+RBACRouter.put(
+  "/permission/:id",
+  rbacGuard([Roles.ADMIN]),
+  rbacController.updatePermission,
+);
+
 export default RBACRouter;

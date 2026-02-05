@@ -127,6 +127,29 @@ class RBACService {
 
     return role;
   }
+
+  async updatePermission(
+    permissionId: number,
+    data: Partial<CreatePermissionDTO>,
+  ) {
+    const permission = await this.permissionModel.findByPk(permissionId);
+    if (!permission) {
+      throw createHttpError.NotFound(RBACMessags.PERMISSION_NOT_FOUND);
+    }
+
+    if (data.name && data.name !== permission.name) {
+      const exists = await this.permissionModel.findOne({
+        where: { name: data.name },
+      });
+      if (exists) {
+        throw createHttpError.Conflict(RBACMessags.PERMISSION_ALREADY_EXISTS);
+      }
+    }
+
+    await permission.update(data);
+
+    return permission;
+  }
 }
 
 export default new RBACService();
