@@ -67,23 +67,3 @@ RolePermission.init(
     tableName: "role_permissions",
   },
 );
-
-export class UserRole extends Model {
-  declare id: CreationOptional<number>;
-  declare user_id: number;
-  declare role_id: number;
-}
-
-UserRole.init(
-  {
-    id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
-    user_id: { type: DataTypes.INTEGER, allowNull: false },
-    role_id: { type: DataTypes.INTEGER, allowNull: false },
-  },
-  {
-    sequelize,
-    timestamps: false,
-    modelName: "user_role",
-    tableName: "user_roles",
-  },
-);

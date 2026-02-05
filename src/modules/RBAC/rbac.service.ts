@@ -1,5 +1,5 @@
 import createHttpError from "http-errors";
-import { Permission, Role, UserRole } from "./rbac.model";
+import { Permission, Role } from "./rbac.model";
 import {
   AssignPermissionToRoleDTO,
   AssignRoleToUserDTO,
@@ -138,8 +138,6 @@ class RBACService {
     if (!role) {
       throw createHttpError.NotFound(RBACMessags.ROLE_NOT_FOUND);
     }
-
-    await UserRole.destroy({ where: { role_id: roleId } });
 
     await role.destroy();
 
