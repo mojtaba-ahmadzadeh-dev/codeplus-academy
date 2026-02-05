@@ -44,4 +44,10 @@ RBACRouter.get(
   rbacController.getAllRoles,
 );
 
+RBACRouter.get(
+  "/permissions",
+  rbacGuard([Roles.ADMIN]),
+  rbacController.getAllPermissions,
+);
+
 export default RBACRouter;
