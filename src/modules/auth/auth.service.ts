@@ -5,7 +5,7 @@ import { authMessage } from "../../constant/messages";
 import { JwtPayload } from "jsonwebtoken";
 import { TokenPair, UserDTO } from "./types/index.types";
 import TokenService from "./token.service"; // import درست
-import { Roles } from "../../constant/role_rbac.constant";
+import { Roles } from "../../constant/role.constant";
 
 class AuthService {
   private userModel: typeof User;
@@ -18,28 +18,54 @@ class AuthService {
     this.tokenService = TokenService;
   }
 
-  async sendOTP(mobile: string): Promise<void> {
+  async sendOTP(mobile: string): Promise<{ user: any; isNewUser: boolean }> {
     const now = new Date();
+    let isNewUser = false;
+
     let user = await this.userModel.findOne({ where: { mobile } });
-     if (!user) {
-      // اگر کاربر وجود نداشت، بساز
+
+    if (!user) {
+      isNewUser = true;
       const userCount = await this.userModel.count();
       const role = userCount === 0 ? Roles.ADMIN : Roles.USER;
 
       user = await this.userModel.create({ mobile, role });
     }
 
-    const code = randomInt(100000, 999999).toString().padStart(6, "0");
-    const expires_in = new Date(now.getTime() + 2 * 60 * 1000);
-
     const existingOtp = await this.otpModel.findOne({
       where: { user_id: user.id },
     });
-    if (existingOtp) await existingOtp.update({ code, expires_in });
-    else await this.otpModel.create({ user_id: user.id, code, expires_in });
+
+    if (existingOtp && existingOtp.expires_in > now) {
+      const remainingSeconds = Math.ceil(
+        (existingOtp.expires_in.getTime() - now.getTime()) / 1000,
+      );
+
+      throw createHttpError.BadRequest(
+        `لطفاً ${remainingSeconds} ثانیه دیگر برای دریافت کد جدید صبر کنید`,
+      );
+    }
+
+    const code = randomInt(100000, 999999).toString().padStart(6, "0");
+    const expires_in = new Date(now.getTime() + 2 * 60 * 1000);
+
+    if (existingOtp) {
+      await existingOtp.update({ code, expires_in });
+    } else {
+      await this.otpModel.create({
+        user_id: user.id,
+        code,
+        expires_in,
+      });
+    }
+
+    return { user, isNewUser };
   }
 
-  async verifyOTP( mobile: string, code: string): Promise<{ accessToken: string; refreshToken: string; user: any }> {
+  async verifyOTP(
+    mobile: string,
+    code: string,
+  ): Promise<{ accessToken: string; refreshToken: string; user: any }> {
     const user = await this.userModel.findOne({ where: { mobile } });
     if (!user) throw createHttpError.NotFound(authMessage.USER_NOT_FOUND);
 
@@ -53,9 +79,7 @@ class AuthService {
     if (otp.expires_in < new Date())
       throw createHttpError.BadRequest(authMessage.OTP_EXPIRED);
 
-    await otp.destroy();
-
-      const roles = [user.role as Roles];
+    const roles = [user.role as Roles];
 
     const payload: JwtPayload = { userId: user.id, mobile: user.mobile, roles };
     const { accessToken, refreshToken } =

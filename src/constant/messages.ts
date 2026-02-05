@@ -1,7 +1,8 @@
 export enum authMessage {
   // OTP
-  OTP_SENT_SUCCESS = "کاربر با موفقیت ثبت نام شد",
-  OTP_VERIFIED_SUCCESS = "کد تأیید با موفقیت بررسی شد",
+  OTP_SENT_SUCCESS = "کد تایید با موفقیت ارسال شد",
+  OTP_REGISTER_SUCCESS = "ثبت نام با موفقیت انجام شد",
+  OTP_LOGIN_SUCCESS = "ورود با موفقیت انجام شد",
   MOBILE_INVALID = "شماره موبایل وارد شده نامعتبر است",
   MOBILE_REQUIRED = "وارد کردن شماره موبایل الزامی است",
   CODE_REQUIRED = "وارد کردن کد تأیید الزامی است",

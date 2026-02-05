@@ -26,11 +26,13 @@ class AuthController {
         abortEarly: false,
       });
 
-      const user = await this.service.sendOTP(mobile);
+      const { user, isNewUser } = await this.service.sendOTP(mobile);
 
       return res.status(StatusCodes.CREATED).json({
         statusCode: StatusCodes.CREATED,
-        message: authMessage.OTP_SENT_SUCCESS,
+        message: isNewUser
+          ? authMessage.OTP_REGISTER_SUCCESS
+          : authMessage.OTP_LOGIN_SUCCESS,
         data: user,
       });
     } catch (error) {
@@ -65,7 +67,7 @@ class AuthController {
 
       return res.status(StatusCodes.OK).json({
         statusCode: StatusCodes.OK,
-        message: authMessage.OTP_VERIFIED_SUCCESS,
+        message: authMessage.OTP_REGISTER_SUCCESS,
         data: { user },
       });
     } catch (error) {

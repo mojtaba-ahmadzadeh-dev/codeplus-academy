@@ -8,6 +8,7 @@ import {
 } from "./types/index.types";
 import { RBACMessags } from "../../constant/messages";
 import { User } from "../user/user.model";
+import { RolePermissions, Roles } from "../../constant/role.constant";
 
 class RBACService {
   private permissionModel: typeof Permission;
@@ -75,39 +76,20 @@ class RBACService {
     };
   }
 
-  async assignRoleToUser(data: AssignRoleToUserDTO) {
-    const { userId, roleIds } = data;
-
-    const user = await User.findByPk(userId);
-    if (!user) {
-      throw createHttpError.NotFound(RBACMessags.USER_NOT_FOUND);
-    }
-
+  async getAllRoles(): Promise<{ name: string; permissions: string[] }[]> {
     const roles = await this.roleModel.findAll({
-      where: { id: roleIds },
+      attributes: ["name"],
     });
 
-    if (roles.length !== roleIds.length) {
-      throw createHttpError.NotFound(RBACMessags.ROLE_NOT_FOUND);
-    }
+    return roles.map((role) => {
+      const key = role.name as Roles;
+      const permissions = RolePermissions[key] ?? [];
 
-    await UserRole.destroy({
-      where: { user_id: userId },
+      return {
+        name: role.name,
+        permissions,
+      };
     });
-
-    const records = roleIds.map((roleId) => ({
-      user_id: userId,
-      role_id: roleId,
-    }));
-
-    await UserRole.bulkCreate(records);
-
-    return { userId, roleIds };
-  }
-
-  async getAllRoles(): Promise<string[]> {
-    const roles = await this.roleModel.findAll({ attributes: ["name"] });
-    return roles.map((role) => role.name);
   }
 
   async getAllPermissions(): Promise<string[]> {
@@ -165,15 +147,15 @@ class RBACService {
   }
 
   async deletePermission(permissionId: number) {
-  const permission = await this.permissionModel.findByPk(permissionId);
-  if (!permission) {
-    throw createHttpError.NotFound(RBACMessags.PERMISSION_NOT_FOUND);
+    const permission = await this.permissionModel.findByPk(permissionId);
+    if (!permission) {
+      throw createHttpError.NotFound(RBACMessags.PERMISSION_NOT_FOUND);
+    }
+
+    await permission.destroy();
+
+    return { id: permissionId, message: RBACMessags.PERMISSION_DELETE_SUCCESS };
   }
-
-  await permission.destroy();
-
-  return { id: permissionId, message: RBACMessags.PERMISSION_DELETE_SUCCESS };
-}
 }
 
 export default new RBACService();
