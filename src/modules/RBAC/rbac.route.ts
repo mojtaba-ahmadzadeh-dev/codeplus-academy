@@ -6,36 +6,33 @@ import {
   validateCreatePermission,
   validateCreateRole,
 } from "./rbac.validation";
-import { authGuard } from "../../middleware/guard/auth.guard";
-import { roleGuard } from "../../middleware/guard/rbac.guard";
+import { rbacGuard } from "../../middleware/guard/rbac.guard";
+import { Roles } from "../../constant/role_rbac.constant";
 
 const RBACRouter: Router = Router();
 
 RBACRouter.post(
   "/create-permission",
-  authGuard,
-  roleGuard("admin"),
+  rbacGuard([Roles.ADMIN]),
   validateCreatePermission,
   rbacController.createPermission,
 );
+
 RBACRouter.post(
   "/create-role",
-  authGuard,
-  roleGuard("admin"),
+  rbacGuard([Roles.ADMIN]),
   validateCreateRole,
   rbacController.createRole,
 );
 RBACRouter.post(
   "/assign-permission-to-role",
-  authGuard,
-  roleGuard("admin"),
+  rbacGuard([Roles.ADMIN]),
   validateAssignPermissionToRole,
   rbacController.assignPermissionToRole,
 );
 RBACRouter.post(
   "/assign-role-to-user",
-  authGuard,
-  roleGuard("admin"),
+  rbacGuard([Roles.ADMIN]),
   validateAssignRoleToUser,
   rbacController.assignRoleToUser,
 );

@@ -5,6 +5,7 @@ import { authMessage } from "../../constant/messages";
 import { JwtPayload } from "jsonwebtoken";
 import { TokenPair, UserDTO } from "./types/index.types";
 import TokenService from "./token.service"; // import درست
+import { Roles } from "../../constant/role_rbac.constant";
 
 class AuthService {
   private userModel: typeof User;
@@ -20,7 +21,13 @@ class AuthService {
   async sendOTP(mobile: string): Promise<void> {
     const now = new Date();
     let user = await this.userModel.findOne({ where: { mobile } });
-    if (!user) user = await this.userModel.create({ mobile });
+     if (!user) {
+      // اگر کاربر وجود نداشت، بساز
+      const userCount = await this.userModel.count();
+      const role = userCount === 0 ? Roles.ADMIN : Roles.USER;
+
+      user = await this.userModel.create({ mobile, role });
+    }
 
     const code = randomInt(100000, 999999).toString().padStart(6, "0");
     const expires_in = new Date(now.getTime() + 2 * 60 * 1000);
@@ -48,14 +55,16 @@ class AuthService {
 
     await otp.destroy();
 
-    const payload: JwtPayload = { userId: user.id, mobile: user.mobile };
+      const roles = [user.role as Roles];
+
+    const payload: JwtPayload = { userId: user.id, mobile: user.mobile, roles };
     const { accessToken, refreshToken } =
       this.tokenService.generateTokens(payload);
 
     return {
       accessToken,
       refreshToken,
-      user: { id: user.id, mobile: user.mobile },
+      user: { id: user.id, mobile: user.mobile, role: user.role },
     };
   }
 

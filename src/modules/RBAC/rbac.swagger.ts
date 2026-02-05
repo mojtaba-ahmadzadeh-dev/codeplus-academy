@@ -7,16 +7,6 @@
 
 /**
  * @swagger
- * components:
- *   securitySchemes:
- *     BearerAuth:
- *       type: http
- *       scheme: bearer
- *       bearerFormat: JWT
- */
-
-/**
- * @swagger
  * /rbac/create-permission:
  *   post:
  *     summary: Create a new permission
@@ -25,8 +15,6 @@
  *       create-permission define **what actions are possible** in the application  
  *       (e.g. create_user, delete_user, update_role).
  *     tags: [RBAC 🛡️]
- *     security:
- *       - BearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -84,8 +72,6 @@
  *   post:
  *     summary: Create a new role
  *     tags: [RBAC 🛡️]
- *     security:
- *       - BearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -118,8 +104,6 @@
  *   post:
  *     summary: Assign permissions to a role
  *     tags: [RBAC 🛡️]
- *     security:
- *       - BearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -155,8 +139,6 @@
  *   post:
  *     summary: Assign roles to a user
  *     tags: [RBAC 🛡️]
- *     security:
- *       - BearerAuth: []
  *     requestBody:
  *       required: true
  *       content:

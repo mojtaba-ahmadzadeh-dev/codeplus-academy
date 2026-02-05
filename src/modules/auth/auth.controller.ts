@@ -7,6 +7,7 @@ import createHttpError from "http-errors";
 import tokenService from "./token.service";
 import { JwtPayload } from "jsonwebtoken";
 import jwt from "jsonwebtoken";
+import { env } from "../../config/env";
 
 class AuthController {
   private service = authService;
@@ -117,7 +118,7 @@ class AuthController {
         );
       }
 
-      const payload = jwt.verify(token, ACCESS_TOKEN_SECRET) as JwtPayload;
+      const payload = jwt.verify(token, env.JWT.ACCESS_SECRET) as JwtPayload;
 
       if (!payload?.userId)
         throw createHttpError.Unauthorized(authMessage.ACCESS_TOKEN_INVALID);
