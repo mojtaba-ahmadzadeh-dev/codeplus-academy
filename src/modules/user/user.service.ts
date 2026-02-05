@@ -1,4 +1,5 @@
 import { userMessage } from "../../constant/messages";
+import { CreateUserDTO } from "./types/index.types";
 import { User } from "./user.model";
 
 class UserService {
@@ -44,6 +45,24 @@ class UserService {
 
     await user.update({ role });
 
+    return user;
+  }
+
+  async createUser(payload: CreateUserDTO) {
+    const exists = await this.model.findOne({
+      where: { mobile: payload.mobile },
+    });
+    if (exists) throw new Error(userMessage.MOBILE_ALREADY_EXISTS);
+
+    const user = await this.model.create(payload);
+    return user;
+  }
+
+  async banUser(id: number, isBanned: boolean) {
+    const user = await this.model.findByPk(id);
+    if (!user) throw new Error(userMessage.USER_NOT_FOUND);
+
+    await user.update({ is_banned: isBanned });
     return user;
   }
 }

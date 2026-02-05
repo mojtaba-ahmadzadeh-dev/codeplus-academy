@@ -20,3 +20,12 @@ export interface IOTP {
   created_at?: Date;
   user?: User;
 }
+
+export interface CreateUserDTO {
+  mobile: string;
+  full_name?: string;
+  avatar?: string | null;
+  password?: string;
+  role?: string;
+  is_banned?: boolean;
+}

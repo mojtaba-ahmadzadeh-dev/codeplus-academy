@@ -17,6 +17,8 @@ class UserController {
     this.updateUserById = this.updateUserById.bind(this);
     this.removeUserById = this.removeUserById.bind(this);
     this.changeRole = this.changeRole.bind(this);
+    this.createUser = this.createUser.bind(this);
+    this.banUser = this.banUser.bind(this);
   }
 
   async getAllUsers(req: Request, res: Response, next: NextFunction) {
@@ -141,6 +143,49 @@ class UserController {
           mobile: updatedUser.mobile,
           role: updatedUser.role,
         },
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async createUser(req: Request, res: Response, next: NextFunction) {
+    try {
+      const payload = req.body;
+
+      if (req.file) {
+        payload.avatar = `/uploads/avatars/${req.file.filename}`;
+      }
+
+      const user = await this.service.createUser(payload);
+
+      res.status(StatusCodes.CREATED).json({
+        statusCode: StatusCodes.CREATED,
+        message: userMessage.USER_CREATED_SUCCESSFULLY,
+        data: user,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async banUser(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id } = req.params;
+      const { is_banned } = req.body;
+
+      if (typeof is_banned !== "boolean") {
+        throw createHttpError.BadRequest(userMessage.BAN_STATUS_REQUIRED);
+      }
+
+      const user = await this.service.banUser(Number(id), is_banned);
+
+      res.status(StatusCodes.OK).json({
+        statusCode: StatusCodes.OK,
+        message: is_banned
+          ? userMessage.USER_BANNED
+          : userMessage.USER_UNBANNED,
+        data: user,
       });
     } catch (error) {
       next(error);
