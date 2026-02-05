@@ -11,6 +11,9 @@ export interface TokenPair {
 export interface UserDTO {
   id: number;
   mobile: string;
+  full_name: string | null;
+  avatar: string | null;
+  is_banned: boolean;
 }
 
 export interface AuthRequest extends Request {

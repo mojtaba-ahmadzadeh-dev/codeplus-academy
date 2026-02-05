@@ -96,11 +96,21 @@ class AuthService {
     return this.tokenService.refreshTokens(token);
   }
 
-  async getMe(userId: string): Promise<UserDTO> {
-    const user = await this.userModel.findOne({ where: { id: userId } });
+  async getMe(userId: number): Promise<UserDTO> {
+    const user = await this.userModel.findOne({
+      where: { id: userId },
+      attributes: ["id", "mobile", "full_name", "avatar", "is_banned"],
+    });
+
     if (!user) throw createHttpError.NotFound(authMessage.USER_NOT_FOUND);
 
-    return { id: user.id, mobile: user.mobile };
+    return {
+      id: user.id,
+      mobile: user.mobile,
+      full_name: user.full_name,
+      avatar: user.avatar,
+      is_banned: user.is_banned,
+    };
   }
 }
 
