@@ -150,6 +150,19 @@ class RBACService {
 
     return permission;
   }
+
+  async deleteRole(roleId: number) {
+    const role = await this.roleModel.findByPk(roleId);
+    if (!role) {
+      throw createHttpError.NotFound(RBACMessags.ROLE_NOT_FOUND);
+    }
+
+    await UserRole.destroy({ where: { role_id: roleId } });
+
+    await role.destroy();
+
+    return true;
+  }
 }
 
 export default new RBACService();

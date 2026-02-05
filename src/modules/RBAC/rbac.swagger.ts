@@ -11,8 +11,8 @@
  *   post:
  *     summary: Create a new permission
  *     description: |
- *       Create a new permission in the system.  
- *       create-permission define **what actions are possible** in the application  
+ *       Create a new permission in the system.
+ *       create-permission define **what actions are possible** in the application
  *       (e.g. create_user, delete_user, update_role).
  *     tags: [RBAC 🛡️]
  *     requestBody:
@@ -174,7 +174,7 @@
  *   get:
  *     summary: Get all roles
  *     description: |
- *       Retrieve a list of all roles in the system.  
+ *       Retrieve a list of all roles in the system.
  *       Only users with admin role can access this endpoint.
  *     tags: [RBAC 🛡️]
  *     security:
@@ -212,7 +212,7 @@
  *   get:
  *     summary: Get all permissions
  *     description: |
- *       Retrieve a list of all permissions in the system.  
+ *       Retrieve a list of all permissions in the system.
  *       Only users with admin role can access this endpoint.
  *     tags: [RBAC 🛡️]
  *     security:
@@ -364,6 +364,44 @@
  *         description: Permission name already exists
  *       400:
  *         description: Invalid request body
+ *       500:
+ *         description: Internal server error
+ */
+
+/**
+ * @swagger
+ * /rbac/role/{id}:
+ *   delete:
+ *     summary: Delete a role
+ *     description: Delete an existing role by its ID. This will also remove its assignment from all users.
+ *     tags: [RBAC 🛡️]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: Role ID to delete
+ *     responses:
+ *       200:
+ *         description: Role deleted successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: "نقش با موفقیت حذف شد"
+ *       404:
+ *         description: Role not found
+ *       400:
+ *         description: Invalid request
  *       500:
  *         description: Internal server error
  */
