@@ -34,5 +34,7 @@ export enum userMessage {
   UPDATE_USER_SUCCESSFULLY = "کاربر با موفقیت بروزرسانی شد",
   DELETE_USER_SUCCESSFULLY = "کاربر موردنظر با موفقیت حذف شد",
   USER_NOT_FOUND = "کاربر موردنظر یافت نشد",
-   ROLE_IS_REQUIRED = "نقش کاربر الزامی است",
+  ROLE_IS_REQUIRED = "نقش کاربر الزامی است",
+  USER_CREATED_SUCCESSFULLY = "کاربر با موفقیت ساخته شد",
+  MOBILE_ALREADY_EXISTS = "شماره موبایل وارد شده قبلاً ثبت شده است",
 }

@@ -1,4 +1,5 @@
 import { userMessage } from "../../constant/messages";
+import { CreateUserDTO } from "./types/index.types";
 import { User } from "./user.model";
 
 class UserService {
@@ -46,6 +47,15 @@ class UserService {
 
     return user;
   }
+
+async createUser(payload: CreateUserDTO) {
+  // چک موبایل تکراری
+  const exists = await this.model.findOne({ where: { mobile: payload.mobile } });
+  if (exists) throw new Error(userMessage.MOBILE_ALREADY_EXISTS);
+
+  const user = await this.model.create(payload);
+  return user;
+}
 }
 
 export default new UserService();

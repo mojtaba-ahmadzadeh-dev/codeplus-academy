@@ -15,6 +15,7 @@ class UserController {
     this.updateUserById = this.updateUserById.bind(this);
     this.removeUserById = this.removeUserById.bind(this);
     this.changeRole = this.changeRole.bind(this);
+    this.createUser = this.createUser.bind(this);
   }
 
   async getAllUsers(req: Request, res: Response, next: NextFunction) {
@@ -101,6 +102,26 @@ class UserController {
         statusCode: StatusCodes.OK,
         message: userMessage.UPDATE_USER_SUCCESSFULLY,
         data: updatedUser,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async createUser(req: Request, res: Response, next: NextFunction) {
+    try {
+      const payload = req.body;
+
+      if (req.file) {
+        payload.avatar = `/uploads/avatars/${req.file.filename}`;
+      }
+
+      const user = await this.service.createUser(payload);
+
+      res.status(StatusCodes.CREATED).json({
+        statusCode: StatusCodes.CREATED,
+        message: userMessage.USER_CREATED_SUCCESSFULLY,
+        data: user,
       });
     } catch (error) {
       next(error);
