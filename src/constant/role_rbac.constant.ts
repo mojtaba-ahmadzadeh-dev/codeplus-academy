@@ -1,11 +1,9 @@
-// src/constants/roles.ts
 export enum Roles {
   ADMIN = "admin",
   TEACHER = "teacher",
-  USER = "user", // به جای student
+  USER = "user",
 }
 
-// دسترسی‌ها برای هر نقش
 export const rolePermissions: Record<Roles, string[]> = {
   [Roles.ADMIN]: [
     "create-user",

@@ -243,3 +243,63 @@
  *       500:
  *         description: Internal server error
  */
+
+/**
+ * @swagger
+ * /rbac/role/{id}:
+ *   put:
+ *     summary: Update a role
+ *     description: Update name or description of an existing role.
+ *     tags: [RBAC 🛡️]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: Role ID to update
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *                 example: "moderator"
+ *               description:
+ *                 type: string
+ *                 example: "Updated description for moderator role"
+ *     responses:
+ *       200:
+ *         description: Role updated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: "Role updated successfully"
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     id:
+ *                       type: integer
+ *                     name:
+ *                       type: string
+ *                     description:
+ *                       type: string
+ *       404:
+ *         description: Role not found
+ *       400:
+ *         description: Invalid request body
+ *       500:
+ *         description: Internal server error
+ */

@@ -21,6 +21,7 @@ class RBACController {
     this.assignRoleToUser = this.assignRoleToUser.bind(this);
     this.getAllRoles = this.getAllRoles.bind(this);
     this.getAllPermissions = this.getAllPermissions.bind(this);
+    this.updateRole = this.updateRole.bind(this);
   }
 
   async createPermission(
@@ -120,8 +121,32 @@ class RBACController {
       const permissions = await this.service.getAllPermissions();
       res.status(StatusCodes.OK).json({
         statusCode: StatusCodes.OK,
-        message: "Permissions fetched successfully",
+        message: RBACMessags.PERMISSIONS_FETCH_SUCCESS,
         data: permissions,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async updateRole(
+    req: Request<{ id: string }, {}, Partial<CreateRoleDTO>>,
+    res: Response,
+    next: NextFunction,
+  ) {
+    try {
+      const { id } = req.params;
+      const { name, description } = req.body;
+
+      const updatedRole = await this.service.updateRole(Number(id), {
+        name,
+        description,
+      });
+
+      res.status(StatusCodes.OK).json({
+        success: true,
+        message: RBACMessags.ROLE_UPDATE_SUCCESS,
+        data: updatedRole,
       });
     } catch (error) {
       next(error);

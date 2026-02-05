@@ -116,6 +116,17 @@ class RBACService {
     });
     return permissions.map((perm) => perm.name);
   }
+
+  async updateRole(roleId: number, data: Partial<CreateRoleDTO>) {
+    const role = await this.roleModel.findByPk(roleId);
+    if (!role) {
+      throw createHttpError.NotFound(RBACMessags.ROLE_NOT_FOUND);
+    }
+
+    await role.update(data);
+
+    return role;
+  }
 }
 
 export default new RBACService();

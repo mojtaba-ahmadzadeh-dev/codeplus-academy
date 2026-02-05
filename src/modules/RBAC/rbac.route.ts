@@ -50,4 +50,10 @@ RBACRouter.get(
   rbacController.getAllPermissions,
 );
 
+RBACRouter.put(
+  "/role/:id",
+  rbacGuard([Roles.ADMIN]),
+  rbacController.updateRole,
+);
+
 export default RBACRouter;

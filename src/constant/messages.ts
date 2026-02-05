@@ -54,4 +54,6 @@ export enum RBACMessags {
   USER_NOT_FOUND = "کاربر مورد نظر یافت نشد",
   UNAUTHORIZED = "دسترسی غیرمجاز. لطفاً وارد شوید",
   FORBIDDEN = "دسترسی غیرمجاز. تنها ادمین و مدرس مجاز است",
+  ROLE_UPDATE_SUCCESS = "نقش مورد نطر با موفقیت بروزرسانی شد",
+  PERMISSIONS_FETCH_SUCCESS = "مجوزها با موفقیت دریافت شدند"
 };
