@@ -41,7 +41,7 @@ class RBACController {
       });
 
       res.status(StatusCodes.CREATED).json({
-        success: true,
+        statusCode: StatusCodes.CREATED,
         message: RBACMessags.PERMISSION_ASSIGN_SUCCESS,
         data: permission,
       });
@@ -61,7 +61,7 @@ class RBACController {
       const role = await this.service.createRole({ name, description });
 
       res.status(StatusCodes.CREATED).json({
-        success: true,
+        statusCodes: StatusCodes.CREATED,
         message: RBACMessags.ROLE_ASSIGN_SUCCESS,
         data: role,
       });
@@ -79,7 +79,7 @@ class RBACController {
       const result = await rbacService.assignPermissionToRole(req.body);
 
       res.status(StatusCodes.OK).json({
-        success: true,
+       statusCodes: StatusCodes.OK,
         message: RBACMessags.PERMISSION_ASSIGN_SUCCESS,
         data: result,
       });
@@ -97,7 +97,7 @@ class RBACController {
       const result = await this.service.assignRoleToUser(req.body);
 
       res.status(StatusCodes.OK).json({
-        success: true,
+        statusCodes: StatusCodes.OK,
         message: RBACMessags.ROLE_ASSIGN_SUCCESS,
         data: result,
       });
@@ -147,7 +147,7 @@ class RBACController {
       });
 
       res.status(StatusCodes.OK).json({
-        success: true,
+        statusCodes: StatusCodes.OK,
         message: RBACMessags.ROLE_UPDATE_SUCCESS,
         data: updatedRole,
       });
@@ -174,7 +174,7 @@ class RBACController {
       );
 
       res.status(StatusCodes.OK).json({
-        success: true,
+        statusCodes: StatusCodes.OK,
         message: RBACMessags.PERMISSION_UPDATE_SUCCESS,
         data: updatedPermission,
       });
@@ -194,7 +194,7 @@ class RBACController {
       await this.service.deleteRole(Number(id));
 
       res.status(StatusCodes.OK).json({
-        success: true,
+        statusCodes: StatusCodes.OK,
         message: RBACMessags.ROLE_DELETE_SUCCESS,
       });
     } catch (error) {
@@ -212,7 +212,7 @@ class RBACController {
       const result = await this.service.deletePermission(Number(id));
 
       res.status(StatusCodes.OK).json({
-        success: true,
+        statusCodes: StatusCodes.OK,
         message: RBACMessags.PERMISSION_DELETE_SUCCESS,
         data: result,
       });
