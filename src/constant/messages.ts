@@ -1,7 +1,8 @@
 export enum authMessage {
   // OTP
-  OTP_SENT_SUCCESS = "کاربر با موفقیت ثبت نام شد",
-  OTP_VERIFIED_SUCCESS = "کد تأیید با موفقیت بررسی شد",
+  OTP_SENT_SUCCESS = "کد تایید با موفقیت ارسال شد",
+  OTP_REGISTER_SUCCESS = "ثبت نام با موفقیت انجام شد",
+  OTP_LOGIN_SUCCESS = "ورود با موفقیت انجام شد",
   MOBILE_INVALID = "شماره موبایل وارد شده نامعتبر است",
   MOBILE_REQUIRED = "وارد کردن شماره موبایل الزامی است",
   CODE_REQUIRED = "وارد کردن کد تأیید الزامی است",
@@ -34,5 +35,29 @@ export enum userMessage {
   UPDATE_USER_SUCCESSFULLY = "کاربر با موفقیت بروزرسانی شد",
   DELETE_USER_SUCCESSFULLY = "کاربر موردنظر با موفقیت حذف شد",
   USER_NOT_FOUND = "کاربر موردنظر یافت نشد",
-   ROLE_IS_REQUIRED = "نقش کاربر الزامی است",
+  ROLE_IS_REQUIRED = "نقش کاربر الزامی است",
+  ACCESS_TOKEN_SECRET_NOT_DEFINED = "ACCESS_TOKEN_SECRET not defined"
 }
+
+export enum RBACMessags {
+  PERMISSION_ALREADY_EXISTS = "مجوز مورد نظر از قبل وجود دارد",
+  PERMISSION_CREATE_SUCCESS = "مجوز با موفقیت ایجاد شد",
+
+  ROLE_ALREADY_EXISTS = "نقش مورد نظر از قبل وجود دارد",
+  ROLE_CREATE_SUCCESS = "نقش با موفقیت ایجاد شد",
+  ROLE_ASSIGN_SUCCESS = "نقش با موفقیت اختصاص داده شد",
+
+  ROLE_NOT_FOUND = "نقش مورد نظر یافت نشد",
+  PERMISSION_NOT_FOUND = "یک یا چند مجوز یافت نشد",
+
+  PERMISSION_ASSIGN_SUCCESS = "مجوزها با موفقیت به نقش اختصاص داده شدند",
+
+  USER_NOT_FOUND = "کاربر مورد نظر یافت نشد",
+  UNAUTHORIZED = "دسترسی غیرمجاز. لطفاً وارد شوید",
+  FORBIDDEN = "دسترسی غیرمجاز. تنها ادمین و مدرس مجاز است",
+  ROLE_UPDATE_SUCCESS = "نقش مورد نطر با موفقیت بروزرسانی شد",
+  PERMISSIONS_FETCH_SUCCESS = "مجوزها با موفقیت دریافت شدند",
+  PERMISSION_UPDATE_SUCCESS = "مجوز موردنظر با موفقیت بروزرسانی شد",
+  ROLE_DELETE_SUCCESS = "نقش موردنظر با موفقیت حذف شد",
+  PERMISSION_DELETE_SUCCESS = "مجوز مورد نظر با موفقیت حذف شد",
+};

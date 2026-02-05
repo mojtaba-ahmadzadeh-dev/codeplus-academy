@@ -3,6 +3,8 @@ import userService from "./user.service";
 import { StatusCodes } from "http-status-codes";
 import { userMessage } from "../../constant/messages";
 import createHttpError from "http-errors";
+import jwt from "jsonwebtoken";
+import { env } from "../../config/env";
 
 class UserController {
   private service: typeof userService;
@@ -97,10 +99,48 @@ class UserController {
 
       const updatedUser = await this.service.changeRole(Number(id), role);
 
+      if (!env.JWT.ACCESS_SECRET || !env.JWT.REFRESH_SECRET) {
+        throw createHttpError.InternalServerError(
+          userMessage.ACCESS_TOKEN_SECRET_NOT_DEFINED,
+        );
+      }
+
+      const payload = {
+        userId: updatedUser.id,
+        mobile: updatedUser.mobile,
+        roles: [updatedUser.role],
+      };
+
+      const accessToken = jwt.sign(payload, env.JWT.ACCESS_SECRET, {
+        expiresIn: env.JWT.ACCESS_EXPIRES_IN || "7d",
+      });
+
+      const refreshToken = jwt.sign(payload, env.JWT.REFRESH_SECRET, {
+        expiresIn: env.JWT.REFRESH_EXPIRES_IN || "30d",
+      });
+
+      res.cookie("accessToken", accessToken, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "strict",
+        maxAge: 7 * 24 * 60 * 60 * 1000,
+      });
+
+      res.cookie("refreshToken", refreshToken, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "strict",
+        maxAge: 30 * 24 * 60 * 60 * 1000,
+      });
+
       res.status(StatusCodes.OK).json({
         statusCode: StatusCodes.OK,
         message: userMessage.UPDATE_USER_SUCCESSFULLY,
-        data: updatedUser,
+        data: {
+          id: updatedUser.id,
+          mobile: updatedUser.mobile,
+          role: updatedUser.role,
+        },
       });
     } catch (error) {
       next(error);
