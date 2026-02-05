@@ -19,6 +19,7 @@ class RBACController {
     this.createRole = this.createRole.bind(this);
     this.assignPermissionToRole = this.assignPermissionToRole.bind(this);
     this.assignRoleToUser = this.assignRoleToUser.bind(this);
+    this.getAllRoles = this.getAllRoles.bind(this);
   }
 
   async createPermission(
@@ -94,6 +95,19 @@ class RBACController {
         success: true,
         message: RBACMessags.ROLE_ASSIGN_SUCCESS,
         data: result,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async getAllRoles(req: Request, res: Response, next: NextFunction) {
+    try {
+      const roles = await this.service.getAllRoles();
+      res.status(StatusCodes.OK).json({
+        statusCode: StatusCodes.OK,
+        message: "Roles fetched successfully",
+        data: roles,
       });
     } catch (error) {
       next(error);

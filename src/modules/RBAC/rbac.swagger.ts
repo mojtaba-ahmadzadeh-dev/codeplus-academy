@@ -167,3 +167,41 @@
  *       500:
  *         description: Internal server error
  */
+
+/**
+ * @swagger
+ * /rbac/roles:
+ *   get:
+ *     summary: Get all roles
+ *     description: |
+ *       Retrieve a list of all roles in the system.  
+ *       Only users with admin role can access this endpoint.
+ *     tags: [RBAC 🛡️]
+ *     security:
+ *       - bearerAuth: []   # اگر JWT استفاده می‌کنید
+ *     responses:
+ *       200:
+ *         description: Roles fetched successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 200
+ *                 message:
+ *                   type: string
+ *                   example: "Roles fetched successfully"
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: string
+ *                   example: ["admin", "user", "moderator"]
+ *       401:
+ *         description: Unauthorized, access token missing or invalid
+ *       403:
+ *         description: Forbidden, user does not have permission
+ *       500:
+ *         description: Internal server error
+ */

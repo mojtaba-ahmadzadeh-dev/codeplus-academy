@@ -37,4 +37,11 @@ RBACRouter.post(
   rbacController.assignRoleToUser,
 );
 
+RBACRouter.get(
+  "/roles",
+  rbacGuard([Roles.ADMIN, Roles.TEACHER]),
+  validateAssignRoleToUser,
+  rbacController.getAllRoles,
+);
+
 export default RBACRouter;

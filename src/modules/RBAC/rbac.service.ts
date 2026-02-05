@@ -104,6 +104,11 @@ class RBACService {
 
     return { userId, roleIds };
   }
+
+  async getAllRoles(): Promise<string[]> {
+    const roles = await this.roleModel.findAll({ attributes: ["name"] });
+    return roles.map((role) => role.name);
+  }
 }
 
 export default new RBACService();
