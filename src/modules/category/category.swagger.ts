@@ -112,3 +112,54 @@
  *       500:
  *         description: Internal server error
  */
+
+/**
+ * @swagger
+ * /categories/update/{id}:
+ *   put:
+ *     summary: Update a category
+ *     description: Update an existing category by ID. You can change title, description, parent category, or status.
+ *     tags: [Categories 📂]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: Category ID
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               title:
+ *                 type: string
+ *                 example: "Mobile Phones"
+ *               description:
+ *                 type: string
+ *                 example: "Updated description for mobiles"
+ *               parentId:
+ *                 type: integer
+ *                 nullable: true
+ *                 example: 2
+ *               status:
+ *                 type: string
+ *                 example: "active"
+ *     responses:
+ *       200:
+ *         description: Category updated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Category'
+ *       400:
+ *         description: Validation error, invalid parent, or category not found
+ *       401:
+ *         description: Unauthorized
+ *       500:
+ *         description: Internal server error
+ */

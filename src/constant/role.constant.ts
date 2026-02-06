@@ -12,6 +12,9 @@ export enum Permissions {
   USER_BY_REMOVE_ID = "user:by-remove-id",
   USER_BAN = "user:ban/unban",
   USER_CREATE = "user:create",
+  CREATE_CATEGORY = "category:create",
+  CREATE_UPDATE_BY_ID = "category:update",
+  CATEGORY_GETALL = "category:get-all",
 }
 
 export const RolePermissions: Record<Roles, Permissions[]> = {
@@ -23,6 +26,9 @@ export const RolePermissions: Record<Roles, Permissions[]> = {
     Permissions.USER_BY_REMOVE_ID,
     Permissions.USER_BAN,
     Permissions.USER_CREATE,
+    Permissions.CREATE_CATEGORY,
+    Permissions.CREATE_UPDATE_BY_ID,
+    Permissions.CATEGORY_GETALL,
   ],
   [Roles.TEACHER]: [
     Permissions.USER_GETALL,
@@ -31,6 +37,9 @@ export const RolePermissions: Record<Roles, Permissions[]> = {
     Permissions.USER_BY_REMOVE_ID,
     Permissions.USER_BAN,
     Permissions.USER_CREATE,
+    Permissions.CREATE_UPDATE_BY_ID,
+    Permissions.CREATE_UPDATE_BY_ID,
+    Permissions.CATEGORY_GETALL,
   ],
   [Roles.USER]: [],
 };

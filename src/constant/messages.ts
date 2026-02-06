@@ -68,5 +68,8 @@ export enum RBACMessags {
 }
 
 export enum CategoryMessages {
+  CATEGORY_NOT_FOUND = "دسته‌بندی موردنظر یافت نشد",
   PARENT_NOT_FOUND = "دسته‌بندی والد یافت نشد",
+  INVALID_PARENT = "دسته‌بندی نمی‌تواند والد خودش باشد",
+    TITLE_ALREADY_EXISTS = "عنوان دسته‌بندی قبلا استفاده شده است",
 }

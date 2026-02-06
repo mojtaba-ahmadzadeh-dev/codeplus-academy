@@ -9,11 +9,12 @@ class CategoryController {
   constructor() {
     this.CategoryService = CategoryService;
 
-    this.create = this.create.bind(this);
-    this.getAll = this.getAll.bind(this);
+    this.createCategory = this.createCategory.bind(this);
+    this.getAllCategories = this.getAllCategories.bind(this);
+    this.updateCategory = this.updateCategory.bind(this);
   }
-  
-  async create(req: Request, res: Response) {
+
+  async createCategory(req: Request, res: Response) {
     try {
       const { title, description, parentId } = req.body;
       const category = await this.CategoryService.createCategory({
@@ -27,12 +28,35 @@ class CategoryController {
     }
   }
 
-  async getAll(req: Request, res: Response) {
+  async getAllCategories(req: Request, res: Response) {
     try {
       const categories = await this.CategoryService.getAllCategories();
       res.status(200).json(categories);
     } catch (error: any) {
-      res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ message: error.message });
+      res
+        .status(StatusCodes.INTERNAL_SERVER_ERROR)
+        .json({ message: error.message });
+    }
+  }
+
+  async updateCategory(req: Request, res: Response) {
+    try {
+      const { id } = req.params;
+      const { title, description, parentId, status } = req.body;
+
+      const updatedCategory = await this.CategoryService.updateCategory(
+        Number(id),
+        {
+          title,
+          description,
+          parentId,
+          status,
+        },
+      );
+
+      res.status(StatusCodes.OK).json(updatedCategory);
+    } catch (error: any) {
+      res.status(StatusCodes.BAD_REQUEST).json({ message: error.message });
     }
   }
 }
