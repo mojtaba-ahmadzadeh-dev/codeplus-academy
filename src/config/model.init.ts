@@ -1,9 +1,6 @@
 import { sequelize } from "../config/sequelize.config";
-import {
-  Permission,
-  Role,
-  RolePermission,
-} from "../modules/RBAC/rbac.model";
+import { Category } from "../modules/category/category.model";
+import { Permission, Role, RolePermission } from "../modules/RBAC/rbac.model";
 import { OTP, User } from "../modules/user/user.model";
 
 const initDatabase = async (): Promise<void> => {
@@ -32,6 +29,9 @@ const initDatabase = async (): Promise<void> => {
     through: RolePermission,
     foreignKey: "permission_id",
   });
+
+  Category.hasMany(Category, { as: "children", foreignKey: "parentId" });
+  Category.belongsTo(Category, { as: "parent", foreignKey: "parentId" });
 
   // await sequelize.sync({ alter: true });
   console.log("✅ Database synced successfully");

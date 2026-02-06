@@ -41,7 +41,7 @@ export enum userMessage {
   BAN_STATUS_REQUIRED = "وضعیت مسدودسازی کاربر الزامی است",
   USER_BANNED = "کاربر با موفقیت مسدود شد",
   USER_UNBANNED = "کاربر از حالت مسدود خارج شد",
-  ACCESS_TOKEN_SECRET_NOT_DEFINED = "ACCESS_TOKEN_SECRET not defined"
+  ACCESS_TOKEN_SECRET_NOT_DEFINED = "ACCESS_TOKEN_SECRET not defined",
 }
 
 export enum RBACMessags {
@@ -65,4 +65,12 @@ export enum RBACMessags {
   PERMISSION_UPDATE_SUCCESS = "مجوز موردنظر با موفقیت بروزرسانی شد",
   ROLE_DELETE_SUCCESS = "نقش موردنظر با موفقیت حذف شد",
   PERMISSION_DELETE_SUCCESS = "مجوز مورد نظر با موفقیت حذف شد",
-};
+}
+
+export enum CategoryMessages {
+  CATEGORY_NOT_FOUND = "دسته‌بندی موردنظر یافت نشد",
+  PARENT_NOT_FOUND = "دسته‌بندی والد یافت نشد",
+  INVALID_PARENT = "دسته‌بندی نمی‌تواند والد خودش باشد",
+  TITLE_ALREADY_EXISTS = "عنوان دسته‌بندی قبلا استفاده شده است",
+  CATEGORY_HAS_CHILDREN = "ابتدا زیرمجموعه‌های این دسته‌بندی را حذف کنید",
+}

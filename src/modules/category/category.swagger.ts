@@ -1,0 +1,245 @@
+/**
+ * @swagger
+ * tags:
+ *   name: Categories 📂
+ *   description: Category management APIs
+ */
+
+/**
+ * @swagger
+ * /categories/create:
+ *   post:
+ *     summary: Create a new category
+ *     description: Create a category. You can optionally assign a parent category to create a subcategory.
+ *     tags: [Categories 📂]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - title
+ *             properties:
+ *               title:
+ *                 type: string
+ *                 example: "Electronics"
+ *               description:
+ *                 type: string
+ *                 example: "All electronic devices"
+ *               status:
+ *                 type: string
+ *                 example: "ACTIVE"
+ *     responses:
+ *       201:
+ *         description: Category created successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 statusCode:
+ *                   type: integer
+ *                 message:
+ *                   type: string
+ *                 data:
+ *                   $ref: '#/components/schemas/Category'
+ *       400:
+ *         description: Validation error or parent category not found
+ *       401:
+ *         description: Unauthorized
+ *       500:
+ *         description: Internal server error
+ */
+
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     Category:
+ *       type: object
+ *       properties:
+ *         id:
+ *           type: integer
+ *         title:
+ *           type: string
+ *         description:
+ *           type: string
+ *         status:
+ *           type: string
+ *           example: "ACTIVE"
+ *         parentId:
+ *           type: integer
+ *           nullable: true
+ *         children:
+ *           type: array
+ *           items:
+ *             $ref: '#/components/schemas/Category'
+ *         createdAt:
+ *           type: string
+ *           format: date-time
+ *         updatedAt:
+ *           type: string
+ *           format: date-time
+ */
+
+/**
+ * @swagger
+ * /categories:
+ *   get:
+ *     summary: Get all categories with their subcategories
+ *     description: Retrieve all parent categories along with their children (subcategories)
+ *     tags: [Categories 📂]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Categories retrieved successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Category'
+ *       401:
+ *         description: Unauthorized
+ *       500:
+ *         description: Internal server error
+ */
+
+/**
+ * @swagger
+ * /categories/update/{id}:
+ *   put:
+ *     summary: Update a category
+ *     description: Update an existing category by ID. You can change title, description, parent category, or status.
+ *     tags: [Categories 📂]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: Category ID
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               title:
+ *                 type: string
+ *                 example: "Mobile Phones"
+ *               description:
+ *                 type: string
+ *                 example: "Updated description for mobiles"
+ *               parentId:
+ *                 type: integer
+ *                 nullable: true
+ *                 example: 2
+ *               status:
+ *                 type: string
+ *                 example: "active"
+ *     responses:
+ *       200:
+ *         description: Category updated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Category'
+ *       400:
+ *         description: Validation error, invalid parent, or category not found
+ *       401:
+ *         description: Unauthorized
+ *       500:
+ *         description: Internal server error
+ */
+
+/**
+ * @swagger
+ * /categories/delete/{id}:
+ *   delete:
+ *     summary: Delete a category by ID
+ *     description: Delete an existing category. The category cannot be deleted if it has subcategories (children).
+ *     tags: [Categories 📂]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: Category ID to delete
+ *     responses:
+ *       200:
+ *         description: Category deleted successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Category deleted successfully"
+ *       400:
+ *         description: Cannot delete category with children
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "ابتدا زیرمجموعه‌های این دسته‌بندی را حذف کنید"
+ *       401:
+ *         description: Unauthorized
+ *       404:
+ *         description: Category not found
+ *       500:
+ *         description: Internal server error
+ */
+
+/**
+ * @swagger
+ * /categories/{id}:
+ *   get:
+ *     summary: Get a single category with its subcategories
+ *     description: Retrieve a category by ID along with all its children (subcategories).
+ *     tags: [Categories 📂]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: Category ID to retrieve
+ *     responses:
+ *       200:
+ *         description: Category retrieved successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Category'
+ *       401:
+ *         description: Unauthorized
+ *       404:
+ *         description: Category not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Category not found"
+ *       500:
+ *         description: Internal server error
+ */
