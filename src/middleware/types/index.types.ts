@@ -1,4 +1,4 @@
-import { Roles } from "../../constant/role_rbac.constant";
+import { Roles } from "../../constant/role.constant";
 
 export interface JwtPayload {
   userId: number;
