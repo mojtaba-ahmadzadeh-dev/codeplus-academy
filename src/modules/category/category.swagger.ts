@@ -204,3 +204,42 @@
  *       500:
  *         description: Internal server error
  */
+
+/**
+ * @swagger
+ * /categories/{id}:
+ *   get:
+ *     summary: Get a single category with its subcategories
+ *     description: Retrieve a category by ID along with all its children (subcategories).
+ *     tags: [Categories 📂]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: Category ID to retrieve
+ *     responses:
+ *       200:
+ *         description: Category retrieved successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Category'
+ *       401:
+ *         description: Unauthorized
+ *       404:
+ *         description: Category not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Category not found"
+ *       500:
+ *         description: Internal server error
+ */

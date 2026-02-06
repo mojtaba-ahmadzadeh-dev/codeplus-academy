@@ -13,6 +13,7 @@ class CategoryController {
     this.getAllCategories = this.getAllCategories.bind(this);
     this.updateCategory = this.updateCategory.bind(this);
     this.deleteCategory = this.deleteCategory.bind(this);
+    this.getCategoryById = this.getCategoryById.bind(this);
   }
 
   async createCategory(req: Request, res: Response) {
@@ -66,6 +67,20 @@ class CategoryController {
       const { id } = req.params;
       const result = await this.CategoryService.deleteCategory(Number(id));
       res.status(StatusCodes.OK).json(result);
+    } catch (error: any) {
+      res
+        .status(error.status || StatusCodes.BAD_REQUEST)
+        .json({ message: error.message });
+    }
+  }
+
+  async getCategoryById(req: Request, res: Response) {
+    try {
+      const { id } = req.params;
+      const category = await this.CategoryService.getCategoryWithChildren(
+        Number(id),
+      );
+      res.status(StatusCodes.OK).json(category);
     } catch (error: any) {
       res
         .status(error.status || StatusCodes.BAD_REQUEST)

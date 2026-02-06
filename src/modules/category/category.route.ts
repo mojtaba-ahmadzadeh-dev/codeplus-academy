@@ -33,4 +33,5 @@ categoryRouter.delete(
   validateDeleteCategory,
   categoryController.deleteCategory,
 );
+categoryRouter.get("/:id", categoryController.getCategoryById);
 export default categoryRouter;
