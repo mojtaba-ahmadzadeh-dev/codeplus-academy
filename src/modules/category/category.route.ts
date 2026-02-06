@@ -3,6 +3,7 @@ import categoryController from "./category.controller";
 import {
   validateCreateCategory,
   validateDeleteCategory,
+  validateGetCategory,
   validateUpdateCategory,
 } from "./category.validation";
 import { rbacGuard } from "../../middleware/guard/rbac.guard";
@@ -33,5 +34,10 @@ categoryRouter.delete(
   validateDeleteCategory,
   categoryController.deleteCategory,
 );
-categoryRouter.get("/:id", categoryController.getCategoryById);
+categoryRouter.get(
+  "/:id",
+  rbacGuard([Permissions.CATEGORY_GET_BY_ID]),
+  validateGetCategory,
+  categoryController.getCategoryById,
+);
 export default categoryRouter;

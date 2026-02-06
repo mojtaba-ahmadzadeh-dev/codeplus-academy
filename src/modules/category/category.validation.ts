@@ -1,7 +1,6 @@
 import Joi from "joi";
 import { Request, Response, NextFunction } from "express";
 import createHttpError from "http-errors";
-import { CategoryMessages } from "../../constant/messages";
 
 const updateCategorySchema = Joi.object({
   title: Joi.string().min(2).max(100).required().messages({
@@ -55,6 +54,32 @@ const deleteCategorySchema = Joi.object({
     "any.required": "شناسه دسته‌بندی الزامی است",
   }),
 });
+
+const getCategorySchema = Joi.object({
+  id: Joi.number().integer().min(1).required().messages({
+    "number.base": "شناسه دسته‌بندی باید عدد باشد",
+    "number.integer": "شناسه دسته‌بندی باید عدد صحیح باشد",
+    "number.min": "شناسه دسته‌بندی معتبر نیست",
+    "any.required": "شناسه دسته‌بندی الزامی است",
+  }),
+});
+
+export function validateGetCategory(
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) {
+  const { error } = getCategorySchema.validate(req.params, {
+    abortEarly: false,
+  });
+
+  if (error) {
+    const messages = error.details.map((d) => d.message).join(", ");
+    return next(createHttpError(400, messages));
+  }
+
+  next();
+}
 
 export function validateDeleteCategory(
   req: Request,
