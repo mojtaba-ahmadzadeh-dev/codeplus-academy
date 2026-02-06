@@ -79,6 +79,24 @@ class CategoryService {
 
     return category;
   }
+
+  async deleteCategory(id: number) {
+    const category = await this.categoryModel.findByPk(id);
+
+    if (!category) {
+      throw createHttpError.NotFound(CategoryMessages.CATEGORY_NOT_FOUND);
+    }
+
+    const children = await this.categoryModel.findAll({
+      where: { parentId: id },
+    });
+    if (children.length > 0) {
+      throw createHttpError.BadRequest(CategoryMessages.CATEGORY_HAS_CHILDREN);
+    }
+
+    await category.destroy();
+    return { message: "Category deleted successfully" };
+  }
 }
 
 export default new CategoryService();

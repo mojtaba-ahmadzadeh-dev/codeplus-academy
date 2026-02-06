@@ -20,11 +20,9 @@ const updateCategorySchema = Joi.object({
     "number.integer": "شناسه والد باید عدد صحیح باشد",
     "number.min": "شناسه والد معتبر نیست",
   }),
-  status: Joi.string()
-    .valid("active", "inactive")
-    .messages({
-      "any.only": "وضعیت دسته‌بندی معتبر نیست",
-    }),
+  status: Joi.string().valid("active", "inactive").messages({
+    "any.only": "وضعیت دسته‌بندی معتبر نیست",
+  }),
 });
 
 const createCategorySchema = Joi.object({
@@ -44,22 +42,48 @@ const createCategorySchema = Joi.object({
     "number.integer": "شناسه والد باید عدد صحیح باشد",
     "number.min": "شناسه والد معتبر نیست",
   }),
-  status: Joi.string()
-    .valid("active", "inactive")
-    .messages({
-      "any.only": "وضعیت دسته‌بندی معتبر نیست",
-    }),
+  status: Joi.string().valid("active", "inactive").messages({
+    "any.only": "وضعیت دسته‌بندی معتبر نیست",
+  }),
 });
+
+const deleteCategorySchema = Joi.object({
+  id: Joi.number().integer().min(1).required().messages({
+    "number.base": "شناسه دسته‌بندی باید عدد باشد",
+    "number.integer": "شناسه دسته‌بندی باید عدد صحیح باشد",
+    "number.min": "شناسه دسته‌بندی معتبر نیست",
+    "any.required": "شناسه دسته‌بندی الزامی است",
+  }),
+});
+
+export function validateDeleteCategory(
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) {
+  const { error } = deleteCategorySchema.validate(req.params, {
+    abortEarly: false,
+  });
+
+  if (error) {
+    const messages = error.details.map((d) => d.message).join(", ");
+    return next(createHttpError(400, messages));
+  }
+
+  next();
+}
 
 export function validateCreateCategory(
   req: Request,
   res: Response,
   next: NextFunction,
 ) {
-  const { error } = createCategorySchema.validate(req.body, { abortEarly: false });
+  const { error } = createCategorySchema.validate(req.body, {
+    abortEarly: false,
+  });
 
   if (error) {
-    const messages = error.details.map(d => d.message).join(", ");
+    const messages = error.details.map((d) => d.message).join(", ");
     return next(createHttpError(400, messages));
   }
 
@@ -71,7 +95,9 @@ export function validateUpdateCategory(
   res: Response,
   next: NextFunction,
 ) {
-  const { error } = updateCategorySchema.validate(req.body, { abortEarly: false });
+  const { error } = updateCategorySchema.validate(req.body, {
+    abortEarly: false,
+  });
 
   if (error) {
     const messages = error.details.map((d) => d.message).join(", ");

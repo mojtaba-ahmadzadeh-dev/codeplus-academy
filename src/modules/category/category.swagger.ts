@@ -29,10 +29,6 @@
  *               description:
  *                 type: string
  *                 example: "All electronic devices"
- *               parentId:
- *                 type: integer
- *                 nullable: true
- *                 example: 1
  *               status:
  *                 type: string
  *                 example: "ACTIVE"
@@ -160,6 +156,51 @@
  *         description: Validation error, invalid parent, or category not found
  *       401:
  *         description: Unauthorized
+ *       500:
+ *         description: Internal server error
+ */
+
+/**
+ * @swagger
+ * /categories/delete/{id}:
+ *   delete:
+ *     summary: Delete a category by ID
+ *     description: Delete an existing category. The category cannot be deleted if it has subcategories (children).
+ *     tags: [Categories 📂]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: Category ID to delete
+ *     responses:
+ *       200:
+ *         description: Category deleted successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Category deleted successfully"
+ *       400:
+ *         description: Cannot delete category with children
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "ابتدا زیرمجموعه‌های این دسته‌بندی را حذف کنید"
+ *       401:
+ *         description: Unauthorized
+ *       404:
+ *         description: Category not found
  *       500:
  *         description: Internal server error
  */
