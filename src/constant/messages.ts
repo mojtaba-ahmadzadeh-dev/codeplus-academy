@@ -47,16 +47,12 @@ export enum userMessage {
 export enum RBACMessags {
   PERMISSION_ALREADY_EXISTS = "مجوز مورد نظر از قبل وجود دارد",
   PERMISSION_CREATE_SUCCESS = "مجوز با موفقیت ایجاد شد",
-
   ROLE_ALREADY_EXISTS = "نقش مورد نظر از قبل وجود دارد",
   ROLE_CREATE_SUCCESS = "نقش با موفقیت ایجاد شد",
   ROLE_ASSIGN_SUCCESS = "نقش با موفقیت اختصاص داده شد",
-
   ROLE_NOT_FOUND = "نقش مورد نظر یافت نشد",
   PERMISSION_NOT_FOUND = "یک یا چند مجوز یافت نشد",
-
   PERMISSION_ASSIGN_SUCCESS = "مجوزها با موفقیت به نقش اختصاص داده شدند",
-
   USER_NOT_FOUND = "کاربر مورد نظر یافت نشد",
   UNAUTHORIZED = "دسترسی غیرمجاز. لطفاً وارد شوید",
   FORBIDDEN = "دسترسی غیرمجاز. تنها ادمین و مدرس مجاز است",
@@ -83,4 +79,9 @@ export enum CourseMessages {
   COURSE_ALREADY_EXISTS = "دوره‌ای با این عنوان قبلاً وجود دارد",
   COURSE_UPDATED_SUCCESSFULLY = "دوره با موفقیت به‌روزرسانی شد",
   COURSE_DELETED_SUCCESSFULLY = "دوره با موفقیت حذف شد",
+}
+
+export enum LessionMessages {
+  LESSION_CREATED_SUCCESSFULLY = "درس  با موفقیت ایجاد شد",
+    LESSION_ALREADY_EXISTS = "این درس برای این دوره قبلاً ایجاد شده است",
 }
