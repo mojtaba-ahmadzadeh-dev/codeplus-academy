@@ -145,3 +145,53 @@
  *       500:
  *         description: Internal server error
  */
+
+/**
+ * @swagger
+ * /lessons/update/{id}:
+ *   put:
+ *     summary: Update lesson
+ *     description: Update a lesson by its ID.
+ *     tags: [Lessons 🎓]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: Lesson ID
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               title:
+ *                 type: string
+ *                 example: "Advanced React"
+ *               description:
+ *                 type: string
+ *                 example: "Updated lesson description"
+ *               status:
+ *                 type: string
+ *                 example: "ACTIVE"
+ *     responses:
+ *       200:
+ *         description: Lesson updated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 lesson:
+ *                   $ref: '#/components/schemas/Lesson'
+ *       404:
+ *         description: Lesson not found
+ *       401:
+ *         description: Unauthorized
+ *       500:
+ *         description: Internal server error
+ */

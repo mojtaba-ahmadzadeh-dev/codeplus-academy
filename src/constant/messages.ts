@@ -86,5 +86,6 @@ export enum LessionMessages {
   LESSION_ALREADY_EXISTS = "این درس برای این دوره قبلاً ایجاد شده است",
   LESSONS_FETCHED_SUCCESSFULLY = "لیست درس‌ها با موفقیت دریافت شد",
   LESSON_FETCHED_SUCCESSFULLY = "درس با موفقیت دریافت شد",
+  LESSON_UPDATED_SUCCESSFULLY = "درس با موفقیت ویرایش شد",
   LESSON_NOT_FOUND = "درس مورد نظر یافت نشد",
 }

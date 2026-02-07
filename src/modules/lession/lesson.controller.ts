@@ -13,6 +13,7 @@ class LessionController {
     this.create = this.create.bind(this);
     this.getAll = this.getAll.bind(this);
     this.getById = this.getById.bind(this);
+    this.update = this.update.bind(this);
   }
 
   async create(req: Request, res: Response, next: NextFunction) {
@@ -47,6 +48,22 @@ class LessionController {
 
       res.status(StatusCodes.OK).json({
         message: LessionMessages.LESSON_FETCHED_SUCCESSFULLY,
+        lesson,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async update(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id } = req.params;
+      const data = req.body;
+
+      const lesson = await this.lessionService.update(Number(id), data);
+
+      res.status(StatusCodes.OK).json({
+        message: LessionMessages.LESSON_UPDATED_SUCCESSFULLY,
         lesson,
       });
     } catch (error) {

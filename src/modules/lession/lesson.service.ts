@@ -40,11 +40,20 @@ class LessionService {
     const lesson = await this.lessionModel.findByPk(id);
 
     if (!lesson) {
-      throw new createHttpError.NotFound(
-        LessionMessages.LESSON_NOT_FOUND,
-      );
+      throw new createHttpError.NotFound(LessionMessages.LESSON_NOT_FOUND);
     }
 
+    return lesson;
+  }
+
+  async update(id: number, data: Partial<Lesson>): Promise<Lesson> {
+    const lesson = await this.lessionModel.findByPk(id);
+
+    if (!lesson) {
+      throw new createHttpError.NotFound(LessionMessages.LESSON_NOT_FOUND);
+    }
+
+    await lesson.update(data);
     return lesson;
   }
 }
