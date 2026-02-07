@@ -74,3 +74,7 @@ export enum CategoryMessages {
   TITLE_ALREADY_EXISTS = "عنوان دسته‌بندی قبلا استفاده شده است",
   CATEGORY_HAS_CHILDREN = "ابتدا زیرمجموعه‌های این دسته‌بندی را حذف کنید",
 }
+
+export enum CourseMessages {
+  COURSE_CREATED_SUCCESSFULLY = "دوره آموزشی با موفقیت ایجاد شد",
+}
