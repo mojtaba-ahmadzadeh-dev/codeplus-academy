@@ -12,6 +12,7 @@ class CourseController {
     this.createCourse = this.createCourse.bind(this);
     this.getAllCourses = this.getAllCourses.bind(this);
     this.getCourseById = this.getCourseById.bind(this);
+    this.updateCourse = this.updateCourse.bind(this);
   }
 
   async createCourse(req: Request, res: Response, next: NextFunction) {
@@ -70,6 +71,23 @@ class CourseController {
       res.status(StatusCodes.OK).json({
         message: CourseMessages.COURSE_FETCHED_SUCCESSFULLY,
         course,
+      });
+    } catch (error: any) {
+      next(error);
+    }
+  }
+
+  async updateCourse(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id } = req.params;
+      const updatedCourse = await this.courseService.updateCourse(
+        Number(id),
+        req.body,
+      );
+
+      res.status(StatusCodes.OK).json({
+        message: CourseMessages.COURSE_UPDATED_SUCCESSFULLY,
+        course: updatedCourse,
       });
     } catch (error: any) {
       next(error);

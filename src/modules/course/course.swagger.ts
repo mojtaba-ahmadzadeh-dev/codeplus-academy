@@ -264,3 +264,97 @@
  *       500:
  *         description: Internal server error
  */
+
+/**
+ * @swagger
+ * /courses/{id}:
+ *   put:
+ *     summary: Update an existing course
+ *     description: This API allows teachers or admins to update a course. You can update any of the course fields. Title changes will automatically update the slug.
+ *     tags: [Courses 🎓]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID of the course to update
+ *         example: 5
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               title:
+ *                 type: string
+ *                 description: Course title
+ *                 example: دوره Next.js پیشرفته (ویرایش شده)
+ *               description:
+ *                 type: string
+ *                 description: Full course description
+ *                 example: آموزش پروژه محور Next.js نسخه 15 - ویرایش شده
+ *               price:
+ *                 type: number
+ *                 description: Course price
+ *                 example: 2000000
+ *               discount:
+ *                 type: number
+ *                 nullable: true
+ *                 description: Discount percentage
+ *                 example: 10
+ *               thumbnail:
+ *                 type: string
+ *                 nullable: true
+ *                 description: Course thumbnail image URL
+ *                 example: https://example.com/course-updated.png
+ *               level:
+ *                 type: string
+ *                 enum: [beginner, intermediate, advanced]
+ *                 description: Course level
+ *                 example: advanced
+ *               duration:
+ *                 type: number
+ *                 description: Course duration in minutes
+ *                 example: 950
+ *               category_id:
+ *                 type: number
+ *                 description: Category ID of the course
+ *                 example: 3
+ *               status:
+ *                 type: string
+ *                 enum: [draft, published]
+ *                 description: Course status
+ *                 example: published
+ *     responses:
+ *       200:
+ *         description: Course updated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 200
+ *                 message:
+ *                   type: string
+ *                   example: دوره با موفقیت به‌روزرسانی شد
+ *                 course:
+ *                   $ref: '#/components/schemas/CourseWithRelations'
+ *       400:
+ *         description: Invalid input data
+ *       401:
+ *         description: Unauthorized
+ *       403:
+ *         description: Forbidden (Only admin or teacher can update course)
+ *       404:
+ *         description: Course not found
+ *       409:
+ *         description: Course with this title already exists
+ *       500:
+ *         description: Internal server error
+ */

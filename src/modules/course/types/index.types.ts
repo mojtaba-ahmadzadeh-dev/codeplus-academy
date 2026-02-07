@@ -25,3 +25,15 @@ export interface CreateCourseDTO {
   category_id: number;
   teacher_id: number;
 }
+
+export interface UpdateCourseDTO {
+  title?: string;
+  description?: string;
+  price?: number;
+  discount?: number | null;
+  thumbnail?: string | null;
+  level?: "beginner" | "intermediate" | "advanced";
+  duration?: number;
+  category_id?: number;
+  status?: "draft" | "published";
+}

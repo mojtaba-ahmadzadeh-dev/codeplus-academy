@@ -17,4 +17,10 @@ courseRouter.get(
   courseController.getCourseById
 );
 
+courseRouter.put(
+  "/:id",
+  rbacGuard([Permissions.UPDATE_COURSE]), // مجوز مناسب
+  courseController.updateCourse
+);
+
 export default courseRouter
