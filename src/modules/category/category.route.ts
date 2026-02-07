@@ -13,7 +13,7 @@ const categoryRouter: Router = Router();
 
 categoryRouter.post(
   "/create",
-  rbacGuard([Permissions.CREATE_CATEGORY]),
+  rbacGuard([Permissions.CATEGORY_CREATE]),
   validateCreateCategory,
   categoryController.createCategory,
 );
@@ -24,7 +24,7 @@ categoryRouter.get(
 );
 categoryRouter.put(
   "/update/:id",
-  rbacGuard([Permissions.CREATE_UPDATE_BY_ID]),
+  rbacGuard([Permissions.CATEGORY_UPDATE_BY_ID]),
   validateUpdateCategory,
   categoryController.updateCategory,
 );
