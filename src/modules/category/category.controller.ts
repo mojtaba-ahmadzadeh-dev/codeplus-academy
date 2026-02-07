@@ -1,5 +1,5 @@
 // src/modules/category/category.controller.ts
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import CategoryService from "./category.service";
 import { StatusCodes } from "http-status-codes";
 
@@ -16,7 +16,7 @@ class CategoryController {
     this.getCategoryById = this.getCategoryById.bind(this);
   }
 
-  async createCategory(req: Request, res: Response) {
+  async createCategory(req: Request, res: Response, next: NextFunction) {
     try {
       const { title, description, parentId } = req.body;
       const category = await this.CategoryService.createCategory({
@@ -26,22 +26,20 @@ class CategoryController {
       });
       res.status(201).json(category);
     } catch (error: any) {
-      res.status(StatusCodes.CREATED).json({ message: error.message });
+      next(error);
     }
   }
 
-  async getAllCategories(req: Request, res: Response) {
+  async getAllCategories(req: Request, res: Response, next: NextFunction) {
     try {
       const categories = await this.CategoryService.getAllCategories();
       res.status(200).json(categories);
     } catch (error: any) {
-      res
-        .status(StatusCodes.INTERNAL_SERVER_ERROR)
-        .json({ message: error.message });
+      next(error);
     }
   }
 
-  async updateCategory(req: Request, res: Response) {
+  async updateCategory(req: Request, res: Response, next: NextFunction) {
     try {
       const { id } = req.params;
       const { title, description, parentId, status } = req.body;
@@ -58,23 +56,21 @@ class CategoryController {
 
       res.status(StatusCodes.OK).json(updatedCategory);
     } catch (error: any) {
-      res.status(StatusCodes.BAD_REQUEST).json({ message: error.message });
+      next(error);
     }
   }
 
-  async deleteCategory(req: Request, res: Response) {
+  async deleteCategory(req: Request, res: Response, next: NextFunction) {
     try {
       const { id } = req.params;
       const result = await this.CategoryService.deleteCategory(Number(id));
       res.status(StatusCodes.OK).json(result);
     } catch (error: any) {
-      res
-        .status(error.status || StatusCodes.BAD_REQUEST)
-        .json({ message: error.message });
+      next(error);
     }
   }
 
-  async getCategoryById(req: Request, res: Response) {
+  async getCategoryById(req: Request, res: Response, next: NextFunction) {
     try {
       const { id } = req.params;
       const category = await this.CategoryService.getCategoryWithChildren(
@@ -82,9 +78,7 @@ class CategoryController {
       );
       res.status(StatusCodes.OK).json(category);
     } catch (error: any) {
-      res
-        .status(error.status || StatusCodes.BAD_REQUEST)
-        .json({ message: error.message });
+      next(error);
     }
   }
 }
