@@ -10,7 +10,7 @@ class LessionService {
     this.lessionModel = Lesson;
   }
 
-  async create(data: LessonCreationAttributes): Promise<Lesson> {
+  async createLesson(data: LessonCreationAttributes): Promise<Lesson> {
     const existingLesson = await this.lessionModel.findOne({
       where: {
         title: data.title,
@@ -28,7 +28,7 @@ class LessionService {
     return lesson;
   }
 
-  async getAll(): Promise<Lesson[]> {
+  async getAllLesson(): Promise<Lesson[]> {
     const lessons = await this.lessionModel.findAll({
       order: [["createdAt", "DESC"]],
     });
@@ -36,7 +36,7 @@ class LessionService {
     return lessons;
   }
 
-  async getById(id: number): Promise<Lesson> {
+  async getByIdLesson(id: number): Promise<Lesson> {
     const lesson = await this.lessionModel.findByPk(id);
 
     if (!lesson) {
@@ -46,7 +46,7 @@ class LessionService {
     return lesson;
   }
 
-  async update(id: number, data: Partial<Lesson>): Promise<Lesson> {
+  async updateLesson(id: number, data: Partial<Lesson>): Promise<Lesson> {
     const lesson = await this.lessionModel.findByPk(id);
 
     if (!lesson) {
@@ -57,7 +57,7 @@ class LessionService {
     return lesson;
   }
 
-  async delete(id: number): Promise<void> {
+  async deleteLesson(id: number): Promise<void> {
     const lesson = await this.lessionModel.findByPk(id);
 
     if (!lesson) {

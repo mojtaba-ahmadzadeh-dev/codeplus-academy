@@ -10,17 +10,17 @@ class LessionController {
   constructor() {
     this.lessionService = lessionService;
 
-    this.create = this.create.bind(this);
-    this.getAll = this.getAll.bind(this);
-    this.getById = this.getById.bind(this);
-    this.update = this.update.bind(this);
-    this.delete = this.delete.bind(this);
+    this.createLesson = this.createLesson.bind(this);
+    this.getAllLesson = this.getAllLesson.bind(this);
+    this.getByIdLesson = this.getByIdLesson.bind(this);
+    this.updateLesson = this.updateLesson.bind(this);
+    this.deleteLesson = this.deleteLesson.bind(this);
   }
 
-  async create(req: Request, res: Response, next: NextFunction) {
+  async createLesson(req: Request, res: Response, next: NextFunction) {
     try {
       const data = req.body;
-      const lesson = await this.lessionService.create(data);
+      const lesson = await this.lessionService.createLesson(data);
       res.status(201).json({
         message: LessionMessages.LESSION_CREATED_SUCCESSFULLY,
         lesson,
@@ -30,9 +30,9 @@ class LessionController {
     }
   }
 
-  async getAll(req: Request, res: Response, next: NextFunction) {
+  async getAllLesson(req: Request, res: Response, next: NextFunction) {
     try {
-      const lessons = await this.lessionService.getAll();
+      const lessons = await this.lessionService.getAllLesson();
       res.status(StatusCodes.OK).json({
         message: LessionMessages.LESSONS_FETCHED_SUCCESSFULLY,
         lessons,
@@ -42,10 +42,10 @@ class LessionController {
     }
   }
 
-  async getById(req: Request, res: Response, next: NextFunction) {
+  async getByIdLesson(req: Request, res: Response, next: NextFunction) {
     try {
       const { id } = req.params;
-      const lesson = await this.lessionService.getById(Number(id));
+      const lesson = await this.lessionService.getByIdLesson(Number(id));
 
       res.status(StatusCodes.OK).json({
         message: LessionMessages.LESSON_FETCHED_SUCCESSFULLY,
@@ -56,12 +56,12 @@ class LessionController {
     }
   }
 
-  async update(req: Request, res: Response, next: NextFunction) {
+  async updateLesson(req: Request, res: Response, next: NextFunction) {
     try {
       const { id } = req.params;
       const data = req.body;
 
-      const lesson = await this.lessionService.update(Number(id), data);
+      const lesson = await this.lessionService.updateLesson(Number(id), data);
 
       res.status(StatusCodes.OK).json({
         message: LessionMessages.LESSON_UPDATED_SUCCESSFULLY,
@@ -72,10 +72,10 @@ class LessionController {
     }
   }
 
-  async delete(req: Request, res: Response, next: NextFunction) {
+  async deleteLesson(req: Request, res: Response, next: NextFunction) {
     try {
       const { id } = req.params;
-      await this.lessionService.delete(Number(id));
+      await this.lessionService.deleteLesson(Number(id));
 
       res.status(StatusCodes.OK).json({
         message: LessionMessages.LESSON_DELETED_SUCCESSFULLY,

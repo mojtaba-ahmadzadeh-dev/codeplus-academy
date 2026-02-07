@@ -8,31 +8,31 @@ const courseRouter: Router = Router();
 
 courseRouter.post(
   "/create",
-  rbacGuard([Permissions.CREATE_COURSE]),
+  rbacGuard([Permissions.COURSE_CREATE]),
   validateCreateCourse,
   courseController.createCourse,
 );
 courseRouter.get(
   "/",
-  rbacGuard([Permissions.CATEGORY_GETALL]),
+  rbacGuard([Permissions.COURSE_GETALL]),
   courseController.getAllCourses,
 );
 courseRouter.get(
   "/:id",
-  rbacGuard([Permissions.CATEGORY_GETALL]),
+  rbacGuard([Permissions.COURSE_GET_BY_ID]),
   courseController.getCourseById,
 );
 
 courseRouter.put(
   "/update/:id",
-  rbacGuard([Permissions.UPDATE_COURSE]),
+  rbacGuard([Permissions.COURSE_UPDATE_BY_ID]),
   validateUpdateCourse,
   courseController.updateCourse,
 );
 
 courseRouter.delete(
   "/delete/:id",
-  rbacGuard([Permissions.DELETE_COURSE]),
+  rbacGuard([Permissions.COURSE_DELETE_BY_ID]),
   validateCourseIdParam,
   courseController.deleteCourse,
 );
