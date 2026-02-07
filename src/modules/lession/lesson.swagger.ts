@@ -84,3 +84,30 @@
  *           type: string
  *           format: date-time
  */
+
+/**
+ * @swagger
+ * /lessons:
+ *   get:
+ *     summary: Get all lessons
+ *     description: Retrieve a list of all lessons.
+ *     tags: [Lessons 🎓]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Lessons fetched successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 lessons:
+ *                   type: array
+ *                   items:
+ *                     $ref: '#/components/schemas/Lesson'
+ *       401:
+ *         description: Unauthorized
+ *       500:
+ *         description: Internal server error
+ */

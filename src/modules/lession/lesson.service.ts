@@ -27,6 +27,14 @@ class LessionService {
     const lesson = await Lesson.create(data);
     return lesson;
   }
+
+  async getAll(): Promise<Lesson[]> {
+    const lessons = await this.lessionModel.findAll({
+      order: [["createdAt", "DESC"]],
+    });
+
+    return lessons;
+  }
 }
 
 export default new LessionService();
