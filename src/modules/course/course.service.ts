@@ -95,6 +95,16 @@ class CourseService {
 
     return course;
   }
+
+  async deleteCourse(id: number) {
+    const course = await Course.findByPk(id);
+    if (!course) {
+      throw createHttpError.NotFound(CourseMessages.COURSE_NOT_FOUND);
+    }
+
+    await course.destroy();
+    return { message: CourseMessages.COURSE_DELETED_SUCCESSFULLY };
+  }
 }
 
 export default new CourseService();

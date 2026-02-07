@@ -267,7 +267,7 @@
 
 /**
  * @swagger
- * /courses/{id}:
+ * /courses/update/{id}:
  *   put:
  *     summary: Update an existing course
  *     description: This API allows teachers or admins to update a course. You can update any of the course fields. Title changes will automatically update the slug.
@@ -355,6 +355,49 @@
  *         description: Course not found
  *       409:
  *         description: Course with this title already exists
+ *       500:
+ *         description: Internal server error
+ */
+
+/**
+ * @swagger
+ * /courses/delete/{id}:
+ *   delete:
+ *     summary: Delete a course
+ *     description: This API allows teachers or admins to delete a course by its ID.
+ *     tags: [Courses 🎓]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID of the course to delete
+ *         example: 5
+ *     responses:
+ *       200:
+ *         description: Course deleted successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 200
+ *                 message:
+ *                   type: string
+ *                   example: دوره با موفقیت حذف شد
+ *       400:
+ *         description: Invalid course ID
+ *       401:
+ *         description: Unauthorized
+ *       403:
+ *         description: Forbidden (Only admin or teacher can delete course)
+ *       404:
+ *         description: Course not found
  *       500:
  *         description: Internal server error
  */

@@ -5,22 +5,32 @@ import { Permissions } from "../../constant/role.constant";
 
 const courseRouter: Router = Router();
 
-courseRouter.post('/create', rbacGuard([Permissions.CREATE_COURSE]), courseController.createCourse)
-courseRouter.get(
-  "/",
-  rbacGuard([Permissions.CATEGORY_GETALL]), 
-  courseController.getAllCourses
+courseRouter.post(
+  "/create",
+  rbacGuard([Permissions.CREATE_COURSE]),
+  courseController.createCourse,
 );
 courseRouter.get(
-  "/:id", 
-  rbacGuard([Permissions.CATEGORY_GETALL]), 
-  courseController.getCourseById
+  "/",
+  rbacGuard([Permissions.CATEGORY_GETALL]),
+  courseController.getAllCourses,
+);
+courseRouter.get(
+  "/:id",
+  rbacGuard([Permissions.CATEGORY_GETALL]),
+  courseController.getCourseById,
 );
 
 courseRouter.put(
-  "/:id",
-  rbacGuard([Permissions.UPDATE_COURSE]), // مجوز مناسب
-  courseController.updateCourse
+  "/update/:id",
+  rbacGuard([Permissions.UPDATE_COURSE]),
+  courseController.updateCourse,
 );
 
-export default courseRouter
+courseRouter.delete(
+  "/delete/:id",
+  rbacGuard([Permissions.DELETE_COURSE]),
+  courseController.deleteCourse,
+);
+
+export default courseRouter;
