@@ -1,13 +1,13 @@
 import { Router } from "express";
 import authController from "./auth.controller";
-import { authGuard } from "../../middleware/guard/auth.guard";
+import { rbacGuard } from "../../middleware/guard/rbac.guard";
 
 const authRouter: Router = Router();
 
 authRouter.post("/send-otp", authController.sendOTP);
 authRouter.post("/verify-otp", authController.verifyOTP);
 authRouter.post("/refresh-token", authController.refreshToken);
-authRouter.get("/me", authGuard, authController.getMe);
+authRouter.get("/me", authController.getMe);
 authRouter.post("/logout", authController.logout);
 
 export default authRouter;

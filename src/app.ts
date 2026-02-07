@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 import path from "path";
 import { AllRoutes } from "./routes/index.routes.js";
 import { initDatabase } from "./config/model.init.js";
+import { errorHandler } from "./exception/error-handler.js";
 import cookieParser from "cookie-parser";
 import { errorHandler } from "./exception/error-handler.js";
 
@@ -33,6 +34,7 @@ export class Application {
     this.initializeSwagger();
     this.initializeErrorHandler();
     this.setupRoutes();
+    this.initializeErrorHandler();
   }
 
   /** Register global middlewares */

@@ -7,6 +7,7 @@ import createHttpError from "http-errors";
 import tokenService from "./token.service";
 import { JwtPayload } from "jsonwebtoken";
 import jwt from "jsonwebtoken";
+import { env } from "../../config/env";
 
 class AuthController {
   private service = authService;
@@ -25,11 +26,13 @@ class AuthController {
         abortEarly: false,
       });
 
-      const user = await this.service.sendOTP(mobile);
+      const { user, isNewUser } = await this.service.sendOTP(mobile);
 
       return res.status(StatusCodes.CREATED).json({
         statusCode: StatusCodes.CREATED,
-        message: authMessage.OTP_SENT_SUCCESS,
+        message: isNewUser
+          ? authMessage.OTP_REGISTER_SUCCESS
+          : authMessage.OTP_LOGIN_SUCCESS,
         data: user,
       });
     } catch (error) {
@@ -52,19 +55,19 @@ class AuthController {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
         sameSite: "strict",
-        maxAge: 15 * 60 * 1000,
+        maxAge: 7 * 24 * 60 * 60 * 1000,
       });
 
       res.cookie("accessToken", accessToken, {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
         sameSite: "strict",
-        maxAge: 15 * 60 * 1000,
+        maxAge: 30 * 24 * 60 * 60 * 1000,
       });
 
       return res.status(StatusCodes.OK).json({
         statusCode: StatusCodes.OK,
-        message: authMessage.OTP_VERIFIED_SUCCESS,
+        message: authMessage.OTP_REGISTER_SUCCESS,
         data: { user },
       });
     } catch (error) {
@@ -117,7 +120,7 @@ class AuthController {
         );
       }
 
-      const payload = jwt.verify(token, ACCESS_TOKEN_SECRET) as JwtPayload;
+      const payload = jwt.verify(token, env.JWT.ACCESS_SECRET) as JwtPayload;
 
       if (!payload?.userId)
         throw createHttpError.Unauthorized(authMessage.ACCESS_TOKEN_INVALID);

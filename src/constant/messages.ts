@@ -1,7 +1,8 @@
 export enum authMessage {
   // OTP
-  OTP_SENT_SUCCESS = "کاربر با موفقیت ثبت نام شد",
-  OTP_VERIFIED_SUCCESS = "کد تأیید با موفقیت بررسی شد",
+  OTP_SENT_SUCCESS = "کد تایید با موفقیت ارسال شد",
+  OTP_REGISTER_SUCCESS = "ثبت نام با موفقیت انجام شد",
+  OTP_LOGIN_SUCCESS = "ورود با موفقیت انجام شد",
   MOBILE_INVALID = "شماره موبایل وارد شده نامعتبر است",
   MOBILE_REQUIRED = "وارد کردن شماره موبایل الزامی است",
   CODE_REQUIRED = "وارد کردن کد تأیید الزامی است",
@@ -26,4 +27,60 @@ export enum authMessage {
   // User
   GET_ME_SUCCESS = "اطلاعات کاربر با موفقیت دریافت شد",
   LOGOUT_SUCCESS = "خروج با موفقیت انجام شد",
+}
+
+export enum userMessage {
+  GET_ALL_USERS_SUCCESSFULLY = "تمام کاربران با موفقیت دریافت شدند",
+  GET_USER_SUCCESSFULLY = "کاربر با موفقیت دریافت شد",
+  UPDATE_USER_SUCCESSFULLY = "کاربر با موفقیت بروزرسانی شد",
+  DELETE_USER_SUCCESSFULLY = "کاربر موردنظر با موفقیت حذف شد",
+  USER_NOT_FOUND = "کاربر موردنظر یافت نشد",
+  ROLE_IS_REQUIRED = "نقش کاربر الزامی است",
+  USER_CREATED_SUCCESSFULLY = "کاربر با موفقیت ساخته شد",
+  MOBILE_ALREADY_EXISTS = "شماره موبایل وارد شده قبلاً ثبت شده است",
+  BAN_STATUS_REQUIRED = "وضعیت مسدودسازی کاربر الزامی است",
+  USER_BANNED = "کاربر با موفقیت مسدود شد",
+  USER_UNBANNED = "کاربر از حالت مسدود خارج شد",
+  ACCESS_TOKEN_SECRET_NOT_DEFINED = "ACCESS_TOKEN_SECRET not defined",
+}
+
+export enum RBACMessags {
+  PERMISSION_ALREADY_EXISTS = "مجوز مورد نظر از قبل وجود دارد",
+  PERMISSION_CREATE_SUCCESS = "مجوز با موفقیت ایجاد شد",
+
+  ROLE_ALREADY_EXISTS = "نقش مورد نظر از قبل وجود دارد",
+  ROLE_CREATE_SUCCESS = "نقش با موفقیت ایجاد شد",
+  ROLE_ASSIGN_SUCCESS = "نقش با موفقیت اختصاص داده شد",
+
+  ROLE_NOT_FOUND = "نقش مورد نظر یافت نشد",
+  PERMISSION_NOT_FOUND = "یک یا چند مجوز یافت نشد",
+
+  PERMISSION_ASSIGN_SUCCESS = "مجوزها با موفقیت به نقش اختصاص داده شدند",
+
+  USER_NOT_FOUND = "کاربر مورد نظر یافت نشد",
+  UNAUTHORIZED = "دسترسی غیرمجاز. لطفاً وارد شوید",
+  FORBIDDEN = "دسترسی غیرمجاز. تنها ادمین و مدرس مجاز است",
+  ROLE_UPDATE_SUCCESS = "نقش مورد نطر با موفقیت بروزرسانی شد",
+  PERMISSIONS_FETCH_SUCCESS = "مجوزها با موفقیت دریافت شدند",
+  PERMISSION_UPDATE_SUCCESS = "مجوز موردنظر با موفقیت بروزرسانی شد",
+  ROLE_DELETE_SUCCESS = "نقش موردنظر با موفقیت حذف شد",
+  PERMISSION_DELETE_SUCCESS = "مجوز مورد نظر با موفقیت حذف شد",
+}
+
+export enum CategoryMessages {
+  CATEGORY_NOT_FOUND = "دسته‌بندی موردنظر یافت نشد",
+  PARENT_NOT_FOUND = "دسته‌بندی والد یافت نشد",
+  INVALID_PARENT = "دسته‌بندی نمی‌تواند والد خودش باشد",
+  TITLE_ALREADY_EXISTS = "عنوان دسته‌بندی قبلا استفاده شده است",
+  CATEGORY_HAS_CHILDREN = "ابتدا زیرمجموعه‌های این دسته‌بندی را حذف کنید",
+}
+
+export enum CourseMessages {
+  COURSE_CREATED_SUCCESSFULLY = "دوره آموزشی با موفقیت ایجاد شد",
+  COURSE_FETCHED_SUCCESSFULLY = "دوره آموزشی با موفقیت دریافت شد",
+  COURSES_FETCHED_SUCCESSFULLY = "لیست دوره‌ها با موفقیت دریافت شد",
+  COURSE_NOT_FOUND = "دوره مورد نظر یافت نشد",
+  COURSE_ALREADY_EXISTS = "دوره‌ای با این عنوان قبلاً وجود دارد",
+  COURSE_UPDATED_SUCCESSFULLY = "دوره با موفقیت به‌روزرسانی شد",
+  COURSE_DELETED_SUCCESSFULLY = "دوره با موفقیت حذف شد",
 }
