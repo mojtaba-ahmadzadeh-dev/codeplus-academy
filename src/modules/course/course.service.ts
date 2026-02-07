@@ -1,17 +1,8 @@
 import { Course } from "./course.model";
 import slugify from "slugify";
-
-interface CreateCourseDTO {
-  title: string;
-  description: string;
-  price: number;
-  discount?: number | null;
-  thumbnail?: string | null;
-  level: "beginner" | "intermediate" | "advanced";
-  duration: number;
-  category_id: number;
-  teacher_id: number;
-}
+import { CreateCourseDTO } from "./types/index.types";
+import { CourseMessages } from "../../constant/messages";
+import createHttpError from "http-errors";
 
 class CourseService {
   async createCourse(data: CreateCourseDTO) {
@@ -38,6 +29,39 @@ class CourseService {
       teacher_id: data.teacher_id,
       status: "draft",
     });
+
+    return course;
+  }
+
+  async getAllCourses() {
+    const courses = await Course.findAll({
+      include: [
+        { association: "category" },
+        {
+          association: "teacher",
+          attributes: ["id", "mobile", "full_name", "avatar", "role"],
+        },
+      ],
+      order: [["created_at", "DESC"]],
+    });
+    return courses;
+  }
+
+  async getCourseById(id: number) {
+    const course = await Course.findOne({
+      where: { id },
+      include: [
+        { association: "category" },
+        {
+          association: "teacher",
+          attributes: ["id", "mobile", "full_name", "avatar", "role"],
+        },
+      ],
+    });
+
+    if (!course) {
+      throw createHttpError.BadRequest(CourseMessages.COURSE_NOT_FOUND);
+    }
 
     return course;
   }

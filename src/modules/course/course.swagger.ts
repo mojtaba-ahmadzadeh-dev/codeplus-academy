@@ -127,3 +127,140 @@
  *           type: string
  *           format: date-time
  */
+
+/**
+ * @swagger
+ * /courses:
+ *   get:
+ *     summary: Get all courses
+ *     description: Fetch all courses including category and teacher details. Only accessible by users with READ_COURSE permission.
+ *     tags: [Courses 🎓]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: List of courses retrieved successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 200
+ *                 message:
+ *                   type: string
+ *                   example: Courses fetched successfully
+ *                 courses:
+ *                   type: array
+ *                   items:
+ *                     $ref: '#/components/schemas/CourseWithRelations'
+ *       401:
+ *         description: Unauthorized
+ *       403:
+ *         description: Forbidden (user does not have permission)
+ *       500:
+ *         description: Internal server error
+ */
+
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     CourseWithRelations:
+ *       type: object
+ *       properties:
+ *         id:
+ *           type: integer
+ *         title:
+ *           type: string
+ *         slug:
+ *           type: string
+ *         description:
+ *           type: string
+ *         price:
+ *           type: number
+ *         discount:
+ *           type: number
+ *           nullable: true
+ *         thumbnail:
+ *           type: string
+ *           nullable: true
+ *         level:
+ *           type: string
+ *         status:
+ *           type: string
+ *           example: draft
+ *         duration:
+ *           type: number
+ *         teacher_id:
+ *           type: number
+ *         category_id:
+ *           type: number
+ *         created_at:
+ *           type: string
+ *           format: date-time
+ *         teacher:
+ *           type: object
+ *           properties:
+ *             id:
+ *               type: integer
+ *             name:
+ *               type: string
+ *             email:
+ *               type: string
+ *         category:
+ *           type: object
+ *           properties:
+ *             id:
+ *               type: integer
+ *             title:
+ *               type: string
+ *             description:
+ *               type: string
+ */
+
+/**
+ * @swagger
+ * /courses/{id}:
+ *   get:
+ *     summary: Get a specific course by ID
+ *     description: Fetch a single course including category and teacher details. Only accessible by users with READ_COURSE permission.
+ *     tags: [Courses 🎓]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID of the course to retrieve
+ *         example: 5
+ *     responses:
+ *       200:
+ *         description: Course retrieved successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 200
+ *                 message:
+ *                   type: string
+ *                   example: Course fetched successfully
+ *                 course:
+ *                   $ref: '#/components/schemas/CourseWithRelations'
+ *       400:
+ *         description: Invalid course ID
+ *       401:
+ *         description: Unauthorized
+ *       403:
+ *         description: Forbidden (user does not have permission)
+ *       404:
+ *         description: Course not found
+ *       500:
+ *         description: Internal server error
+ */

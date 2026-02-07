@@ -10,7 +10,10 @@ class CourseController {
     this.courseService = CourseService;
 
     this.createCourse = this.createCourse.bind(this);
+    this.getAllCourses = this.getAllCourses.bind(this);
+    this.getCourseById = this.getCourseById.bind(this);
   }
+
   async createCourse(req: Request, res: Response, next: NextFunction) {
     try {
       const {
@@ -40,6 +43,32 @@ class CourseController {
 
       return res.status(StatusCodes.CREATED).json({
         message: CourseMessages.COURSE_CREATED_SUCCESSFULLY,
+        course,
+      });
+    } catch (error: any) {
+      next(error);
+    }
+  }
+
+  async getAllCourses(req: Request, res: Response, next: NextFunction) {
+    try {
+      const courses = await this.courseService.getAllCourses();
+      res.status(StatusCodes.OK).json({
+        message: CourseMessages.COURSES_FETCHED_SUCCESSFULLY,
+        courses,
+      });
+    } catch (error: any) {
+      next(error);
+    }
+  }
+
+  async getCourseById(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id } = req.params;
+      const course = await this.courseService.getCourseById(Number(id));
+
+      res.status(StatusCodes.OK).json({
+        message: CourseMessages.COURSE_FETCHED_SUCCESSFULLY,
         course,
       });
     } catch (error: any) {
