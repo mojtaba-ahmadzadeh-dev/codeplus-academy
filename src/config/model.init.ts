@@ -1,5 +1,6 @@
 import { sequelize } from "../config/sequelize.config";
 import { Category } from "../modules/category/category.model";
+import { Course } from "../modules/course/course.model";
 import { Permission, Role, RolePermission } from "../modules/RBAC/rbac.model";
 import { OTP, User } from "../modules/user/user.model";
 
@@ -32,6 +33,12 @@ const initDatabase = async (): Promise<void> => {
 
   Category.hasMany(Category, { as: "children", foreignKey: "parentId" });
   Category.belongsTo(Category, { as: "parent", foreignKey: "parentId" });
+
+  User.hasMany(Course, { foreignKey: "teacher_id", as: "courses" });
+  Course.belongsTo(User, { foreignKey: "teacher_id", as: "teacher" });
+
+  Category.hasMany(Course, { foreignKey: "category_id", as: "courses" });
+  Course.belongsTo(Category, { foreignKey: "category_id", as: "category" });
 
   // await sequelize.sync({ alter: true });
   console.log("✅ Database synced successfully");
