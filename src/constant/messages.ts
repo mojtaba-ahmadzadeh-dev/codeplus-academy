@@ -87,5 +87,6 @@ export enum LessionMessages {
   LESSONS_FETCHED_SUCCESSFULLY = "لیست درس‌ها با موفقیت دریافت شد",
   LESSON_FETCHED_SUCCESSFULLY = "درس با موفقیت دریافت شد",
   LESSON_UPDATED_SUCCESSFULLY = "درس با موفقیت ویرایش شد",
+  LESSON_DELETED_SUCCESSFULLY = "درس با موفقیت حذف شد",
   LESSON_NOT_FOUND = "درس مورد نظر یافت نشد",
 }

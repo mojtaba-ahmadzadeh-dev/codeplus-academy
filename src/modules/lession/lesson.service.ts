@@ -56,6 +56,16 @@ class LessionService {
     await lesson.update(data);
     return lesson;
   }
+
+  async delete(id: number): Promise<void> {
+    const lesson = await this.lessionModel.findByPk(id);
+
+    if (!lesson) {
+      throw new createHttpError.NotFound(LessionMessages.LESSON_NOT_FOUND);
+    }
+
+    await lesson.destroy();
+  }
 }
 
 export default new LessionService();

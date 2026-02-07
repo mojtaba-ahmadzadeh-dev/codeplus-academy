@@ -195,3 +195,38 @@
  *       500:
  *         description: Internal server error
  */
+
+/**
+ * @swagger
+ * /lessons/delete/{id}:
+ *   delete:
+ *     summary: Delete lesson
+ *     description: Delete a lesson by its ID.
+ *     tags: [Lessons 🎓]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: Lesson ID
+ *     responses:
+ *       200:
+ *         description: Lesson deleted successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "درس با موفقیت حذف شد"
+ *       404:
+ *         description: Lesson not found
+ *       401:
+ *         description: Unauthorized
+ *       500:
+ *         description: Internal server error
+ */

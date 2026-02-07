@@ -14,6 +14,7 @@ class LessionController {
     this.getAll = this.getAll.bind(this);
     this.getById = this.getById.bind(this);
     this.update = this.update.bind(this);
+    this.delete = this.delete.bind(this);
   }
 
   async create(req: Request, res: Response, next: NextFunction) {
@@ -65,6 +66,19 @@ class LessionController {
       res.status(StatusCodes.OK).json({
         message: LessionMessages.LESSON_UPDATED_SUCCESSFULLY,
         lesson,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async delete(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id } = req.params;
+      await this.lessionService.delete(Number(id));
+
+      res.status(StatusCodes.OK).json({
+        message: LessionMessages.LESSON_DELETED_SUCCESSFULLY,
       });
     } catch (error) {
       next(error);
