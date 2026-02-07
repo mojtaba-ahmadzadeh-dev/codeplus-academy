@@ -111,3 +111,37 @@
  *       500:
  *         description: Internal server error
  */
+
+/**
+ * @swagger
+ * /lessons/{id}:
+ *   get:
+ *     summary: Get lesson by id
+ *     description: Retrieve a single lesson by its ID.
+ *     tags: [Lessons 🎓]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: Lesson ID
+ *     responses:
+ *       200:
+ *         description: Lesson fetched successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 lesson:
+ *                   $ref: '#/components/schemas/Lesson'
+ *       404:
+ *         description: Lesson not found
+ *       401:
+ *         description: Unauthorized
+ *       500:
+ *         description: Internal server error
+ */

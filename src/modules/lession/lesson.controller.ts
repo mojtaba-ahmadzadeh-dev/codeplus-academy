@@ -12,6 +12,7 @@ class LessionController {
 
     this.create = this.create.bind(this);
     this.getAll = this.getAll.bind(this);
+    this.getById = this.getById.bind(this);
   }
 
   async create(req: Request, res: Response, next: NextFunction) {
@@ -31,8 +32,22 @@ class LessionController {
     try {
       const lessons = await this.lessionService.getAll();
       res.status(StatusCodes.OK).json({
-        message: LessionMessages.LESSON_FETCHED_SUCCESSFULLY,
+        message: LessionMessages.LESSONS_FETCHED_SUCCESSFULLY,
         lessons,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async getById(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id } = req.params;
+      const lesson = await this.lessionService.getById(Number(id));
+
+      res.status(StatusCodes.OK).json({
+        message: LessionMessages.LESSON_FETCHED_SUCCESSFULLY,
+        lesson,
       });
     } catch (error) {
       next(error);

@@ -35,6 +35,18 @@ class LessionService {
 
     return lessons;
   }
+
+  async getById(id: number): Promise<Lesson> {
+    const lesson = await this.lessionModel.findByPk(id);
+
+    if (!lesson) {
+      throw new createHttpError.NotFound(
+        LessionMessages.LESSON_NOT_FOUND,
+      );
+    }
+
+    return lesson;
+  }
 }
 
 export default new LessionService();
