@@ -1,5 +1,6 @@
 import { Blog } from "./blog.model";
 import { BlogCreationAttributes } from "./types/index.types";
+import { Op, fn, col, where } from "sequelize"; // اضافه شد
 
 class BlogService {
   private blogModel: typeof Blog;
@@ -18,14 +19,42 @@ class BlogService {
     }
   }
 
-  async getAllBlogs(): Promise<Blog[]> {
+  async getAllBlogs(
+    search?: string,
+    offset: number = 0,
+    limit: number = 10,
+    sort: "newest" | "oldest" = "newest",
+  ): Promise<{ rows: Blog[]; count: number }> {
     try {
-      const blogs = await this.blogModel.findAll({
-        order: [["createdAt", "DESC"]],
+      const whereClause = search
+        ? {
+            [Op.or]: ["title", "content"].map((field) =>
+              where(fn("LOWER", col(field)), {
+                [Op.like]: `%${search.toLowerCase()}%`,
+              }),
+            ),
+          }
+        : {};
+
+      return this.blogModel.findAndCountAll({
+        where: whereClause,
+        order: [["createdAt", sort === "newest" ? "DESC" : "ASC"]],
+        limit,
+        offset,
       });
-      return blogs;
     } catch (error) {
       console.error("Error fetching blogs:", error);
+      throw error;
+    }
+  }
+
+  async getBlogById(id: number): Promise<Blog | null> {
+    try {
+      return await this.blogModel.findOne({
+        where: { id },
+      });
+    } catch (error) {
+      console.error("Error fetching blog by id:", error);
       throw error;
     }
   }

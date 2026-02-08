@@ -112,5 +112,8 @@ export enum CourseCommentMessages {
 
 export enum BlogMessages {
   BLOG_CREATE_SUCCESSFULLY = "بلاگ مورد نظر با موفقیت ساخته شد",
-  BLOG_FETCHED_SUCCESSFULLY = "بلاگ ها با موفقیت دریافت شدند",
+  BLOG_FETCHED_SUCCESSFULLY = "بلاگ‌ها با موفقیت دریافت شدند",
+  BLOG_NOT_FOUND = "هیچ بلاگی یافت نشد",
+  BLOG_NOT_FOUND_SEARCH = 'هیچ بلاگی با عنوان یا محتوای "{search}" یافت نشد',
+  BLOG_SINGLE_FETCHED_SUCCESSFULLY = "بلاگ با موفقیت دریافت شد",
 }

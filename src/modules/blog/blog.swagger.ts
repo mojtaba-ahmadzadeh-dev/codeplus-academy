@@ -91,13 +91,45 @@
 
 /**
  * @swagger
+ * tags:
+ *   name: Blogs 📝
+ *   description: Blog management APIs
+ */
+
+/**
+ * @swagger
  * /blogs:
  *   get:
- *     summary: Get all blogs
- *     description: Retrieve all blogs, ordered by creation date (newest first).
+ *     summary: Get all blogs with search and pagination
+ *     description: Retrieve all blogs. You can search by title or content, paginate results, and sort by newest or oldest.
  *     tags: [Blogs 📝]
  *     security:
  *       - bearerAuth: []
+ *     parameters:
+ *       - in: query
+ *         name: search
+ *         schema:
+ *           type: string
+ *         description: Search term for title or content
+ *       - in: query
+ *         name: page
+ *         schema:
+ *           type: integer
+ *           default: 1
+ *         description: Page number
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: integer
+ *           default: 10
+ *         description: Number of blogs per page
+ *       - in: query
+ *         name: sort
+ *         schema:
+ *           type: string
+ *           enum: [newest, oldest]
+ *           default: newest
+ *         description: Sort order based on creation date
  *     responses:
  *       200:
  *         description: Blogs retrieved successfully
@@ -109,12 +141,97 @@
  *                 message:
  *                   type: string
  *                   example: "Blogs retrieved successfully"
+ *                 total:
+ *                   type: integer
+ *                   example: 25
+ *                 totalPages:
+ *                   type: integer
+ *                   example: 3
+ *                 page:
+ *                   type: integer
+ *                   example: 1
+ *                 limit:
+ *                   type: integer
+ *                   example: 10
+ *                 sort:
+ *                   type: string
+ *                   example: "newest"
  *                 blogs:
  *                   type: array
  *                   items:
  *                     $ref: '#/components/schemas/Blog'
  *       401:
  *         description: Unauthorized
+ *       500:
+ *         description: Internal server error
+ */
+
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     Blog:
+ *       type: object
+ *       properties:
+ *         id:
+ *           type: integer
+ *           example: 1
+ *         title:
+ *           type: string
+ *           example: "My First Blog"
+ *         content:
+ *           type: string
+ *           example: "Blog content..."
+ *         status:
+ *           type: string
+ *           example: "active"
+ *         authorId:
+ *           type: integer
+ *           example: 15
+ *         categoryId:
+ *           type: integer
+ *           nullable: true
+ *           example: 2
+ *         createdAt:
+ *           type: string
+ *           format: date-time
+ *           example: "2026-02-08T12:34:56.789Z"
+ *         updatedAt:
+ *           type: string
+ *           format: date-time
+ *           example: "2026-02-08T12:34:56.789Z"
+ */
+
+/**
+ * @swagger
+ * /blogs/{id}:
+ *   get:
+ *     summary: Get a single blog by ID
+ *     tags: [Blogs 📝]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: Blog ID
+ *     responses:
+ *       200:
+ *         description: Blog fetched successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Blog fetched successfully"
+ *                 blog:
+ *                   $ref: '#/components/schemas/Blog'
+ *       404:
+ *         description: Blog not found
+ *       400:
+ *         description: Invalid blog ID
  *       500:
  *         description: Internal server error
  */
