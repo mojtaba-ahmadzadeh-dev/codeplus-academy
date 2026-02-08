@@ -50,6 +50,9 @@ export enum Permissions {
   COURSE_COMMENT_ACCEPT = "course-comment:accept",
   COURSE_COMMENT_REJECT = "course-comment:reject",
   COURSE_COMMENT_DELETE = "course-comment:delete",
+
+  // Blog
+  BLOG_CREATE = "blog:create",
 }
 
 const adminPermissions: Permissions[] = [
@@ -96,6 +99,9 @@ const adminPermissions: Permissions[] = [
   Permissions.COURSE_COMMENT_BY_ID,
   Permissions.COURSE_COMMENT_UPDATE,
   Permissions.COURSE_COMMENT_DELETE,
+
+  // Blog
+  Permissions.BLOG_CREATE,
 ];
 
 const teacherPermissions: Permissions[] = [
@@ -132,6 +138,9 @@ const teacherPermissions: Permissions[] = [
   Permissions.COURSE_COMMENT_BY_ID,
   Permissions.COURSE_COMMENT_UPDATE,
   Permissions.COURSE_COMMENT_DELETE,
+
+  // Blog
+  Permissions.BLOG_CREATE,
 ];
 
 export const RolePermissions: Record<Roles, Permissions[]> = {

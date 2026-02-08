@@ -109,3 +109,7 @@ export enum CourseCommentMessages {
   COURSE_COMMENT_REJECTED_SUCCESSFULLY = "کامنت مورد نظر با موفقیت رد شد",
   COURSE_COMMENT_DELETED_SUCCESSFULLY = "کامنت مورد نظر با موفقیت حذف شد",
 }
+
+export enum BlogMessages {
+   BLOG_CREATE_SUCCESSFULLY = "بلاگ مورد نظر با موفقیت ساخته شد"
+}
