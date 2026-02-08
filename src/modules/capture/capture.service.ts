@@ -67,6 +67,15 @@ class CaptureService {
     await capture.update(data);
     return capture;
   }
+
+  async deleteCapture(id: number): Promise<void> {
+  const capture = await Capture.findOne({ where: { id } });
+  if (!capture) {
+    throw new createHttpError.NotFound(CaptureMessages.CAPTURE_NOT_FOUND);
+  }
+
+  await capture.destroy();
+}
 }
 
 export default new CaptureService();

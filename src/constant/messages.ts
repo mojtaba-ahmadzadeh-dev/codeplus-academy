@@ -96,5 +96,6 @@ export enum CaptureMessages {
   CAPTURE_FETCHED_SUCCESSFULLY = "درس ها با موفقیت دریافت شدند",
   CATEGORY_UPDATED_SUCCESSFULLY = "Capture با موفقیت بروزرسانی شد",
   CAPTURE_ALREADY_EXISTS = "این capture قبلاً اضافه شده است",
-  CAPTURE_NOT_FOUND = "Capture پیدا نشد"
+  CAPTURE_NOT_FOUND = "Capture پیدا نشد",
+  CAPTURE_DELETED_SUCCESSFULLY = "Capture با موفقیت حذف شد"
 }

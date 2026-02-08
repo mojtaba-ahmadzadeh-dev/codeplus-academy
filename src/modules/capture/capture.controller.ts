@@ -4,7 +4,6 @@ import captureService from "./capture.service";
 import { CaptureCreationAttributes } from "./types/index.types";
 import { StatusCodes } from "http-status-codes";
 import { CaptureMessages } from "../../constant/messages";
-import createHttpError from "http-errors";
 
 class CaptureController {
   private captureService = captureService;
@@ -16,6 +15,7 @@ class CaptureController {
     this.getAllCaptures = this.getAllCaptures.bind(this);
     this.getCaptureById = this.getCaptureById.bind(this);
     this.updateCapture = this.updateCapture.bind(this);
+    this.deleteCapture = this.deleteCapture.bind(this);
   }
 
   async createCapture(req: Request, res: Response, next: NextFunction) {
@@ -90,6 +90,20 @@ class CaptureController {
       res.status(StatusCodes.OK).json({
         message: CaptureMessages.CATEGORY_UPDATED_SUCCESSFULLY,
         capture,
+      });
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  async deleteCapture(req: Request, res: Response, next: NextFunction) {
+    try {
+      const id = Number(req.params.id);
+
+      await this.captureService.deleteCapture(id);
+
+      res.status(StatusCodes.OK).json({
+        message: CaptureMessages.CAPTURE_DELETED_SUCCESSFULLY,
       });
     } catch (err) {
       next(err);

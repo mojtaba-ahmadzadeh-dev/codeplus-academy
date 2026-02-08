@@ -23,4 +23,6 @@ captureRouter.put(
   captureController.updateCapture
 );
 
+captureRouter.delete("/:id", captureController.deleteCapture);
+
 export default captureRouter;
