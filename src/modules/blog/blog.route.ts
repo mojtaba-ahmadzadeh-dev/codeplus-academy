@@ -6,5 +6,6 @@ import { Permissions } from "../../constant/role.constant";
 const blogRouter = Router()
 
 blogRouter.post("/create", rbacGuard([Permissions.BLOG_CREATE]), blogController.createBlog);
+blogRouter.get("/", blogController.getAllBlogs);
 
 export default blogRouter

@@ -17,6 +17,18 @@ class BlogService {
       throw error;
     }
   }
+
+  async getAllBlogs(): Promise<Blog[]> {
+    try {
+      const blogs = await this.blogModel.findAll({
+        order: [["createdAt", "DESC"]],
+      });
+      return blogs;
+    } catch (error) {
+      console.error("Error fetching blogs:", error);
+      throw error;
+    }
+  }
 }
 
 export default new BlogService();

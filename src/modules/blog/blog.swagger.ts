@@ -88,3 +88,33 @@
  *           type: string
  *           format: date-time
  */
+
+/**
+ * @swagger
+ * /blogs:
+ *   get:
+ *     summary: Get all blogs
+ *     description: Retrieve all blogs, ordered by creation date (newest first).
+ *     tags: [Blogs 📝]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Blogs retrieved successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Blogs retrieved successfully"
+ *                 blogs:
+ *                   type: array
+ *                   items:
+ *                     $ref: '#/components/schemas/Blog'
+ *       401:
+ *         description: Unauthorized
+ *       500:
+ *         description: Internal server error
+ */

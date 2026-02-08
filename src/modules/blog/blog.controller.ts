@@ -10,6 +10,7 @@ class BlogController {
     this.blogService = blogService;
 
     this.createBlog = this.createBlog.bind(this);
+    this.getAllBlogs = this.getAllBlogs.bind(this);
   }
 
   async createBlog(req: Request, res: Response, next: NextFunction) {
@@ -34,7 +35,19 @@ class BlogController {
 
       return res.status(StatusCodes.CREATED).json({
         message: BlogMessages.BLOG_CREATE_SUCCESSFULLY,
-        newBlog
+        newBlog,
+      });
+    } catch (error: any) {
+      next(error);
+    }
+  }
+
+  async getAllBlogs(req: Request, res: Response, next: NextFunction) {
+    try {
+      const blogs = await this.blogService.getAllBlogs();
+      return res.status(StatusCodes.OK).json({
+        message: BlogMessages.BLOG_FETCHED_SUCCESSFULLY,
+        blogs,
       });
     } catch (error: any) {
       next(error);
