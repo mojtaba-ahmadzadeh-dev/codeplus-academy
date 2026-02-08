@@ -1,4 +1,5 @@
 import { sequelize } from "../config/sequelize.config";
+import { Capture } from "../modules/capture/capture.model";
 import { Category } from "../modules/category/category.model";
 import { Course } from "../modules/course/course.model";
 import { Lesson } from "../modules/lession/lesson.model";
@@ -43,6 +44,9 @@ const initDatabase = async (): Promise<void> => {
 
   Course.hasMany(Lesson, { foreignKey: "courseId", as: "lessons" });
   Lesson.belongsTo(Course, { foreignKey: "courseId", as: "course" });
+
+  Lesson.hasMany(Capture, { foreignKey: "lessonId", as: "captures" });
+  Capture.belongsTo(Lesson, { foreignKey: "lessonId", as: "lesson" });
 
   // await sequelize.sync({ alter: true });
   console.log("✅ Database synced successfully");

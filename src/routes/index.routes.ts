@@ -5,6 +5,7 @@ import RBACRouter from "../modules/RBAC/rbac.route";
 import categoryRouter from "../modules/category/category.route";
 import courseRouter from "../modules/course/course.route";
 import lessionRouter from "../modules/lession/lesson.route";
+import captureRouter from "../modules/capture/capture.route";
 
 const AllRoutes: Router = Router();
 
@@ -14,5 +15,6 @@ AllRoutes.use(`/rbac`, RBACRouter);
 AllRoutes.use(`/categories`, categoryRouter);
 AllRoutes.use(`/courses`, courseRouter);
 AllRoutes.use(`/lessons`, lessionRouter);
+AllRoutes.use(`/captures`, captureRouter);
 
 export { AllRoutes };

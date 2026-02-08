@@ -90,3 +90,8 @@ export enum LessionMessages {
   LESSON_DELETED_SUCCESSFULLY = "درس با موفقیت حذف شد",
   LESSON_NOT_FOUND = "درس مورد نظر یافت نشد",
 }
+
+export enum CaptureMessages {
+  CAPTURE_CREATE_SUCCESSFULLY = "درس موردنظر با موفقیت ایجاد شد",
+  CAPTURE_FETCHED_SUCCESSFULLY = "درس ها با موفقیت دریافت شدند"
+}
