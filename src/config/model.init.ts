@@ -1,4 +1,5 @@
 import { sequelize } from "../config/sequelize.config";
+import { Capture } from "../modules/capture/capture.model";
 import { Category } from "../modules/category/category.model";
 import { Course } from "../modules/course/course.model";
 import { Lesson } from "../modules/lession/lesson.model";

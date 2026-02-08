@@ -34,6 +34,13 @@ export enum Permissions {
   LESSON_BY_ID = "lesson:get-by-id",
   LESSON_UPDATE = "lesson:update-by-id",
   LESSON_DELETE = "lesson:delete-by-id",
+
+  // Capture
+  CAPTURE_CREATE = "capture:create",
+  CAPTURE_GETALL = "capture:get-all",
+  CAPTURE_BY_ID = "capture:get-by-id",
+  CAPTURE_UPDATE = "capture:update",
+  CAPTURE_DELETE = "capture:delete",
 }
 
 const adminPermissions: Permissions[] = [
@@ -66,8 +73,14 @@ const adminPermissions: Permissions[] = [
   Permissions.LESSON_BY_ID,
   Permissions.LESSON_UPDATE,
   Permissions.LESSON_DELETE,
-];
 
+  // Capture
+  Permissions.CAPTURE_CREATE,
+  Permissions.CAPTURE_GETALL,
+  Permissions.CAPTURE_BY_ID,
+  Permissions.CAPTURE_UPDATE,
+  Permissions.CAPTURE_DELETE,
+];
 
 const teacherPermissions: Permissions[] = [
   // Category
@@ -89,6 +102,13 @@ const teacherPermissions: Permissions[] = [
   Permissions.LESSON_BY_ID,
   Permissions.LESSON_UPDATE,
   Permissions.LESSON_DELETE,
+
+  // Capture
+  Permissions.CAPTURE_CREATE,
+  Permissions.CAPTURE_GETALL,
+  Permissions.CAPTURE_BY_ID,
+  Permissions.CAPTURE_UPDATE,
+  Permissions.CAPTURE_DELETE,
 ];
 
 export const RolePermissions: Record<Roles, Permissions[]> = {
