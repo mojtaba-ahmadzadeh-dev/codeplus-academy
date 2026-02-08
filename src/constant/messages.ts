@@ -97,5 +97,15 @@ export enum CaptureMessages {
   CATEGORY_UPDATED_SUCCESSFULLY = "Capture با موفقیت بروزرسانی شد",
   CAPTURE_ALREADY_EXISTS = "این capture قبلاً اضافه شده است",
   CAPTURE_NOT_FOUND = "Capture پیدا نشد",
-  CAPTURE_DELETED_SUCCESSFULLY = "Capture با موفقیت حذف شد"
+  CAPTURE_DELETED_SUCCESSFULLY = "Capture با موفقیت حذف شد",
+}
+
+export enum CourseCommentMessages {
+  COURSE_COMMENT_CREATE_SUCCESSFULLY = "کامنت با موفقیت ایجاد شد",
+  COURSE_COMMENT_FETCHED_SUCCESSFULLY = "کامنت‌ها با موفقیت دریافت شدند",
+  COURSE_COMMENT_FETCHED_SINGLE_SUCCESSFULLY = "کامنت با موفقیت دریافت شد",
+  COURSE_COMMENT_ACCEPTED_SUCCESSFULLY = "کامنت با موفقیت تایید شد",
+  COURSE_COMMENT_NOT_FOUND = "کامنت موردنظر پیدا نشد",
+  COURSE_COMMENT_REJECTED_SUCCESSFULLY = "کامنت مورد نظر با موفقیت رد شد",
+  COURSE_COMMENT_DELETED_SUCCESSFULLY = "کامنت مورد نظر با موفقیت حذف شد",
 }
