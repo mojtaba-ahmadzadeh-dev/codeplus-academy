@@ -1,23 +1,15 @@
-// src/modules/capture/capture.model.ts
-import { DataTypes, Model } from "sequelize";
-import { sequelize } from "../../config/sequelize.config";
-import { STATUS } from "../../constant/status.constant";
-import {
-  CaptureAttributes,
-  CaptureCreationAttributes,
-} from "./types/index.types";
+import { Model, DataTypes } from "sequelize";
+import {sequelize} from "../../config/sequelize.config";
+import { CaptureAttributes, CaptureCreationAttributes } from "./types/index.types";
+import { StatusType } from "../../constant/status.constant";
 
-class Capture
-  extends Model<CaptureAttributes, CaptureCreationAttributes>
-  implements CaptureAttributes
-{
+class Capture extends Model<CaptureAttributes, CaptureCreationAttributes> implements CaptureAttributes {
   public id!: number;
   public title!: string;
-  public url!: string;
-  public description!: string | null;
-  public status!: (typeof STATUS)[keyof typeof STATUS];
-  public lessonId!: number | null;
-
+  public url!: string | null;
+  public description?: string | null;
+  public status!: StatusType;
+  public courseId?: number | null;
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
 }
@@ -25,9 +17,9 @@ class Capture
 Capture.init(
   {
     id: {
-      type: DataTypes.INTEGER,
-      primaryKey: true,
+      type: DataTypes.INTEGER.UNSIGNED,
       autoIncrement: true,
+      primaryKey: true,
     },
     title: {
       type: DataTypes.STRING,
@@ -35,29 +27,26 @@ Capture.init(
     },
     url: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
     description: {
-      type: DataTypes.TEXT,
+      type: DataTypes.STRING,
       allowNull: true,
     },
     status: {
-      type: DataTypes.ENUM(...Object.values(STATUS)),
-      allowNull: true,
-      defaultValue: STATUS.ACTIVE,
+      type: DataTypes.ENUM("active", "inactive", "pending"),
+      allowNull: false,
     },
     courseId: {
       type: DataTypes.INTEGER,
       allowNull: true,
-      references: { model: "courses", key: "id" },
     },
   },
   {
     sequelize,
-    modelName: "capture",
     tableName: "captures",
-    timestamps: true,
-  },
+  }
 );
 
 export { Capture };
+export default Capture;

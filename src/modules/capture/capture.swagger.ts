@@ -166,3 +166,64 @@
  *                   type: string
  *                   example: Capture پیدا نشد
  */
+
+/**
+ * @swagger
+ * /captures/{id}:
+ *   put:
+ *     summary: Update a capture
+ *     description: بروزرسانی اطلاعات یک capture مشخص
+ *     tags: [Captures 🎥]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID capture
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               title:
+ *                 type: string
+ *                 description: Capture title
+ *               file:
+ *                 type: string
+ *                 format: binary
+ *                 description: آپلود فایل جدید
+ *               description:
+ *                 type: string
+ *                 nullable: true
+ *               status:
+ *                 type: string
+ *                 enum: [active, inactive, pending]
+ *               courseId:
+ *                 type: integer
+ *                 nullable: true
+ *     responses:
+ *       200:
+ *         description: Capture updated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 200
+ *                 message:
+ *                   type: string
+ *                   example: Capture با موفقیت بروزرسانی شد
+ *                 capture:
+ *                   $ref: '#/components/schemas/Capture'
+ *       404:
+ *         description: Capture پیدا نشد
+ *       400:
+ *         description: خطای اعتبارسنجی یا تداخل عنوان
+ */

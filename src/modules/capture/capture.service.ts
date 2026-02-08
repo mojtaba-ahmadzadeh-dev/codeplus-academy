@@ -1,6 +1,9 @@
 import { Capture } from "./capture.model";
 import createHttpError from "http-errors";
 import { CaptureCreationAttributes } from "./types/index.types";
+import sequelize from "sequelize";
+import { Op } from "sequelize";
+import { CaptureMessages } from "../../constant/messages";
 
 class CaptureService {
   async createCapture(data: CaptureCreationAttributes): Promise<Capture> {
@@ -31,6 +34,37 @@ class CaptureService {
     if (!capture) {
       throw new createHttpError.NotFound("Capture پیدا نشد");
     }
+    return capture;
+  }
+
+  async updateCapture(
+    id: number,
+    data: Partial<CaptureCreationAttributes>,
+  ): Promise<Capture> {
+    const capture = await Capture.findOne({ where: { id } });
+    if (!capture) {
+      throw new createHttpError.NotFound(CaptureMessages.CAPTURE_NOT_FOUND);
+    }
+
+    const currentCourseId = capture.courseId;
+
+    if (data.title || data.courseId) {
+      const existing = await Capture.findOne({
+        where: {
+          title: data.title || capture.title,
+          courseId: data.courseId ?? currentCourseId,
+          id: { [Op.ne]: id },
+        },
+      });
+
+      if (existing) {
+        throw new createHttpError.BadRequest(
+          CaptureMessages.CAPTURE_ALREADY_EXISTS,
+        );
+      }
+    }
+
+    await capture.update(data);
     return capture;
   }
 }

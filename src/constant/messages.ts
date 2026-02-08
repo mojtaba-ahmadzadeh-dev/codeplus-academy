@@ -93,5 +93,8 @@ export enum LessionMessages {
 
 export enum CaptureMessages {
   CAPTURE_CREATE_SUCCESSFULLY = "درس موردنظر با موفقیت ایجاد شد",
-  CAPTURE_FETCHED_SUCCESSFULLY = "درس ها با موفقیت دریافت شدند"
+  CAPTURE_FETCHED_SUCCESSFULLY = "درس ها با موفقیت دریافت شدند",
+  CATEGORY_UPDATED_SUCCESSFULLY = "Capture با موفقیت بروزرسانی شد",
+  CAPTURE_ALREADY_EXISTS = "این capture قبلاً اضافه شده است",
+  CAPTURE_NOT_FOUND = "Capture پیدا نشد"
 }

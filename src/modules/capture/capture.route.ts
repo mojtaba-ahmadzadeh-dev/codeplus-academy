@@ -17,4 +17,10 @@ captureRouter.get(
 
 captureRouter.get("/:id", captureController.getCaptureById);
 
+captureRouter.put(
+  "/:id",
+  upload.single("file"),
+  captureController.updateCapture
+);
+
 export default captureRouter;
