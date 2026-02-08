@@ -45,9 +45,6 @@ const initDatabase = async (): Promise<void> => {
   Course.hasMany(Lesson, { foreignKey: "courseId", as: "lessons" });
   Lesson.belongsTo(Course, { foreignKey: "courseId", as: "course" });
 
-  Lesson.hasMany(Capture, { foreignKey: "lessonId", as: "captures" });
-  Capture.belongsTo(Lesson, { foreignKey: "lessonId", as: "lesson" });
-
   // await sequelize.sync({ alter: true });
   console.log("✅ Database synced successfully");
 };

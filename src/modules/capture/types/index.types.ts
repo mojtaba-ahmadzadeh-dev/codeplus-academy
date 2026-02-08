@@ -7,7 +7,6 @@ export interface CaptureAttributes {
   description?: string | null;
   status: StatusType;
   courseId?: number | null;
-  lessonId?: number | null;
   createdAt?: Date;
   updatedAt?: Date;
 }

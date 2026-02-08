@@ -3,12 +3,10 @@ import createHttpError from "http-errors";
 import { CaptureCreationAttributes } from "./types/index.types";
 
 class CaptureService {
-
   async createCapture(data: CaptureCreationAttributes): Promise<Capture> {
     const existing = await Capture.findOne({
       where: {
         title: data.title,
-        lessonId: data.lessonId,
         courseId: data.courseId,
       },
     });
@@ -21,12 +19,20 @@ class CaptureService {
     return capture;
   }
 
-   async getAllCaptures() {
+  async getAllCaptures() {
     return Capture.findAll({
       order: [["createdAt", "DESC"]],
     });
   }
 
+  async getCaptureById(id: number) {
+    // فقط بر اساس id می‌گردونیم
+    const capture = await Capture.findOne({ where: { id } });
+    if (!capture) {
+      throw new createHttpError.NotFound("Capture پیدا نشد");
+    }
+    return capture;
+  }
 }
 
 export default new CaptureService();

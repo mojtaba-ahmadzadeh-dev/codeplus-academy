@@ -4,6 +4,7 @@ import captureService from "./capture.service";
 import { CaptureCreationAttributes } from "./types/index.types";
 import { StatusCodes } from "http-status-codes";
 import { CaptureMessages } from "../../constant/messages";
+import createHttpError from "http-errors";
 
 class CaptureController {
   private captureService = captureService;
@@ -13,6 +14,7 @@ class CaptureController {
 
     this.createCapture = this.createCapture.bind(this);
     this.getAllCaptures = this.getAllCaptures.bind(this);
+    this.getCaptureById = this.getCaptureById.bind(this);
   }
 
   async createCapture(req: Request, res: Response, next: NextFunction) {
@@ -22,15 +24,14 @@ class CaptureController {
         description: req.body.description,
         status: req.body.status,
         courseId: req.body.courseId,
-        lessonId: req.body.lessonId,
         url: req.file ? `/uploads/${req.file.filename}` : null,
       };
 
       const capture = await this.captureService.createCapture(data);
-      res.status(StatusCodes.CREATED).json({ 
-       message: CaptureMessages.CAPTURE_CREATE_SUCCESSFULLY,
-        capture
-       });
+      res.status(StatusCodes.CREATED).json({
+        message: CaptureMessages.CAPTURE_CREATE_SUCCESSFULLY,
+        capture,
+      });
     } catch (err) {
       next(err);
     }
@@ -39,10 +40,30 @@ class CaptureController {
   async getAllCaptures(req: Request, res: Response, next: NextFunction) {
     try {
       const captures = await this.captureService.getAllCaptures();
-      res.status(StatusCodes.OK).json({ 
+      res.status(StatusCodes.OK).json({
         message: CaptureMessages.CAPTURE_FETCHED_SUCCESSFULLY,
-        captures
-       });
+        captures,
+      });
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  async getCaptureById(req: Request, res: Response, next: NextFunction) {
+    try {
+      const id = Number(req.params.id);
+      if (isNaN(id)) {
+        return res
+          .status(StatusCodes.BAD_REQUEST)
+          .json({ message: "ID نامعتبر است" });
+      }
+
+      const capture = await this.captureService.getCaptureById(id);
+
+      res.status(StatusCodes.OK).json({
+        message: CaptureMessages.CAPTURE_FETCHED_SUCCESSFULLY,
+        capture,
+      });
     } catch (err) {
       next(err);
     }

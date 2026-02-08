@@ -15,6 +15,6 @@ captureRouter.get(
   captureController.getAllCaptures
 );
 
-
+captureRouter.get("/:id", captureController.getCaptureById);
 
 export default captureRouter;

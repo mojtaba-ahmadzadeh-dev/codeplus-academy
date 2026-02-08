@@ -16,7 +16,6 @@ class Capture
   public url!: string;
   public description!: string | null;
   public status!: (typeof STATUS)[keyof typeof STATUS];
-  public courseId!: number | null;
   public lessonId!: number | null;
 
   public readonly createdAt!: Date;
@@ -51,11 +50,6 @@ Capture.init(
       type: DataTypes.INTEGER,
       allowNull: true,
       references: { model: "courses", key: "id" },
-    },
-    lessonId: {
-      type: DataTypes.INTEGER,
-      allowNull: true,
-      references: { model: "lessons", key: "id" },
     },
   },
   {
