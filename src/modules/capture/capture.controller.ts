@@ -20,11 +20,20 @@ class CaptureController {
 
   async createCapture(req: Request, res: Response, next: NextFunction) {
     try {
+      const courseId =
+        req.body.courseId !== undefined ? Number(req.body.courseId) : undefined;
+
+      if (courseId !== undefined && isNaN(courseId)) {
+        return res
+          .status(StatusCodes.BAD_REQUEST)
+          .json({ message: "courseId نامعتبر است" });
+      }
+
       const data: CaptureCreationAttributes = {
         title: req.body.title,
         description: req.body.description,
         status: req.body.status,
-        courseId: req.body.courseId,
+        courseId,
         url: req.file ? `/uploads/${req.file.filename}` : null,
       };
 
