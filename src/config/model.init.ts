@@ -23,7 +23,6 @@ const initDatabase = async (): Promise<void> => {
     otherKey: "user_id",
   });
 
-  // Role <-> Permission
   Role.belongsToMany(Permission, {
     through: RolePermission,
     foreignKey: "role_id",

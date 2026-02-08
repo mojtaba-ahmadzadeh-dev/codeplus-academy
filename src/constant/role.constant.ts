@@ -41,6 +41,15 @@ export enum Permissions {
   CAPTURE_BY_ID = "capture:get-by-id",
   CAPTURE_UPDATE = "capture:update",
   CAPTURE_DELETE = "capture:delete",
+
+  // Course Comment
+  COURSE_COMMENT_CREATE = "course-comment:create",
+  COURSE_COMMENT_GETALL = "course-comment:get-all",
+  COURSE_COMMENT_BY_ID = "course-comment:get-by-id",
+  COURSE_COMMENT_UPDATE = "course-comment:update",
+  COURSE_COMMENT_ACCEPT = "course-comment:accept",
+  COURSE_COMMENT_REJECT = "course-comment:reject",
+  COURSE_COMMENT_DELETE = "course-comment:delete",
 }
 
 const adminPermissions: Permissions[] = [
@@ -80,6 +89,13 @@ const adminPermissions: Permissions[] = [
   Permissions.CAPTURE_BY_ID,
   Permissions.CAPTURE_UPDATE,
   Permissions.CAPTURE_DELETE,
+
+  // Course Comment
+  Permissions.COURSE_COMMENT_CREATE,
+  Permissions.COURSE_COMMENT_GETALL,
+  Permissions.COURSE_COMMENT_BY_ID,
+  Permissions.COURSE_COMMENT_UPDATE,
+  Permissions.COURSE_COMMENT_DELETE,
 ];
 
 const teacherPermissions: Permissions[] = [
@@ -109,6 +125,13 @@ const teacherPermissions: Permissions[] = [
   Permissions.CAPTURE_BY_ID,
   Permissions.CAPTURE_UPDATE,
   Permissions.CAPTURE_DELETE,
+
+  // Course Comment
+  Permissions.COURSE_COMMENT_CREATE,
+  Permissions.COURSE_COMMENT_GETALL,
+  Permissions.COURSE_COMMENT_BY_ID,
+  Permissions.COURSE_COMMENT_UPDATE,
+  Permissions.COURSE_COMMENT_DELETE,
 ];
 
 export const RolePermissions: Record<Roles, Permissions[]> = {

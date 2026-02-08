@@ -101,6 +101,11 @@ export enum CaptureMessages {
 }
 
 export enum CourseCommentMessages {
-  COURSE_COMMENT_CREATE_SUCCESSFYLLY = "کامنت با موفقیت ایجاد شد",
-  COURSE_COMMENT_FETCHED_SUCCESSFULLY = "کامنت ها با موفقیت دریافت شدند"
+  COURSE_COMMENT_CREATE_SUCCESSFULLY = "کامنت با موفقیت ایجاد شد",
+  COURSE_COMMENT_FETCHED_SUCCESSFULLY = "کامنت‌ها با موفقیت دریافت شدند",
+  COURSE_COMMENT_FETCHED_SINGLE_SUCCESSFULLY = "کامنت با موفقیت دریافت شد",
+  COURSE_COMMENT_ACCEPTED_SUCCESSFULLY = "کامنت با موفقیت تایید شد",
+  COURSE_COMMENT_NOT_FOUND = "کامنت موردنظر پیدا نشد",
+  COURSE_COMMENT_REJECTED_SUCCESSFULLY = "کامنت مورد نظر با موفقیت رد شد",
+  COURSE_COMMENT_DELETED_SUCCESSFULLY = "کامنت مورد نظر با موفقیت حذف شد",
 }

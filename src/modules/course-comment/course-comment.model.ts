@@ -1,4 +1,3 @@
-// src/modules/course-comment/course-comment.model.ts
 import { DataTypes, Model, Optional } from "sequelize";
 import { sequelize } from "../../config/sequelize.config";
 import { STATUS } from "../../constant/status.constant";

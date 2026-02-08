@@ -9,8 +9,12 @@ class CourseCommentController {
   constructor() {
     this.courseCommentService = courseCommentService;
 
-    this.createComment = this.createComment.bind(this)
-    this.getAllComments = this.getAllComments.bind(this)
+    this.createComment = this.createComment.bind(this);
+    this.getAllComments = this.getAllComments.bind(this);
+    this.getCommentById = this.getCommentById.bind(this);
+    this.acceptComment = this.acceptComment.bind(this);
+    this.rejectComment = this.rejectComment.bind(this);
+    this.deleteComment = this.deleteComment.bind(this);
   }
 
   async createComment(req: Request, res: Response, next: NextFunction) {
@@ -24,7 +28,7 @@ class CourseCommentController {
 
       const comment = await this.courseCommentService.createComment(data);
       res.status(StatusCodes.CREATED).json({
-        message: CourseCommentMessages.COURSE_COMMENT_CREATE_SUCCESSFYLLY,
+        message: CourseCommentMessages.COURSE_COMMENT_CREATE_SUCCESSFULLY,
         comment,
       });
     } catch (err) {
@@ -39,6 +43,66 @@ class CourseCommentController {
       res.status(StatusCodes.OK).json({
         message: CourseCommentMessages.COURSE_COMMENT_FETCHED_SUCCESSFULLY,
         comments,
+      });
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  async getCommentById(req: Request, res: Response, next: NextFunction) {
+    try {
+      const id = Number(req.params.id);
+
+      const comment = await this.courseCommentService.getCommentById(id);
+
+      res.status(StatusCodes.OK).json({
+        message:
+          CourseCommentMessages.COURSE_COMMENT_FETCHED_SINGLE_SUCCESSFULLY,
+        comment,
+      });
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  async acceptComment(req: Request, res: Response, next: NextFunction) {
+    try {
+      const id = Number(req.params.id);
+
+      const comment = await this.courseCommentService.acceptComment(id);
+
+      res.status(StatusCodes.OK).json({
+        message: CourseCommentMessages.COURSE_COMMENT_ACCEPTED_SUCCESSFULLY,
+        comment,
+      });
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  async rejectComment(req: Request, res: Response, next: NextFunction) {
+    try {
+      const id = Number(req.params.id);
+
+      const comment = await this.courseCommentService.rejectComment(id);
+
+      res.status(StatusCodes.OK).json({
+        message: CourseCommentMessages.COURSE_COMMENT_REJECTED_SUCCESSFULLY,
+        comment,
+      });
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  async deleteComment(req: Request, res: Response, next: NextFunction) {
+    try {
+      const id = Number(req.params.id);
+
+      await this.courseCommentService.deleteComment(id);
+
+      res.status(StatusCodes.OK).json({
+        message: CourseCommentMessages.COURSE_COMMENT_DELETED_SUCCESSFULLY,
       });
     } catch (err) {
       next(err);
