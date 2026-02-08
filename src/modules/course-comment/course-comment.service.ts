@@ -14,6 +14,12 @@ class CourseCommentService {
     const comment = await this.courseComment.create(data);
     return comment;
   }
+
+  async getAllComments(): Promise<CourseComment[]> {
+    return this.courseComment.findAll({
+      order: [["createdAt", "DESC"]],
+    });
+  }
 }
 
 export default new CourseCommentService();

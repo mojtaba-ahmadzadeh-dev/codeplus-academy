@@ -102,4 +102,5 @@ export enum CaptureMessages {
 
 export enum CourseCommentMessages {
   COURSE_COMMENT_CREATE_SUCCESSFYLLY = "کامنت با موفقیت ایجاد شد",
+  COURSE_COMMENT_FETCHED_SUCCESSFULLY = "کامنت ها با موفقیت دریافت شدند"
 }

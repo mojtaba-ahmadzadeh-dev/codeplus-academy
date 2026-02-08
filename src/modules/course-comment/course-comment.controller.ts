@@ -10,6 +10,7 @@ class CourseCommentController {
     this.courseCommentService = courseCommentService;
 
     this.createComment = this.createComment.bind(this)
+    this.getAllComments = this.getAllComments.bind(this)
   }
 
   async createComment(req: Request, res: Response, next: NextFunction) {
@@ -25,6 +26,19 @@ class CourseCommentController {
       res.status(StatusCodes.CREATED).json({
         message: CourseCommentMessages.COURSE_COMMENT_CREATE_SUCCESSFYLLY,
         comment,
+      });
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  async getAllComments(req: Request, res: Response, next: NextFunction) {
+    try {
+      const comments = await this.courseCommentService.getAllComments();
+
+      res.status(StatusCodes.OK).json({
+        message: CourseCommentMessages.COURSE_COMMENT_FETCHED_SUCCESSFULLY,
+        comments,
       });
     } catch (err) {
       next(err);

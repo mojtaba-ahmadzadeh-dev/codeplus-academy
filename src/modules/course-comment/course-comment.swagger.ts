@@ -83,3 +83,33 @@
  *           type: string
  *           format: date-time
  */
+
+/**
+ * @swagger
+ * /course-comments:
+ *   get:
+ *     summary: Get all course comments
+ *     description: Retrieve all comments for all courses
+ *     tags: [CourseComments 💬]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Course comments fetched successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "کامنت‌ها با موفقیت دریافت شدند"
+ *                 comments:
+ *                   type: array
+ *                   items:
+ *                     $ref: '#/components/schemas/CourseComment'
+ *       401:
+ *         description: Unauthorized
+ *       500:
+ *         description: Internal server error
+ */
