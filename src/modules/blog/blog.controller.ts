@@ -13,6 +13,7 @@ class BlogController {
     this.createBlog = this.createBlog.bind(this);
     this.getAllBlogs = this.getAllBlogs.bind(this);
     this.getBlogById = this.getBlogById.bind(this);
+    this.createBlogByAdmin = this.createBlogByAdmin.bind(this);
   }
 
   async createBlog(req: Request, res: Response, next: NextFunction) {
@@ -116,6 +117,34 @@ class BlogController {
         blog,
       });
     } catch (error: any) {
+      next(error);
+    }
+  }
+
+  async createBlogByAdmin(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { title, content, status, categoryId } = req.body;
+      const authorId = req.user?.id;
+
+      if (!title || !content || !authorId) {
+        return res.status(StatusCodes.BAD_REQUEST).json({
+          message: "Title, content and authorId are required.",
+        });
+      }
+
+      const blog = await this.blogService.createBlogByAdmin({
+        title,
+        content,
+        status,
+        authorId,
+        categoryId: categoryId || null,
+      });
+
+      return res.status(StatusCodes.CREATED).json({
+        message: BlogMessages.BLOG_CREATE_SUCCESSFULLY,
+        blog,
+      });
+    } catch (error) {
       next(error);
     }
   }

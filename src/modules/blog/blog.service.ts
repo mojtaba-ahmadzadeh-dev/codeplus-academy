@@ -1,6 +1,6 @@
 import { Blog } from "./blog.model";
 import { BlogCreationAttributes } from "./types/index.types";
-import { Op, fn, col, where } from "sequelize"; // اضافه شد
+import { Op, fn, col, where } from "sequelize";
 
 class BlogService {
   private blogModel: typeof Blog;
@@ -57,6 +57,19 @@ class BlogService {
       console.error("Error fetching blog by id:", error);
       throw error;
     }
+  }
+
+  async createBlogByAdmin(data: BlogCreationAttributes): Promise<Blog> {
+    const { title, content, authorId } = data;
+
+    if (!title || !content || !authorId) {
+      throw new Error("Title, content and authorId are required.");
+    }
+
+    return this.blogModel.create({
+      ...data,
+      status: data.status ?? "published",
+    });
   }
 }
 

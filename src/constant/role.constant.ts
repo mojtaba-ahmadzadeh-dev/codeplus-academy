@@ -53,6 +53,7 @@ export enum Permissions {
 
   // Blog
   BLOG_CREATE = "blog:create",
+  BLOG_CREATE_ADMIN = "blog-admin:create"
 }
 
 const adminPermissions: Permissions[] = [
@@ -102,6 +103,7 @@ const adminPermissions: Permissions[] = [
 
   // Blog
   Permissions.BLOG_CREATE,
+  Permissions.BLOG_CREATE_ADMIN,
 ];
 
 const teacherPermissions: Permissions[] = [

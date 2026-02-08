@@ -235,3 +235,58 @@
  *       500:
  *         description: Internal server error
  */
+
+/**
+ * @swagger
+ * /blogs/admin/create:
+ *   post:
+ *     summary: Create blog by admin
+ *     description: Admin can create a blog for any author.
+ *     tags: [Blogs 📝]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - title
+ *               - content
+ *             properties:
+ *               title:
+ *                 type: string
+ *                 example: "Admin blog title"
+ *               content:
+ *                 type: string
+ *                 example: "This blog was created by admin"
+ *               status:
+ *                 type: string
+ *                 example: "active"
+ *               categoryId:
+ *                 type: integer
+ *                 nullable: true
+ *                 example: 3
+ *     responses:
+ *       201:
+ *         description: Blog created successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Blog created successfully
+ *                 blog:
+ *                   $ref: '#/components/schemas/Blog'
+ *       400:
+ *         description: Validation error
+ *       401:
+ *         description: Unauthorized
+ *       403:
+ *         description: Admin access required
+ *       500:
+ *         description: Internal server error
+ */

@@ -8,5 +8,10 @@ const blogRouter = Router()
 blogRouter.post("/create", rbacGuard([Permissions.BLOG_CREATE]), blogController.createBlog);
 blogRouter.get("/", blogController.getAllBlogs);
 blogRouter.get("/:id", blogController.getBlogById);
+blogRouter.post(
+  "/admin/create",
+  rbacGuard([Permissions.BLOG_CREATE_ADMIN]),
+  blogController.createBlogByAdmin,
+);
 
 export default blogRouter
