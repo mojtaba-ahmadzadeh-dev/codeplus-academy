@@ -105,6 +105,21 @@ class BlogService {
 
     return blog;
   }
+
+    async deleteBlog(id: number, userId: number): Promise<void> {
+  const blog = await this.blogModel.findByPk(id);
+
+  if (!blog) {
+    throw createHttpError(BlogMessages.BLOG_NOT_FOUND);
+  }
+
+  // فقط نویسنده بلاگ اجازه حذف دارد
+  if (blog.authorId !== userId) {
+    throw createHttpError.Forbidden(BlogMessages.BLOG_DELETE_FORBIDDEN);
+  }
+
+  await blog.destroy();
+}
 }
 
 export default new BlogService();

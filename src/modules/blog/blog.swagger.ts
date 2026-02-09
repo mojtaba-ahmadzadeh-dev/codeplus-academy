@@ -352,3 +352,58 @@
  *       500:
  *         description: Internal server error
  */
+
+/**
+ * @swagger
+ * /blogs/{id}:
+ *   delete:
+ *     summary: Delete a blog
+ *     description: Delete an existing blog. Only the blog author can delete their own blog.
+ *     tags: [Blogs 📝]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: Blog ID
+ *     responses:
+ *       200:
+ *         description: Blog deleted successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "بلاگ با موفقیت حذف شد"
+ *       400:
+ *         description: Invalid blog ID
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Blog id must be a number"
+ *       401:
+ *         description: Unauthorized
+ *       403:
+ *         description: Forbidden – user is not the blog author
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "شما اجازه حذف این بلاگ را ندارید"
+ *       404:
+ *         description: Blog not found
+ *       500:
+ *         description: Internal server error
+ */

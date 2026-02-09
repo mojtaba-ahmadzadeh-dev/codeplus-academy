@@ -15,6 +15,7 @@ class BlogController {
     this.getBlogById = this.getBlogById.bind(this);
     this.createBlogByAdmin = this.createBlogByAdmin.bind(this);
     this.updateBlog = this.updateBlog.bind(this);
+    this.deleteBlog = this.deleteBlog.bind(this);
   }
 
   async createBlog(req: Request, res: Response, next: NextFunction) {
@@ -179,6 +180,33 @@ class BlogController {
       return res.status(StatusCodes.OK).json({
         message: BlogMessages.BLOG_UPDATED_SUCCESSFULLY,
         blog: updatedBlog,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async deleteBlog(req: Request, res: Response, next: NextFunction) {
+    try {
+      const id = Number(req.params.id);
+      const userId = req.user?.id;
+
+      if (isNaN(id)) {
+        return res
+          .status(StatusCodes.BAD_REQUEST)
+          .json({ message: "Blog id must be a number" });
+      }
+
+      if (!userId) {
+        return res
+          .status(StatusCodes.UNAUTHORIZED)
+          .json({ message: "Unauthorized" });
+      }
+
+      await this.blogService.deleteBlog(id, userId);
+
+      return res.status(StatusCodes.OK).json({
+        message: BlogMessages.BLOG_DELETED_SUCCESSFULLY,
       });
     } catch (error) {
       next(error);

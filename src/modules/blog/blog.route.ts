@@ -24,4 +24,10 @@ blogRouter.put(
   blogController.updateBlog,
 );
 
+blogRouter.delete(
+  "/:id",
+  rbacGuard([Permissions.BLOG_DELETE]),
+  blogController.deleteBlog,
+);
+
 export default blogRouter;

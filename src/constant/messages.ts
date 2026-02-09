@@ -117,4 +117,6 @@ export enum BlogMessages {
   BLOG_SINGLE_FETCHED_SUCCESSFULLY = "بلاگ با موفقیت دریافت شد",
   BLOG_UPDATED_SUCCESSFULLY = "بلاگ موردنظر با موفقیت آپدیت شد",
   BLOG_UPDATE_FORBIDDEN = "شما فقط می‌توانید بلاگ‌هایی که خودتان ساخته‌اید را ویرایش کنید.",
+  BLOG_DELETED_SUCCESSFULLY = "بلاگ موردنظر با موفقیت حذف شد",
+  BLOG_DELETE_FORBIDDEN = "امکان حذف این بلاگ برای شما وجود ندارد"
 }
