@@ -3,9 +3,13 @@ import blogController from "./blog.controller";
 import { rbacGuard } from "../../middleware/guard/rbac.guard";
 import { Permissions } from "../../constant/role.constant";
 
-const blogRouter = Router()
+const blogRouter = Router();
 
-blogRouter.post("/create", rbacGuard([Permissions.BLOG_CREATE]), blogController.createBlog);
+blogRouter.post(
+  "/create",
+  rbacGuard([Permissions.BLOG_CREATE]),
+  blogController.createBlog,
+);
 blogRouter.get("/", blogController.getAllBlogs);
 blogRouter.get("/:id", blogController.getBlogById);
 blogRouter.post(
@@ -14,4 +18,10 @@ blogRouter.post(
   blogController.createBlogByAdmin,
 );
 
-export default blogRouter
+blogRouter.put(
+  "/update/:id",
+  rbacGuard([Permissions.BLOG_UPDATE]),
+  blogController.updateBlog,
+);
+
+export default blogRouter;

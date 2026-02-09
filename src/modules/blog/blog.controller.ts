@@ -14,6 +14,7 @@ class BlogController {
     this.getAllBlogs = this.getAllBlogs.bind(this);
     this.getBlogById = this.getBlogById.bind(this);
     this.createBlogByAdmin = this.createBlogByAdmin.bind(this);
+    this.updateBlog = this.updateBlog.bind(this);
   }
 
   async createBlog(req: Request, res: Response, next: NextFunction) {
@@ -143,6 +144,41 @@ class BlogController {
       return res.status(StatusCodes.CREATED).json({
         message: BlogMessages.BLOG_CREATE_SUCCESSFULLY,
         blog,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async updateBlog(req: Request, res: Response, next: NextFunction) {
+    try {
+      const id = Number(req.params.id);
+      const { title, content, status, categoryId } = req.body;
+      const userId = req.user?.id;
+
+      if (isNaN(id)) {
+        return res
+          .status(StatusCodes.BAD_REQUEST)
+          .json({ message: "Blog id must be a number" });
+      }
+
+      if (!userId) {
+        return res
+          .status(StatusCodes.UNAUTHORIZED)
+          .json({ message: "Unauthorized" });
+      }
+
+      const updatedBlog = await this.blogService.updateBlog(id, {
+        title,
+        content,
+        status,
+        categoryId,
+        userId,
+      });
+
+      return res.status(StatusCodes.OK).json({
+        message: BlogMessages.BLOG_UPDATED_SUCCESSFULLY,
+        blog: updatedBlog,
       });
     } catch (error) {
       next(error);

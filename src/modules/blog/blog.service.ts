@@ -1,6 +1,9 @@
+import createHttpError from "http-errors";
+import { BlogMessages } from "../../constant/messages";
 import { Blog } from "./blog.model";
 import { BlogCreationAttributes } from "./types/index.types";
 import { Op, fn, col, where } from "sequelize";
+import { STATUS } from "../../constant/status.constant";
 
 class BlogService {
   private blogModel: typeof Blog;
@@ -70,6 +73,37 @@ class BlogService {
       ...data,
       status: data.status ?? "published",
     });
+  }
+
+  async updateBlog(
+    id: number,
+    data: {
+      title?: string;
+      content?: string;
+      status?: (typeof STATUS)[keyof typeof STATUS];
+      categoryId?: number | null;
+      userId: number;
+    },
+  ): Promise<Blog> {
+    const blog = await this.blogModel.findByPk(id);
+
+    if (!blog) {
+      throw createHttpError(BlogMessages.BLOG_NOT_FOUND);
+    }
+
+    if (blog.authorId !== data.userId) {
+      throw createHttpError.Forbidden(BlogMessages.BLOG_UPDATE_FORBIDDEN);
+    }
+
+    await blog.update({
+      title: data.title ?? blog.title,
+      content: data.content ?? blog.content,
+      status: data.status ?? blog.status,
+      categoryId:
+        data.categoryId !== undefined ? data.categoryId : blog.categoryId,
+    });
+
+    return blog;
   }
 }
 

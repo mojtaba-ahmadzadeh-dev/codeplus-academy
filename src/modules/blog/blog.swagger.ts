@@ -32,7 +32,7 @@
  *                 example: "This is the content of my first blog."
  *               status:
  *                 type: string
- *                 example: "DRAFT"
+ *                 example: "active"
  *               categoryId:
  *                 type: integer
  *                 nullable: true
@@ -287,6 +287,68 @@
  *         description: Unauthorized
  *       403:
  *         description: Admin access required
+ *       500:
+ *         description: Internal server error
+ */
+
+/**
+ * @swagger
+ * /blogs/update/{id}:
+ *   put:
+ *     summary: Update a blog
+ *     description: Update an existing blog. Only the blog author can update their blog.
+ *     tags: [Blogs 📝]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: Blog ID
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               title:
+ *                 type: string
+ *                 example: "Updated blog title"
+ *               content:
+ *                 type: string
+ *                 example: "Updated blog content"
+ *               status:
+ *                 type: string
+ *                 enum: [active, inactive, pending, accepted]
+ *                 example: active
+ *               categoryId:
+ *                 type: integer
+ *                 nullable: true
+ *                 example: 2
+ *     responses:
+ *       200:
+ *         description: Blog updated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Blog updated successfully
+ *                 blog:
+ *                   $ref: '#/components/schemas/Blog'
+ *       400:
+ *         description: Invalid input data
+ *       401:
+ *         description: Unauthorized
+ *       403:
+ *         description: You do not have permission to update this blog
+ *       404:
+ *         description: Blog not found
  *       500:
  *         description: Internal server error
  */
