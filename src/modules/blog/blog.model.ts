@@ -15,6 +15,9 @@ class Blog
   public status!: (typeof STATUS)[keyof typeof STATUS];
   public authorId!: number;
   public categoryId!: number | null;
+  public likes!: number;
+  public dislikes!: number;
+  public bookmarks!: boolean;
 
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
@@ -39,6 +42,17 @@ Blog.init(
       type: DataTypes.TEXT,
       allowNull: false,
     },
+
+    likes: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      defaultValue: 0,
+    },
+    dislikes: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      defaultValue: 0,
+    },
     status: {
       type: DataTypes.ENUM(...Object.values(STATUS)),
       allowNull: false,
@@ -53,6 +67,11 @@ Blog.init(
       type: DataTypes.INTEGER,
       allowNull: true,
       references: { model: "categories", key: "id" },
+    },
+    bookmarks: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false,
     },
     createdAt: {
       type: DataTypes.DATE,
@@ -70,7 +89,7 @@ Blog.init(
     modelName: "blog",
     tableName: "blogs",
     timestamps: true,
-  }
-)
+  },
+);
 
 export { Blog };

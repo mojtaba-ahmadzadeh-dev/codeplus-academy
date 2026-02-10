@@ -1,5 +1,3 @@
-// src/constant/status.constant.ts
-
 export const STATUS = {
   ACTIVE: "active",
   INACTIVE: "inactive",

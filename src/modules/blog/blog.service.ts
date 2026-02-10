@@ -4,6 +4,8 @@ import { Blog } from "./blog.model";
 import { BlogCreationAttributes } from "./types/index.types";
 import { Op, fn, col, where } from "sequelize";
 import { STATUS } from "../../constant/status.constant";
+import { User } from "../user/user.model";
+import { Category } from "../category/category.model";
 
 class BlogService {
   private blogModel: typeof Blog;
@@ -44,6 +46,23 @@ class BlogService {
         order: [["createdAt", sort === "newest" ? "DESC" : "ASC"]],
         limit,
         offset,
+        attributes: {
+          exclude: ["authorId", "categoryId"],
+        },
+        include: [
+          {
+            model: User,
+            as: "author",
+            attributes: [
+              "id",
+              "full_name",
+              "mobile",
+              "avatar",
+              "is_banned",
+              "role",
+            ],
+          },
+        ],
       });
     } catch (error) {
       console.error("Error fetching blogs:", error);
@@ -55,6 +74,23 @@ class BlogService {
     try {
       return await this.blogModel.findOne({
         where: { id },
+        attributes: {
+          exclude: ["authorId", "categoryId"],
+        },
+        include: [
+          {
+            model: User,
+            as: "author",
+            attributes: [
+              "id",
+              "full_name",
+              "mobile",
+              "avatar",
+              "is_banned",
+              "role",
+            ],
+          },
+        ],
       });
     } catch (error) {
       console.error("Error fetching blog by id:", error);
@@ -106,20 +142,107 @@ class BlogService {
     return blog;
   }
 
-    async deleteBlog(id: number, userId: number): Promise<void> {
-  const blog = await this.blogModel.findByPk(id);
+  async deleteBlog(id: number, userId: number): Promise<void> {
+    const blog = await this.blogModel.findByPk(id);
 
-  if (!blog) {
-    throw createHttpError(BlogMessages.BLOG_NOT_FOUND);
+    if (!blog) {
+      throw createHttpError(BlogMessages.BLOG_NOT_FOUND);
+    }
+
+    // فقط نویسنده بلاگ اجازه حذف دارد
+    if (blog.authorId !== userId) {
+      throw createHttpError.Forbidden(BlogMessages.BLOG_DELETE_FORBIDDEN);
+    }
+
+    await blog.destroy();
   }
 
-  // فقط نویسنده بلاگ اجازه حذف دارد
-  if (blog.authorId !== userId) {
-    throw createHttpError.Forbidden(BlogMessages.BLOG_DELETE_FORBIDDEN);
+  async likeOrDislike(
+    blogId: number,
+    userId: number,
+    isLike: boolean,
+  ): Promise<{ likes: number; dislikes: number; message: string }> {
+    const blog = await this.blogModel.findByPk(blogId);
+
+    if (!blog) throw createHttpError.NotFound(BlogMessages.BLOG_NOT_FOUND);
+
+    const reactions = (blog as any).userReactions || {};
+    const previous = reactions[userId];
+
+    if (previous === isLike) {
+      if (isLike) blog.likes--;
+      else blog.dislikes--;
+      delete reactions[userId];
+    } else {
+      if (previous === true) blog.likes--;
+      if (previous === false) blog.dislikes--;
+
+      if (isLike) blog.likes++;
+      else blog.dislikes++;
+
+      reactions[userId] = isLike;
+    }
+
+    (blog as any).userReactions = reactions;
+    await blog.save();
+
+    return {
+      likes: blog.likes,
+      dislikes: blog.dislikes,
+      message: "Reaction updated",
+    };
   }
 
-  await blog.destroy();
-}
+  async toggleBookmark(blogId: number): Promise<{
+    isBookmarked: boolean;
+    bookmarkCount: number;
+  }> {
+    const blog = await this.blogModel.findByPk(blogId);
+
+    if (!blog) {
+      throw createHttpError.NotFound(BlogMessages.BLOG_NOT_FOUND);
+    }
+
+    if (blog.bookmarks) {
+      throw createHttpError.BadRequest(BlogMessages.BLOG_ALREADY_BOOKMARKED);
+    }
+
+    blog.bookmarks = true;
+    await blog.save();
+
+    return {
+      isBookmarked: true,
+      bookmarkCount: 1,
+    };
+  }
+
+  async getBlogsByAuthor(
+    authorId: number,
+    offset: number = 0,
+    limit: number = 10,
+  ): Promise<{ rows: Blog[]; count: number }> {
+    return this.blogModel.findAndCountAll({
+      where: { authorId },
+      order: [["createdAt", "DESC"]],
+      limit,
+      offset,
+      attributes: {
+        exclude: ["authorId", "categoryId"],
+      },
+      include: [
+        {
+          model: User,
+          as: "author",
+          attributes: ["id", "full_name", "avatar"],
+        },
+        {
+          model: Category,
+          as: "category",
+          attributes: ["id", "title"],
+        },
+      ],
+    });
+  }
 }
 
 export default new BlogService();

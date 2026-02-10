@@ -407,3 +407,181 @@
  *       500:
  *         description: Internal server error
  */
+
+/**
+ * @swagger
+ * /blogs/{id}/like:
+ *   put:
+ *     summary: Like or dislike a blog
+ *     description: Like or dislike a blog. If the user already liked/disliked, the reaction will be toggled. 
+ *     tags: [Blogs 📝]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: Blog ID
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - isLike
+ *             properties:
+ *               isLike:
+ *                 type: boolean
+ *                 description: true = like, false = dislike
+ *                 example: true
+ *     responses:
+ *       200:
+ *         description: Reaction updated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Reaction updated"
+ *                 likes:
+ *                   type: integer
+ *                   example: 5
+ *                 dislikes:
+ *                   type: integer
+ *                   example: 2
+ *       400:
+ *         description: Invalid input or blog ID
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Invalid blog ID"
+ *       401:
+ *         description: Unauthorized
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Unauthorized"
+ *       404:
+ *         description: Blog not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Blog not found"
+ *       500:
+ *         description: Internal server error
+ */
+
+/**
+ * @swagger
+ * /blogs/{id}/bookmark:
+ *   put:
+ *     summary: Update bookmark status for a blog
+ *     description: Toggle (add or remove) bookmark for the logged-in user on a specific blog.
+ *     tags: [Blogs 📝]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: Blog ID
+ *     responses:
+ *       200:
+ *         description: Bookmark updated successfully
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: "Bookmark updated successfully"
+ *               isBookmarked: true
+ *               bookmarkCount: 6
+ *       400:
+ *         description: Invalid blog ID
+ *       401:
+ *         description: Unauthorized
+ *       404:
+ *         description: Blog not found
+ *       500:
+ *         description: Internal server error
+ */
+
+/**
+ * @swagger
+ * /blogs/my:
+ *   get:
+ *     summary: Get blogs of the logged-in user
+ *     description: Retrieve all blogs created by the currently authenticated user with pagination.
+ *     tags: [Blogs 📝]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: query
+ *         name: page
+ *         schema:
+ *           type: integer
+ *           default: 1
+ *         description: Page number
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: integer
+ *           default: 10
+ *         description: Number of blogs per page
+ *     responses:
+ *       200:
+ *         description: User blogs retrieved successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Blogs retrieved successfully
+ *                 total:
+ *                   type: integer
+ *                   example: 5
+ *                 totalPages:
+ *                   type: integer
+ *                   example: 1
+ *                 page:
+ *                   type: integer
+ *                   example: 1
+ *                 limit:
+ *                   type: integer
+ *                   example: 10
+ *                 blogs:
+ *                   type: array
+ *                   items:
+ *                     $ref: '#/components/schemas/Blog'
+ *       401:
+ *         description: Unauthorized
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Unauthorized
+ *       500:
+ *         description: Internal server error
+ */

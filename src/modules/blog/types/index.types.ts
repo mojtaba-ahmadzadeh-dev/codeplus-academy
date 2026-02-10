@@ -7,11 +7,15 @@ export interface BlogAttributes {
   content: string;
   status: (typeof STATUS)[keyof typeof STATUS];
   authorId: number;
-  categoryId?: number | null;
-
+  categoryId: number | null;
+  likes: number;
+  dislikes: number;
+  bookmarks: boolean;
   createdAt: Date;
   updatedAt: Date;
 }
 
-export interface BlogCreationAttributes
-  extends Optional<BlogAttributes, "id" | "categoryId" | "createdAt" | "updatedAt"> {}
+export type BlogCreationAttributes = Optional<
+  BlogAttributes,
+  "id" | "categoryId" | "createdAt" | "updatedAt" | "bookmarks"
+>;

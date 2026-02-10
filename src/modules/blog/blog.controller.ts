@@ -16,6 +16,9 @@ class BlogController {
     this.createBlogByAdmin = this.createBlogByAdmin.bind(this);
     this.updateBlog = this.updateBlog.bind(this);
     this.deleteBlog = this.deleteBlog.bind(this);
+    this.likeOrDislike = this.likeOrDislike.bind(this);
+    this.toggleBookmark = this.toggleBookmark.bind(this);
+    this.getMyBlogs = this.getMyBlogs.bind(this);
   }
 
   async createBlog(req: Request, res: Response, next: NextFunction) {
@@ -35,6 +38,8 @@ class BlogController {
         status,
         authorId,
         categoryId: categoryId || null,
+        likes: 0,
+        dislikes: 0,
       });
 
       return res.status(StatusCodes.CREATED).json({
@@ -140,6 +145,8 @@ class BlogController {
         status,
         authorId,
         categoryId: categoryId || null,
+        likes: 0,
+        dislikes: 0,
       });
 
       return res.status(StatusCodes.CREATED).json({
@@ -207,6 +214,97 @@ class BlogController {
 
       return res.status(StatusCodes.OK).json({
         message: BlogMessages.BLOG_DELETED_SUCCESSFULLY,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async likeOrDislike(req: Request, res: Response, next: NextFunction) {
+    try {
+      const blogId = Number(req.params.id);
+      const userId = req.user?.id;
+      const { isLike } = req.body;
+
+      if (!userId) {
+        return res
+          .status(StatusCodes.UNAUTHORIZED)
+          .json({ message: "Unauthorized" });
+      }
+
+      const result = await this.blogService.likeOrDislike(
+        blogId,
+        userId,
+        isLike,
+      );
+
+      return res.status(StatusCodes.OK).json(result);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async toggleBookmark(req: Request, res: Response, next: NextFunction) {
+    try {
+      const blogId = Number(req.params.id);
+
+      if (isNaN(blogId)) {
+        return res
+          .status(StatusCodes.BAD_REQUEST)
+          .json({ message: "Blog id must be a number" });
+      }
+
+      const result = await this.blogService.toggleBookmark(blogId);
+
+      return res.status(StatusCodes.OK).json({
+        message: "Bookmark updated successfully",
+        ...result,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async getMyBlogs(req: Request, res: Response, next: NextFunction) {
+    try {
+      const userId = req.user?.id;
+
+      if (!userId) {
+        return res
+          .status(StatusCodes.UNAUTHORIZED)
+          .json({ message: "Unauthorized" });
+      }
+
+      const pageParam =
+        typeof req.query.page === "string" ? req.query.page : undefined;
+      const limitParam =
+        typeof req.query.limit === "string" ? req.query.limit : undefined;
+
+      const { count } = await this.blogService.getBlogsByAuthor(
+        userId,
+        0,
+        1000000,
+      );
+
+      const { page, limit, totalPages, offset } = getPagination({
+        page: pageParam,
+        limit: limitParam,
+        totalItems: count,
+      });
+
+      const { rows } = await this.blogService.getBlogsByAuthor(
+        userId,
+        offset,
+        limit,
+      );
+
+      return res.status(StatusCodes.OK).json({
+        message: BlogMessages.BLOG_FETCHED_SUCCESSFULLY,
+        total: count,
+        totalPages,
+        page,
+        limit,
+        blogs: rows,
       });
     } catch (error) {
       next(error);

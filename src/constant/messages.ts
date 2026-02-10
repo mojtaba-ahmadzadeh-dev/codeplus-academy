@@ -109,6 +109,7 @@ export enum CourseCommentMessages {
   COURSE_COMMENT_REJECTED_SUCCESSFULLY = "کامنت مورد نظر با موفقیت رد شد",
   COURSE_COMMENT_DELETED_SUCCESSFULLY = "کامنت مورد نظر با موفقیت حذف شد",
 }
+
 export enum BlogMessages {
   BLOG_CREATE_SUCCESSFULLY = "بلاگ مورد نظر با موفقیت ساخته شد",
   BLOG_FETCHED_SUCCESSFULLY = "بلاگ‌ها با موفقیت دریافت شدند",
@@ -118,5 +119,6 @@ export enum BlogMessages {
   BLOG_UPDATED_SUCCESSFULLY = "بلاگ موردنظر با موفقیت آپدیت شد",
   BLOG_UPDATE_FORBIDDEN = "شما فقط می‌توانید بلاگ‌هایی که خودتان ساخته‌اید را ویرایش کنید.",
   BLOG_DELETED_SUCCESSFULLY = "بلاگ موردنظر با موفقیت حذف شد",
-  BLOG_DELETE_FORBIDDEN = "امکان حذف این بلاگ برای شما وجود ندارد"
+  BLOG_DELETE_FORBIDDEN = "امکان حذف این بلاگ برای شما وجود ندارد",
+  BLOG_ALREADY_BOOKMARKED = "شما قبلاً این بلاگ را بوکمارک کرده‌اید", 
 }

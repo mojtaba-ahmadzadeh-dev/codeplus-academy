@@ -10,6 +10,11 @@ blogRouter.post(
   rbacGuard([Permissions.BLOG_CREATE]),
   blogController.createBlog,
 );
+blogRouter.get(
+  "/my",
+  rbacGuard([Permissions.BLOG_READ]),
+  blogController.getMyBlogs,
+);
 blogRouter.get("/", blogController.getAllBlogs);
 blogRouter.get("/:id", blogController.getBlogById);
 blogRouter.post(
@@ -28,6 +33,18 @@ blogRouter.delete(
   "/:id",
   rbacGuard([Permissions.BLOG_DELETE]),
   blogController.deleteBlog,
+);
+
+blogRouter.put(
+  "/:id/like",
+  rbacGuard([Permissions.BLOG_LIKE]),
+  blogController.likeOrDislike,
+);
+
+blogRouter.put(
+  "/:id/bookmark",
+  rbacGuard([Permissions.BLOG_BOOKMARK]),
+  blogController.toggleBookmark,
 );
 
 export default blogRouter;
