@@ -10,7 +10,7 @@ export interface BlogAttributes {
   categoryId: number | null;
   likes: number;
   dislikes: number;
-  bookmarks: boolean;
+  bookmarks: number;
   createdAt: Date;
   updatedAt: Date;
 }

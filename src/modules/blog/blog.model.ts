@@ -17,7 +17,7 @@ class Blog
   public categoryId!: number | null;
   public likes!: number;
   public dislikes!: number;
-  public bookmarks!: boolean;
+  public bookmarks!: number;
 
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
@@ -69,7 +69,7 @@ Blog.init(
       references: { model: "categories", key: "id" },
     },
     bookmarks: {
-      type: DataTypes.BOOLEAN,
+      type: DataTypes.INTEGER,
       allowNull: false,
       defaultValue: false,
     },

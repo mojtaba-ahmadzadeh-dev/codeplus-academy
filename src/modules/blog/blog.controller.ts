@@ -13,12 +13,12 @@ class BlogController {
     this.createBlog = this.createBlog.bind(this);
     this.getAllBlogs = this.getAllBlogs.bind(this);
     this.getBlogById = this.getBlogById.bind(this);
-    this.createBlogByAdmin = this.createBlogByAdmin.bind(this);
     this.updateBlog = this.updateBlog.bind(this);
     this.deleteBlog = this.deleteBlog.bind(this);
     this.likeOrDislike = this.likeOrDislike.bind(this);
     this.toggleBookmark = this.toggleBookmark.bind(this);
     this.getMyBlogs = this.getMyBlogs.bind(this);
+    this.getMyBookmarks = this.getMyBookmarks.bind(this);
   }
 
   async createBlog(req: Request, res: Response, next: NextFunction) {
@@ -39,6 +39,7 @@ class BlogController {
         authorId,
         categoryId: categoryId || null,
         likes: 0,
+        bookmarks: 0,
         dislikes: 0,
       });
 
@@ -55,37 +56,26 @@ class BlogController {
     try {
       const search =
         typeof req.query.search === "string" ? req.query.search : "";
-      const pageParam =
-        typeof req.query.page === "string" ? req.query.page : undefined;
-      const limitParam =
-        typeof req.query.limit === "string" ? req.query.limit : undefined;
       const sort = req.query.sort === "oldest" ? "oldest" : "newest";
-      const { count } = await this.blogService.getAllBlogs(
-        search,
-        0,
-        1000000,
-        sort,
-      );
 
-      const { page, limit, totalPages, offset } = getPagination({
-        page: pageParam,
-        limit: limitParam,
-        totalItems: count,
+      const { page, limit, offset } = getPagination({
+        page: req.query.page as string,
+        limit: req.query.limit as string,
       });
 
-      const { rows } = await this.blogService.getAllBlogs(
+      const { rows, count } = await this.blogService.getAllBlogs(
         search,
         offset,
         limit,
         sort,
       );
+      const totalPages = Math.ceil(count / limit);
 
-      let message: string = BlogMessages.BLOG_FETCHED_SUCCESSFULLY;
-      if (rows.length === 0) {
-        message = search
+      const message = rows.length
+        ? BlogMessages.BLOG_FETCHED_SUCCESSFULLY
+        : search
           ? BlogMessages.BLOG_NOT_FOUND_SEARCH.replace("{search}", search)
           : BlogMessages.BLOG_NOT_FOUND;
-      }
 
       return res.status(StatusCodes.OK).json({
         message,
@@ -124,36 +114,6 @@ class BlogController {
         blog,
       });
     } catch (error: any) {
-      next(error);
-    }
-  }
-
-  async createBlogByAdmin(req: Request, res: Response, next: NextFunction) {
-    try {
-      const { title, content, status, categoryId } = req.body;
-      const authorId = req.user?.id;
-
-      if (!title || !content || !authorId) {
-        return res.status(StatusCodes.BAD_REQUEST).json({
-          message: "Title, content and authorId are required.",
-        });
-      }
-
-      const blog = await this.blogService.createBlogByAdmin({
-        title,
-        content,
-        status,
-        authorId,
-        categoryId: categoryId || null,
-        likes: 0,
-        dislikes: 0,
-      });
-
-      return res.status(StatusCodes.CREATED).json({
-        message: BlogMessages.BLOG_CREATE_SUCCESSFULLY,
-        blog,
-      });
-    } catch (error) {
       next(error);
     }
   }
@@ -268,38 +228,63 @@ class BlogController {
   async getMyBlogs(req: Request, res: Response, next: NextFunction) {
     try {
       const userId = req.user?.id;
-
       if (!userId) {
         return res
           .status(StatusCodes.UNAUTHORIZED)
           .json({ message: "Unauthorized" });
       }
 
-      const pageParam =
-        typeof req.query.page === "string" ? req.query.page : undefined;
-      const limitParam =
-        typeof req.query.limit === "string" ? req.query.limit : undefined;
-
-      const { count } = await this.blogService.getBlogsByAuthor(
-        userId,
-        0,
-        1000000,
-      );
-
-      const { page, limit, totalPages, offset } = getPagination({
-        page: pageParam,
-        limit: limitParam,
-        totalItems: count,
+      const { page, limit, offset } = getPagination({
+        page: req.query.page as string,
+        limit: req.query.limit as string,
       });
 
-      const { rows } = await this.blogService.getBlogsByAuthor(
+      const { count, rows } = await this.blogService.getBlogsByAuthor(
+        userId,
+        offset,
+        limit,
+      );
+      const totalPages = Math.ceil(count / limit);
+
+      return res.status(StatusCodes.OK).json({
+        message: rows.length
+          ? BlogMessages.BLOG_FETCHED_SUCCESSFULLY
+          : "No blogs found",
+        total: count,
+        totalPages,
+        page,
+        limit,
+        blogs: rows,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async getMyBookmarks(req: Request, res: Response, next: NextFunction) {
+    try {
+      const userId = req.user?.id;
+      if (!userId) {
+        return res
+          .status(StatusCodes.UNAUTHORIZED)
+          .json({ message: "Unauthorized" });
+      }
+
+      const { page, limit, offset } = getPagination({
+        page: req.query.page as string,
+        limit: req.query.limit as string,
+      });
+
+      const { count, rows } = await this.blogService.getBookmarksByUser(
         userId,
         offset,
         limit,
       );
 
+      const totalPages = Math.ceil(count / limit);
+
       return res.status(StatusCodes.OK).json({
-        message: BlogMessages.BLOG_FETCHED_SUCCESSFULLY,
+        message: "",
         total: count,
         totalPages,
         page,

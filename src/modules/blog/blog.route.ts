@@ -11,16 +11,24 @@ blogRouter.post(
   blogController.createBlog,
 );
 blogRouter.get(
-  "/my",
+  "/me",
   rbacGuard([Permissions.BLOG_READ]),
   blogController.getMyBlogs,
 );
-blogRouter.get("/", blogController.getAllBlogs);
-blogRouter.get("/:id", blogController.getBlogById);
-blogRouter.post(
-  "/admin/create",
-  rbacGuard([Permissions.BLOG_CREATE_ADMIN]),
-  blogController.createBlogByAdmin,
+blogRouter.get(
+  "/bookmarks/me",
+  rbacGuard([Permissions.BLOG__BOOKMARKS_ME]),
+  blogController.getMyBookmarks,
+);
+blogRouter.get(
+  "/",
+  rbacGuard([Permissions.BLOG_GETALL]),
+  blogController.getAllBlogs,
+);
+blogRouter.get(
+  "/:id",
+  rbacGuard([Permissions.BLOG__BY_ID]),
+  blogController.getBlogById,
 );
 
 blogRouter.put(

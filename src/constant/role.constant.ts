@@ -54,11 +54,14 @@ export enum Permissions {
   // Blog
   BLOG_CREATE = "blog:create",
   BLOG_CREATE_ADMIN = "blog-admin:create",
+  BLOG_GETALL = "blog:get-all",
+  BLOG__BY_ID = "blog:get-by-id",
   BLOG_UPDATE = "blog:update",
   BLOG_DELETE = "blog:delete",
   BLOG_LIKE = "blog:like",
   BLOG_BOOKMARK = "blog:bookmark",
   BLOG_READ = "blog:read",
+  BLOG__BOOKMARKS_ME = "blog:bookmarks-me",
 }
 
 const adminPermissions: Permissions[] = [
@@ -114,6 +117,9 @@ const adminPermissions: Permissions[] = [
   Permissions.BLOG_LIKE,
   Permissions.BLOG_BOOKMARK,
   Permissions.BLOG_READ,
+  Permissions.BLOG__BOOKMARKS_ME,
+  Permissions.BLOG_GETALL,
+  Permissions.BLOG__BY_ID,
 ];
 
 const teacherPermissions: Permissions[] = [
@@ -156,6 +162,9 @@ const teacherPermissions: Permissions[] = [
   Permissions.BLOG_LIKE,
   Permissions.BLOG_BOOKMARK,
   Permissions.BLOG_READ,
+  Permissions.BLOG__BOOKMARKS_ME,
+  Permissions.BLOG_GETALL,
+  Permissions.BLOG__BY_ID,
 ];
 
 export const RolePermissions: Record<Roles, Permissions[]> = {
@@ -165,5 +174,6 @@ export const RolePermissions: Record<Roles, Permissions[]> = {
     Permissions.BLOG_LIKE,
     Permissions.BLOG_BOOKMARK,
     Permissions.BLOG_READ,
+    Permissions.BLOG__BOOKMARKS_ME,
   ],
 };

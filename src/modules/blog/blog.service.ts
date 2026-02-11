@@ -16,6 +16,19 @@ class BlogService {
 
   async createBlog(data: BlogCreationAttributes): Promise<Blog> {
     try {
+      const existingBlog = await this.blogModel.findOne({
+        where: {
+          title: data.title,
+          authorId: data.authorId,
+        },
+      });
+
+      if (existingBlog) {
+        throw createHttpError.BadRequest(
+          BlogMessages.BLOG_TITLE_ALREADY_EXISTS,
+        );
+      }
+
       const blog = await this.blogModel.create(data);
       return blog;
     } catch (error) {
@@ -96,19 +109,6 @@ class BlogService {
       console.error("Error fetching blog by id:", error);
       throw error;
     }
-  }
-
-  async createBlogByAdmin(data: BlogCreationAttributes): Promise<Blog> {
-    const { title, content, authorId } = data;
-
-    if (!title || !content || !authorId) {
-      throw new Error("Title, content and authorId are required.");
-    }
-
-    return this.blogModel.create({
-      ...data,
-      status: data.status ?? "published",
-    });
   }
 
   async updateBlog(
@@ -203,16 +203,19 @@ class BlogService {
       throw createHttpError.NotFound(BlogMessages.BLOG_NOT_FOUND);
     }
 
-    if (blog.bookmarks) {
-      throw createHttpError.BadRequest(BlogMessages.BLOG_ALREADY_BOOKMARKED);
+    const isBookmarked = blog.bookmarks > 0;
+
+    if (isBookmarked) {
+      blog.bookmarks = 0;
+    } else {
+      blog.bookmarks = 1;
     }
 
-    blog.bookmarks = true;
     await blog.save();
 
     return {
-      isBookmarked: true,
-      bookmarkCount: 1,
+      isBookmarked: !isBookmarked,
+      bookmarkCount: blog.bookmarks,
     };
   }
 
@@ -234,6 +237,37 @@ class BlogService {
           model: User,
           as: "author",
           attributes: ["id", "full_name", "avatar"],
+        },
+        {
+          model: Category,
+          as: "category",
+          attributes: ["id", "title"],
+        },
+      ],
+    });
+  }
+
+  async getBookmarksByUser(
+    userId: number,
+    offset: number = 0,
+    limit: number = 10,
+  ): Promise<{ rows: Blog[]; count: number }> {
+    return this.blogModel.findAndCountAll({
+      where: {
+        authorId: userId,
+        bookmarks: true,
+      },
+      order: [["createdAt", "DESC"]],
+      limit,
+      offset,
+      attributes: {
+        exclude: ["authorId", "categoryId"],
+      },
+      include: [
+        {
+          model: User,
+          as: "author",
+          attributes: ["id", "full_name", "mobile", "avatar", "role"],
         },
         {
           model: Category,
