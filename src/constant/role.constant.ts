@@ -50,6 +50,18 @@ export enum Permissions {
   COURSE_COMMENT_ACCEPT = "course-comment:accept",
   COURSE_COMMENT_REJECT = "course-comment:reject",
   COURSE_COMMENT_DELETE = "course-comment:delete",
+
+  // Blog
+  BLOG_CREATE = "blog:create",
+  BLOG_CREATE_ADMIN = "blog-admin:create",
+  BLOG_GETALL = "blog:get-all",
+  BLOG__BY_ID = "blog:get-by-id",
+  BLOG_UPDATE = "blog:update",
+  BLOG_DELETE = "blog:delete",
+  BLOG_LIKE = "blog:like",
+  BLOG_BOOKMARK = "blog:bookmark",
+  BLOG_READ = "blog:read",
+  BLOG__BOOKMARKS_ME = "blog:bookmarks-me",
 }
 
 const adminPermissions: Permissions[] = [
@@ -96,6 +108,18 @@ const adminPermissions: Permissions[] = [
   Permissions.COURSE_COMMENT_BY_ID,
   Permissions.COURSE_COMMENT_UPDATE,
   Permissions.COURSE_COMMENT_DELETE,
+
+  // Blog
+  Permissions.BLOG_CREATE,
+  Permissions.BLOG_CREATE_ADMIN,
+  Permissions.BLOG_UPDATE,
+  Permissions.BLOG_DELETE,
+  Permissions.BLOG_LIKE,
+  Permissions.BLOG_BOOKMARK,
+  Permissions.BLOG_READ,
+  Permissions.BLOG__BOOKMARKS_ME,
+  Permissions.BLOG_GETALL,
+  Permissions.BLOG__BY_ID,
 ];
 
 const teacherPermissions: Permissions[] = [
@@ -132,10 +156,24 @@ const teacherPermissions: Permissions[] = [
   Permissions.COURSE_COMMENT_BY_ID,
   Permissions.COURSE_COMMENT_UPDATE,
   Permissions.COURSE_COMMENT_DELETE,
+
+  // Blog
+  Permissions.BLOG_CREATE,
+  Permissions.BLOG_LIKE,
+  Permissions.BLOG_BOOKMARK,
+  Permissions.BLOG_READ,
+  Permissions.BLOG__BOOKMARKS_ME,
+  Permissions.BLOG_GETALL,
+  Permissions.BLOG__BY_ID,
 ];
 
 export const RolePermissions: Record<Roles, Permissions[]> = {
   [Roles.ADMIN]: adminPermissions,
   [Roles.TEACHER]: teacherPermissions,
-  [Roles.USER]: [],
+  [Roles.USER]: [
+    Permissions.BLOG_LIKE,
+    Permissions.BLOG_BOOKMARK,
+    Permissions.BLOG_READ,
+    Permissions.BLOG__BOOKMARKS_ME,
+  ],
 };

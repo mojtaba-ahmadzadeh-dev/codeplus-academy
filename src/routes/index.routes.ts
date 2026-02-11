@@ -7,6 +7,7 @@ import courseRouter from "../modules/course/course.route";
 import lessionRouter from "../modules/lession/lesson.route";
 import captureRouter from "../modules/capture/capture.route";
 import courseCommentRouter from "../modules/course-comment/course-comment.route";
+import blogRouter from "../modules/blog/blog.route";
 
 const AllRoutes: Router = Router();
 
@@ -18,5 +19,6 @@ AllRoutes.use(`/courses`, courseRouter);
 AllRoutes.use(`/lessons`, lessionRouter);
 AllRoutes.use(`/captures`, captureRouter);
 AllRoutes.use(`/course-comments`, courseCommentRouter);
+AllRoutes.use(`/blogs`, blogRouter);
 
 export { AllRoutes };
