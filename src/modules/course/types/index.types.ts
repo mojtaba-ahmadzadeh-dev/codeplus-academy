@@ -1,3 +1,6 @@
+import Capture from "../../capture/capture.model";
+import { Lesson } from "../../lession/lesson.model";
+
 export interface ICourse {
   id?: number;
   title: string;
@@ -36,4 +39,9 @@ export interface UpdateCourseDTO {
   duration?: number;
   category_id?: number;
   status?: "draft" | "published";
+}
+
+export interface ICourseWithRelations extends ICourse {
+  lessons?: Lesson[];
+  captures?: Capture[];
 }
