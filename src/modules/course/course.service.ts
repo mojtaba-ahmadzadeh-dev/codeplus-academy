@@ -3,6 +3,8 @@ import slugify from "slugify";
 import { CreateCourseDTO, UpdateCourseDTO } from "./types/index.types";
 import { CourseMessages } from "../../constant/messages";
 import createHttpError from "http-errors";
+import { Lesson } from "../lession/lesson.model";
+import Capture from "../capture/capture.model";
 
 class CourseService {
   async createCourse(data: CreateCourseDTO) {
@@ -102,7 +104,12 @@ class CourseService {
       throw createHttpError.NotFound(CourseMessages.COURSE_NOT_FOUND);
     }
 
+    await Lesson.destroy({ where: { courseId: id } });
+
+    await Capture.destroy({ where: { courseId: id } });
+
     await course.destroy();
+
     return { message: CourseMessages.COURSE_DELETED_SUCCESSFULLY };
   }
 }
