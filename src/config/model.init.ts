@@ -1,28 +1,18 @@
 import { sequelize } from "../config/sequelize.config";
-import { Blog } from "../modules/blog/blog.model";
+import { Blog } from "../modules/blog/entities/blog.model";
+import { Bookmark } from "../modules/blog/entities/blog-bookmarks.model";
 import { Capture } from "../modules/capture/capture.model";
 import { Category } from "../modules/category/category.model";
 import { CourseComment } from "../modules/course-comment/course-comment.model";
 import { Course } from "../modules/course/course.model";
 import { Lesson } from "../modules/lession/lesson.model";
 import { Permission, Role, RolePermission } from "../modules/RBAC/rbac.model";
+import { Reaction } from "../modules/blog/entities/blog-likes.model";
 import { OTP, User } from "../modules/user/user.model";
 
 const initDatabase = async (): Promise<void> => {
   User.hasMany(OTP, { foreignKey: "user_id", as: "otps" });
   OTP.belongsTo(User, { foreignKey: "user_id", as: "user" });
-
-  User.belongsToMany(Role, {
-    through: "user_roles",
-    foreignKey: "user_id",
-    otherKey: "role_id",
-  });
-
-  Role.belongsToMany(User, {
-    through: "user_roles",
-    foreignKey: "role_id",
-    otherKey: "user_id",
-  });
 
   Role.belongsToMany(Permission, {
     through: RolePermission,
@@ -51,8 +41,28 @@ const initDatabase = async (): Promise<void> => {
 
   Blog.belongsTo(User, { as: "author", foreignKey: "authorId" });
   Blog.belongsTo(Category, { as: "category", foreignKey: "categoryId" });
+
   Category.hasMany(Blog, { as: "blogs", foreignKey: "categoryId" });
   User.hasMany(Blog, { as: "blogs", foreignKey: "authorId" });
+
+  User.belongsToMany(Blog, {
+    through: Bookmark,
+    foreignKey: "userId",
+    as: "bookmarkedBlogs",
+  });
+  User.hasMany(Bookmark, { foreignKey: "userId", as: "bookmarks" });
+
+  Blog.belongsToMany(User, {
+    through: Bookmark,
+    as: "bookmarkedBy",
+    foreignKey: "blogId",
+  });
+
+  Blog.hasMany(Reaction, { foreignKey: "blogId", as: "reactions" });
+  Reaction.belongsTo(Blog, { foreignKey: "blogId" });
+
+  User.hasMany(Reaction, { foreignKey: "userId", as: "reactions" });
+  Reaction.belongsTo(User, { foreignKey: "userId" });
 
   // await sequelize.sync({ alter: true });
   console.log("✅ Database synced successfully");

@@ -2,7 +2,6 @@ import { NextFunction, Request, Response } from "express";
 import blogService from "./blog.service";
 import { StatusCodes } from "http-status-codes";
 import { BlogMessages } from "../../constant/messages";
-import { getPagination } from "../../utils/pagination";
 
 class BlogController {
   private blogService: typeof blogService;
@@ -17,76 +16,45 @@ class BlogController {
     this.deleteBlog = this.deleteBlog.bind(this);
     this.likeOrDislike = this.likeOrDislike.bind(this);
     this.toggleBookmark = this.toggleBookmark.bind(this);
-    this.getMyBlogs = this.getMyBlogs.bind(this);
-    this.getMyBookmarks = this.getMyBookmarks.bind(this);
+    this.getUserBookmarkedBlogs = this.getUserBookmarkedBlogs.bind(this);
   }
 
   async createBlog(req: Request, res: Response, next: NextFunction) {
     try {
-      const { title, content, status, categoryId } = req.body;
       const authorId = req.user?.id;
 
-      if (!title || !content || !authorId) {
-        return res
-          .status(400)
-          .json({ message: "Title, content and authorId are required." });
-      }
-
-      const newBlog = await this.blogService.createBlog({
-        title,
-        content,
-        status,
+      const blog = await this.blogService.createBlog({
+        ...req.body,
         authorId,
-        categoryId: categoryId || null,
-        likes: 0,
-        bookmarks: 0,
-        dislikes: 0,
       });
 
       return res.status(StatusCodes.CREATED).json({
         message: BlogMessages.BLOG_CREATE_SUCCESSFULLY,
-        newBlog,
+        blog,
       });
-    } catch (error: any) {
+    } catch (error) {
       next(error);
     }
   }
 
   async getAllBlogs(req: Request, res: Response, next: NextFunction) {
     try {
-      const search =
-        typeof req.query.search === "string" ? req.query.search : "";
-      const sort = req.query.sort === "oldest" ? "oldest" : "newest";
-
-      const { page, limit, offset } = getPagination({
-        page: req.query.page as string,
-        limit: req.query.limit as string,
+      const data = await this.blogService.getAllBlogs({
+        search: typeof req.query.search === "string" ? req.query.search : "",
+        page: Number(req.query.page) || 1,
+        limit: Number(req.query.limit) || 10,
+        sort: req.query.sort === "oldest" ? "oldest" : "newest",
       });
 
-      const { rows, count } = await this.blogService.getAllBlogs(
-        search,
-        offset,
-        limit,
-        sort,
-      );
-      const totalPages = Math.ceil(count / limit);
-
-      const message = rows.length
+      const message = data.blogs.length
         ? BlogMessages.BLOG_FETCHED_SUCCESSFULLY
-        : search
-          ? BlogMessages.BLOG_NOT_FOUND_SEARCH.replace("{search}", search)
-          : BlogMessages.BLOG_NOT_FOUND;
+        : BlogMessages.BLOG_NOT_FOUND;
 
       return res.status(StatusCodes.OK).json({
         message,
-        total: count,
-        totalPages,
-        page,
-        limit,
-        sort,
-        blogs: rows,
+        ...data,
       });
-    } catch (error: any) {
+    } catch (error) {
       next(error);
     }
   }
@@ -120,29 +88,11 @@ class BlogController {
 
   async updateBlog(req: Request, res: Response, next: NextFunction) {
     try {
-      const id = Number(req.params.id);
-      const { title, content, status, categoryId } = req.body;
-      const userId = req.user?.id;
-
-      if (isNaN(id)) {
-        return res
-          .status(StatusCodes.BAD_REQUEST)
-          .json({ message: "Blog id must be a number" });
-      }
-
-      if (!userId) {
-        return res
-          .status(StatusCodes.UNAUTHORIZED)
-          .json({ message: "Unauthorized" });
-      }
-
-      const updatedBlog = await this.blogService.updateBlog(id, {
-        title,
-        content,
-        status,
-        categoryId,
-        userId,
-      });
+      const updatedBlog = await this.blogService.updateBlog(
+        req.params.id,
+        req.body,
+        req.user?.id,
+      );
 
       return res.status(StatusCodes.OK).json({
         message: BlogMessages.BLOG_UPDATED_SUCCESSFULLY,
@@ -155,22 +105,7 @@ class BlogController {
 
   async deleteBlog(req: Request, res: Response, next: NextFunction) {
     try {
-      const id = Number(req.params.id);
-      const userId = req.user?.id;
-
-      if (isNaN(id)) {
-        return res
-          .status(StatusCodes.BAD_REQUEST)
-          .json({ message: "Blog id must be a number" });
-      }
-
-      if (!userId) {
-        return res
-          .status(StatusCodes.UNAUTHORIZED)
-          .json({ message: "Unauthorized" });
-      }
-
-      await this.blogService.deleteBlog(id, userId);
+      await this.blogService.deleteBlog(req.params.id, req.user?.id);
 
       return res.status(StatusCodes.OK).json({
         message: BlogMessages.BLOG_DELETED_SUCCESSFULLY,
@@ -182,23 +117,13 @@ class BlogController {
 
   async likeOrDislike(req: Request, res: Response, next: NextFunction) {
     try {
-      const blogId = Number(req.params.id);
-      const userId = req.user?.id;
-      const { isLike } = req.body;
-
-      if (!userId) {
-        return res
-          .status(StatusCodes.UNAUTHORIZED)
-          .json({ message: "Unauthorized" });
-      }
-
       const result = await this.blogService.likeOrDislike(
-        blogId,
-        userId,
-        isLike,
+        Number(req.params.id),
+        req.user!.id,
+        req.body.isLike,
       );
 
-      return res.status(StatusCodes.OK).json(result);
+      return res.status(200).json(result);
     } catch (error) {
       next(error);
     }
@@ -206,15 +131,10 @@ class BlogController {
 
   async toggleBookmark(req: Request, res: Response, next: NextFunction) {
     try {
-      const blogId = Number(req.params.id);
-
-      if (isNaN(blogId)) {
-        return res
-          .status(StatusCodes.BAD_REQUEST)
-          .json({ message: "Blog id must be a number" });
-      }
-
-      const result = await this.blogService.toggleBookmark(blogId);
+      const result = await this.blogService.toggleBookmark(
+        req.user!.id,
+        req.params.id, // string به service پاس داده میشه
+      );
 
       return res.status(StatusCodes.OK).json({
         message: "Bookmark updated successfully",
@@ -225,71 +145,23 @@ class BlogController {
     }
   }
 
-  async getMyBlogs(req: Request, res: Response, next: NextFunction) {
+  async getUserBookmarkedBlogs(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) {
     try {
-      const userId = req.user?.id;
-      if (!userId) {
-        return res
-          .status(StatusCodes.UNAUTHORIZED)
-          .json({ message: "Unauthorized" });
-      }
-
-      const { page, limit, offset } = getPagination({
-        page: req.query.page as string,
-        limit: req.query.limit as string,
-      });
-
-      const { count, rows } = await this.blogService.getBlogsByAuthor(
-        userId,
-        offset,
-        limit,
-      );
-      const totalPages = Math.ceil(count / limit);
-
-      return res.status(StatusCodes.OK).json({
-        message: rows.length
-          ? BlogMessages.BLOG_FETCHED_SUCCESSFULLY
-          : "No blogs found",
-        total: count,
-        totalPages,
-        page,
-        limit,
-        blogs: rows,
-      });
-    } catch (error) {
-      next(error);
-    }
-  }
-
-  async getMyBookmarks(req: Request, res: Response, next: NextFunction) {
-    try {
-      const userId = req.user?.id;
-      if (!userId) {
-        return res
-          .status(StatusCodes.UNAUTHORIZED)
-          .json({ message: "Unauthorized" });
-      }
-
-      const { page, limit, offset } = getPagination({
-        page: req.query.page as string,
-        limit: req.query.limit as string,
-      });
-
-      const { count, rows } = await this.blogService.getBookmarksByUser(
-        userId,
-        offset,
-        limit,
+      const result = await this.blogService.getUserBookmarkedBlogs(
+        req.user?.id,
+        req.query.page as string,
+        req.query.limit as string,
       );
 
-      const totalPages = Math.ceil(count / limit);
-
       return res.status(StatusCodes.OK).json({
-        message: "",
-        total: count,
-        totalPages,
-        page,
-        limit,
-        blogs: rows,
+        message: result.rows.length
+          ? "Bookmarked blogs fetched successfully"
+          : "No bookmarked blogs found",
+        ...result,
       });
     } catch (error) {
       next(error);

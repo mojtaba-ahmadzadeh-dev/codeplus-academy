@@ -9,6 +9,7 @@ export interface IUser {
   is_banned?: boolean;
   isAdmin?: boolean;
   role?: CreationOptional<string>;
+  bookmarkedBlogs?: number[];
   created_at?: Date;
 }
 

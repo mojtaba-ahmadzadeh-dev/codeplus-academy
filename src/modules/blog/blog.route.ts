@@ -10,21 +10,25 @@ blogRouter.post(
   rbacGuard([Permissions.BLOG_CREATE]),
   blogController.createBlog,
 );
+
+blogRouter.get(
+  "/bookmarks",
+  rbacGuard([Permissions.BLOG_GETALL]),
+  blogController.getUserBookmarkedBlogs,
+);
+
 blogRouter.get(
   "/me",
   rbacGuard([Permissions.BLOG_READ]),
-  blogController.getMyBlogs,
+  blogController.getUserBookmarkedBlogs,
 );
-blogRouter.get(
-  "/bookmarks/me",
-  rbacGuard([Permissions.BLOG__BOOKMARKS_ME]),
-  blogController.getMyBookmarks,
-);
+
 blogRouter.get(
   "/",
   rbacGuard([Permissions.BLOG_GETALL]),
   blogController.getAllBlogs,
 );
+
 blogRouter.get(
   "/:id",
   rbacGuard([Permissions.BLOG__BY_ID]),
@@ -54,5 +58,4 @@ blogRouter.put(
   rbacGuard([Permissions.BLOG_BOOKMARK]),
   blogController.toggleBookmark,
 );
-
 export default blogRouter;

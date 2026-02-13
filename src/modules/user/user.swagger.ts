@@ -327,3 +327,77 @@
  *       500:
  *         description: Internal server error
  */
+
+/**
+ * @swagger
+ * /users/{id}/bookmarks:
+ *   get:
+ *     summary: Get bookmarked blogs for a user
+ *     description: Retrieve all blogs bookmarked by a specific user. Requires a valid access token.
+ *     tags: [Users 👥]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         description: User ID
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Bookmarked blogs retrieved successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 statusCode:
+ *                   type: integer
+ *                 message:
+ *                   type: string
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     $ref: '#/components/schemas/Blog'
+ *       401:
+ *         description: Unauthorized - user not authenticated
+ *       404:
+ *         description: User not found
+ *       500:
+ *         description: Internal server error
+ */
+
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     Blog:
+ *       type: object
+ *       properties:
+ *         id:
+ *           type: integer
+ *         title:
+ *           type: string
+ *         content:
+ *           type: string
+ *         status:
+ *           type: string
+ *         authorId:
+ *           type: integer
+ *         categoryId:
+ *           type: integer
+ *           nullable: true
+ *         likes:
+ *           type: integer
+ *         dislikes:
+ *           type: integer
+ *         bookmarks:
+ *           type: integer
+ *         createdAt:
+ *           type: string
+ *           format: date-time
+ *         updatedAt:
+ *           type: string
+ *           format: date-time
+ */
