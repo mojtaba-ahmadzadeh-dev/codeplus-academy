@@ -6,6 +6,7 @@ import {
   BlogUpdateAttributes,
   GetAllBlogsParams,
   PaginatedBlogs,
+  PaginatedBookmarkedBlogs,
   ReactionResult,
   ToggleBookmarkResult,
 } from "./types/index.types";
@@ -269,13 +270,7 @@ class BlogService {
     userId?: number,
     pageParam?: string,
     limitParam?: string,
-  ): Promise<{
-    rows: Blog[];
-    count: number;
-    totalPages: number;
-    page: number;
-    limit: number;
-  }> {
+  ): Promise<PaginatedBookmarkedBlogs> {
     if (!userId) {
       throw createHttpError.Unauthorized("Unauthorized");
     }

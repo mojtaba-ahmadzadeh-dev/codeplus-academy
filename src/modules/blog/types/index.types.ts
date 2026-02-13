@@ -1,5 +1,6 @@
 import { STATUS } from "../../../constant/status.constant";
 import { Optional } from "sequelize";
+
 export interface BlogAttributes {
   id: number;
   title: string;
@@ -10,6 +11,7 @@ export interface BlogAttributes {
   createdAt: Date;
   updatedAt: Date;
 }
+
 export interface PaginatedBlogs {
   blogs: BlogAttributes[];
   total: number;
@@ -18,6 +20,7 @@ export interface PaginatedBlogs {
   limit: number;
   sort?: "newest" | "oldest";
 }
+
 export interface PaginatedBookmarkedBlogs {
   rows: BlogAttributes[];
   count: number;
@@ -25,6 +28,7 @@ export interface PaginatedBookmarkedBlogs {
   page: number;
   limit: number;
 }
+
 export interface BlogUpdateAttributes {
   title?: string;
   content?: string;
@@ -37,12 +41,6 @@ export interface GetAllBlogsParams {
   page?: number;
   limit?: number;
   sort?: "newest" | "oldest";
-}
-export interface BlogUpdateAttributes {
-  title?: string;
-  content?: string;
-  status?: (typeof STATUS)[keyof typeof STATUS];
-  categoryId?: number | null;
 }
 
 export interface ReactionResult {
