@@ -472,8 +472,8 @@
  * @swagger
  * /blogs/me:
  *   get:
- *     summary: Get blogs of the logged-in user
- *     description: Retrieve all blogs created by the currently authenticated user with pagination.
+ *     summary: Get logged-in user's blogs
+ *     description: Retrieve all blogs created by the currently authenticated user. Supports pagination.
  *     tags: [Blogs 📝]
  *     security:
  *       - bearerAuth: []
@@ -492,7 +492,7 @@
  *         description: Number of blogs per page
  *     responses:
  *       200:
- *         description: User blogs retrieved successfully
+ *         description: User blogs fetched successfully
  *         content:
  *           application/json:
  *             schema:
@@ -500,70 +500,7 @@
  *               properties:
  *                 message:
  *                   type: string
- *                   example: Blogs retrieved successfully
- *                 total:
- *                   type: integer
- *                   example: 5
- *                 totalPages:
- *                   type: integer
- *                   example: 1
- *                 page:
- *                   type: integer
- *                   example: 1
- *                 limit:
- *                   type: integer
- *                   example: 10
- *                 blogs:
- *                   type: array
- *                   items:
- *                     $ref: '#/components/schemas/Blog'
- *       401:
- *         description: Unauthorized
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                   example: Unauthorized
- *       500:
- *         description: Internal server error
- */
-
-/**
- * @swagger
- * /blogs/bookmarks/me:
- *   get:
- *     summary: Get all bookmarked blogs of the logged-in user
- *     description: Retrieve all blogs that the currently authenticated user has bookmarked, with pagination support.
- *     tags: [Blogs 📝]
- *     security:
- *       - bearerAuth: []
- *     parameters:
- *       - in: query
- *         name: page
- *         schema:
- *           type: integer
- *           default: 1
- *         description: Page number
- *       - in: query
- *         name: limit
- *         schema:
- *           type: integer
- *           default: 10
- *         description: Number of blogs per page
- *     responses:
- *       200:
- *         description: Bookmarked blogs retrieved successfully
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                   example: Bookmarks fetched successfully
+ *                   example: "User blogs fetched successfully"
  *                 total:
  *                   type: integer
  *                   example: 7
@@ -589,7 +526,7 @@
  *               properties:
  *                 message:
  *                   type: string
- *                   example: Unauthorized
+ *                   example: "Unauthorized"
  *       500:
  *         description: Internal server error
  */

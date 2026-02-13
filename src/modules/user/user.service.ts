@@ -1,4 +1,5 @@
 import { userMessage } from "../../constant/messages";
+import { Blog } from "../blog/entities/blog.model";
 import { CreateUserDTO } from "./types/index.types";
 import { User } from "./user.model";
 

@@ -62,7 +62,7 @@
  * @swagger
  * components:
  *   schemas:
- *     Course Comment:
+ *     CourseComment:
  *       type: object
  *       properties:
  *         id:

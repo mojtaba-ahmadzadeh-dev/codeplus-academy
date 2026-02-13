@@ -1,9 +1,9 @@
 import { DataTypes, Model, Optional } from "sequelize";
-import { sequelize } from "../../config/sequelize.config";
-import { STATUS } from "../../constant/status.constant";
-import { User } from "../user/user.model";
-import { Category } from "../category/category.model";
-import { BlogAttributes, BlogCreationAttributes } from "./types/index.types";
+import { sequelize } from "../../../config/sequelize.config";
+import { STATUS } from "../../../constant/status.constant";
+import { User } from "../../user/user.model";
+import { Category } from "../../category/category.model";
+import { BlogAttributes, BlogCreationAttributes } from "../types/index.types";
 
 class Blog
   extends Model<BlogAttributes, BlogCreationAttributes>
@@ -15,9 +15,6 @@ class Blog
   public status!: (typeof STATUS)[keyof typeof STATUS];
   public authorId!: number;
   public categoryId!: number | null;
-  public likes!: number;
-  public dislikes!: number;
-  public bookmarks!: number;
 
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
@@ -42,17 +39,6 @@ Blog.init(
       type: DataTypes.TEXT,
       allowNull: false,
     },
-
-    likes: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      defaultValue: 0,
-    },
-    dislikes: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      defaultValue: 0,
-    },
     status: {
       type: DataTypes.ENUM(...Object.values(STATUS)),
       allowNull: false,
@@ -67,11 +53,6 @@ Blog.init(
       type: DataTypes.INTEGER,
       allowNull: true,
       references: { model: "categories", key: "id" },
-    },
-    bookmarks: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      defaultValue: false,
     },
     createdAt: {
       type: DataTypes.DATE,
