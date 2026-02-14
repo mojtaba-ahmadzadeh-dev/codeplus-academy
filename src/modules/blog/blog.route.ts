@@ -12,15 +12,9 @@ blogRouter.post(
 );
 
 blogRouter.get(
-  "/bookmarks",
-  rbacGuard([Permissions.BLOG_GETALL]),
-  blogController.getUserBookmarkedBlogs,
-);
-
-blogRouter.get(
   "/me",
   rbacGuard([Permissions.BLOG_READ]),
-  blogController.getUserBookmarkedBlogs,
+  blogController.getUserBlogs,
 );
 
 blogRouter.get(

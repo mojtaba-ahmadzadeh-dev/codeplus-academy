@@ -41,6 +41,23 @@ export interface UpdateCourseDTO {
   status?: "draft" | "published";
 }
 
+export interface GetAllCoursesParams {
+  search?: string;
+  page?: number;
+  limit?: number;
+  sort?: "newest" | "oldest";
+}
+
+export interface PaginatedCourses {
+  total: number;
+  totalPages: number;
+  page: number;
+  limit: number;
+  sort: string;
+  courses: any[];
+}
+
+
 export interface ICourseWithRelations extends ICourse {
   lessons?: Lesson[];
   captures?: Capture[];

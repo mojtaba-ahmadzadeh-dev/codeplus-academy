@@ -1,25 +1,24 @@
 import { DataTypes, Model, Optional } from "sequelize";
 import { sequelize } from "../../../config/sequelize.config";
 
-interface BookmarkAttributes {
+interface CourseBookmarkAttributes {
   id: number;
   userId: number;
-  blogId: number;
+  courseId: number;
 }
 
-interface BookmarkCreationAttributes
-  extends Optional<BookmarkAttributes, "id"> {}
+interface CourseBookmarkCreationAttributes extends Optional<CourseBookmarkAttributes, "id"> {}
 
-export class Bookmark
-  extends Model<BookmarkAttributes, BookmarkCreationAttributes>
-  implements BookmarkAttributes
+export class CourseBookmark
+  extends Model<CourseBookmarkAttributes, CourseBookmarkCreationAttributes>
+  implements CourseBookmarkAttributes
 {
   declare id: number;
   declare userId: number;
-  declare blogId: number;
+  declare courseId: number;
 }
 
-Bookmark.init(
+CourseBookmark.init(
   {
     id: {
       type: DataTypes.INTEGER,
@@ -35,11 +34,11 @@ Bookmark.init(
       },
       onDelete: "CASCADE",
     },
-    blogId: {
+    courseId: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: "blogs",
+        model: "courses",
         key: "id",
       },
       onDelete: "CASCADE",
@@ -47,14 +46,14 @@ Bookmark.init(
   },
   {
     sequelize,
-    tableName: "blog_bookmarks",
-    modelName: "blog_Bookmarks",
+    tableName: "course_bookmarks",
+    modelName: "course_Bookmark",
     timestamps: true,
     indexes: [
       {
         unique: true,
-        fields: ["userId", "blogId"],
+        fields: ["userId", "courseId"],
       },
     ],
-  }
+  },
 );

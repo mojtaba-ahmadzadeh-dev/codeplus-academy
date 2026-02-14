@@ -47,7 +47,7 @@ class CourseCommentService {
       );
     }
 
-    comment.status = "accepted";
+    comment.status = STATUS.ACCEPTED;
     await comment.save();
 
     return comment;
@@ -62,23 +62,23 @@ class CourseCommentService {
       );
     }
 
-    comment.status = STATUS.INACTIVE; // مقدار reject
+    comment.status = STATUS.INACTIVE; 
     await comment.save();
 
     return comment;
   }
 
   async deleteComment(id: number): Promise<void> {
-  const comment = await this.courseComment.findByPk(id);
+    const comment = await this.courseComment.findByPk(id);
 
-  if (!comment) {
-    throw new createHttpError.NotFound(
-      CourseCommentMessages.COURSE_COMMENT_NOT_FOUND,
-    );
+    if (!comment) {
+      throw new createHttpError.NotFound(
+        CourseCommentMessages.COURSE_COMMENT_NOT_FOUND,
+      );
+    }
+
+    await comment.destroy(); // حذف از دیتابیس
   }
-
-  await comment.destroy(); // حذف از دیتابیس
-}
 }
 
 export default new CourseCommentService();

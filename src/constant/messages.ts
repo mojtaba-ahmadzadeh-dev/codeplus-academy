@@ -79,6 +79,10 @@ export enum CourseMessages {
   COURSE_ALREADY_EXISTS = "دوره‌ای با این عنوان قبلاً وجود دارد",
   COURSE_UPDATED_SUCCESSFULLY = "دوره با موفقیت به‌روزرسانی شد",
   COURSE_DELETED_SUCCESSFULLY = "دوره با موفقیت حذف شد",
+  REACTION_UPDATED_SUCCESSFULLY = "واکنش با موفقیت به‌روزرسانی شد",
+  INVALID_COURSE_ID = "شناسه دوره باید یک عدد باشد",
+  INVALID_REACTION = "isLike باید مقدار boolean باشد",
+  COURSE_REACTION_NOT_FOUND = "دوره مورد نظر یافت نشد",
 }
 
 export enum LessionMessages {
