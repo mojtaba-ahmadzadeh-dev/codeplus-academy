@@ -1,10 +1,16 @@
-import { Course } from "./course.model";
+import { Course } from "./entities/course.model";
 import slugify from "slugify";
 import { CreateCourseDTO, UpdateCourseDTO } from "./types/index.types";
 import { CourseMessages } from "../../constant/messages";
 import createHttpError from "http-errors";
 import { Lesson } from "../lession/lesson.model";
 import Capture from "../capture/capture.model";
+import { CourseBookmark } from "./entities/course-bookmarks.model";
+import {
+  ReactionResult,
+  ToggleBookmarkResult,
+} from "../blog/types/index.types";
+import { CourseReaction } from "./entities/course-likes.model";
 
 class CourseService {
   async createCourse(data: CreateCourseDTO) {
@@ -111,6 +117,77 @@ class CourseService {
     await course.destroy();
 
     return { message: CourseMessages.COURSE_DELETED_SUCCESSFULLY };
+  }
+
+  async likeOrDislike(
+    courseId: number,
+    userId: number,
+    isLike: boolean,
+  ): Promise<ReactionResult> {
+    if (isNaN(courseId)) {
+      throw createHttpError.BadRequest(CourseMessages.INVALID_COURSE_ID);
+    }
+
+    if (typeof isLike !== "boolean") {
+      throw createHttpError.BadRequest(CourseMessages.INVALID_REACTION);
+    }
+
+    const course = await Course.findByPk(courseId);
+    if (!course) {
+      throw createHttpError.NotFound(CourseMessages.COURSE_REACTION_NOT_FOUND);
+    }
+
+    const existingReaction = await CourseReaction.findOne({
+      where: { courseId, userId },
+    });
+
+    if (existingReaction) {
+      if (existingReaction.isLike === isLike) {
+        await existingReaction.destroy();
+      } else {
+        existingReaction.isLike = isLike;
+        await existingReaction.save();
+      }
+    } else {
+      await CourseReaction.create({ courseId, userId, isLike });
+    }
+
+    const [likes, dislikes] = await Promise.all([
+      CourseReaction.count({ where: { courseId, isLike: true } }),
+      CourseReaction.count({ where: { courseId, isLike: false } }),
+    ]);
+
+    return {
+      likes,
+      dislikes,
+      message: CourseMessages.REACTION_UPDATED_SUCCESSFULLY,
+    };
+  }
+
+  async toggleBookmark(
+    userId: number,
+    courseIdParam: string,
+  ): Promise<ToggleBookmarkResult> {
+    if (!userId) throw createHttpError.Unauthorized("Unauthorized");
+
+    const courseId = Number(courseIdParam);
+    if (isNaN(courseId))
+      throw createHttpError.BadRequest("Course id must be a number");
+
+    const course = await Course.findByPk(courseId);
+    if (!course) throw createHttpError.NotFound("Course not found");
+
+    const existing = await CourseBookmark.findOne({
+      where: { userId, courseId },
+    });
+
+    if (existing) {
+      await existing.destroy();
+      return { isBookmarked: false };
+    }
+
+    await CourseBookmark.create({ userId, courseId });
+    return { isBookmarked: true };
   }
 }
 

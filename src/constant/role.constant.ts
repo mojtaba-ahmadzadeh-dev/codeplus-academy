@@ -27,6 +27,8 @@ export enum Permissions {
   COURSE_GET_BY_ID = "course:get-by-id",
   COURSE_UPDATE_BY_ID = "course:update-by-id",
   COURSE_DELETE_BY_ID = "course:delete-by-id",
+  COURSE_BOOKMARK = "course:bookmark",
+  COURSE_LIKE = "course:like",
 
   // Lesson
   LESSON_CREATE = "lesson:create",
@@ -120,6 +122,8 @@ const adminPermissions: Permissions[] = [
   Permissions.BLOG__BOOKMARKS_ME,
   Permissions.BLOG_GETALL,
   Permissions.BLOG__BY_ID,
+  Permissions.COURSE_BOOKMARK,
+  Permissions.COURSE_LIKE,
 ];
 
 const teacherPermissions: Permissions[] = [
@@ -165,6 +169,8 @@ const teacherPermissions: Permissions[] = [
   Permissions.BLOG__BOOKMARKS_ME,
   Permissions.BLOG_GETALL,
   Permissions.BLOG__BY_ID,
+  Permissions.COURSE_BOOKMARK,
+  Permissions.COURSE_LIKE,
 ];
 
 export const RolePermissions: Record<Roles, Permissions[]> = {

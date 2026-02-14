@@ -2,7 +2,11 @@ import { Router } from "express";
 import courseController from "./course.controller";
 import { rbacGuard } from "../../middleware/guard/rbac.guard";
 import { Permissions } from "../../constant/role.constant";
-import { validateCourseIdParam, validateCreateCourse, validateUpdateCourse } from "./course.validation";
+import {
+  validateCourseIdParam,
+  validateCreateCourse,
+  validateUpdateCourse,
+} from "./course.validation";
 
 const courseRouter: Router = Router();
 
@@ -16,6 +20,18 @@ courseRouter.get(
   "/",
   rbacGuard([Permissions.COURSE_GETALL]),
   courseController.getAllCourses,
+);
+
+courseRouter.put(
+  "/:id/like",
+  rbacGuard([Permissions.COURSE_LIKE]),
+  courseController.likeOrDislike,
+);
+
+courseRouter.put(
+  "/:id/bookmark",
+  rbacGuard([Permissions.COURSE_BOOKMARK]),
+  courseController.toggleBookmark,
 );
 courseRouter.get(
   "/:id",

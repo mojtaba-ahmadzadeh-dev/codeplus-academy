@@ -1,31 +1,34 @@
 import { DataTypes, Model, Optional } from "sequelize";
 import { sequelize } from "../../../config/sequelize.config";
 
-interface BookmarkAttributes {
+interface CourseReactionAttributes {
   id: number;
   userId: number;
-  blogId: number;
+  courseId: number;
+  isLike: boolean;
 }
 
-interface BookmarkCreationAttributes
-  extends Optional<BookmarkAttributes, "id"> {}
+interface CourseReactionCreationAttributes
+  extends Optional<CourseReactionAttributes, "id"> {}
 
-export class Bookmark
-  extends Model<BookmarkAttributes, BookmarkCreationAttributes>
-  implements BookmarkAttributes
+export class CourseReaction
+  extends Model<CourseReactionAttributes, CourseReactionCreationAttributes>
+  implements CourseReactionAttributes
 {
   declare id: number;
   declare userId: number;
-  declare blogId: number;
+  declare courseId: number;
+  declare isLike: boolean;
 }
 
-Bookmark.init(
+CourseReaction.init(
   {
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
     },
+
     userId: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -35,25 +38,32 @@ Bookmark.init(
       },
       onDelete: "CASCADE",
     },
-    blogId: {
+
+    courseId: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: "blogs",
+        model: "courses",
         key: "id",
       },
       onDelete: "CASCADE",
     },
+
+    isLike: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+    },
   },
   {
     sequelize,
-    tableName: "blog_bookmarks",
-    modelName: "blog_Bookmarks",
+    tableName: "course_likes", 
+    modelName: "course_likes",
     timestamps: true,
+
     indexes: [
       {
         unique: true,
-        fields: ["userId", "blogId"],
+        fields: ["userId", "courseId"],
       },
     ],
   }

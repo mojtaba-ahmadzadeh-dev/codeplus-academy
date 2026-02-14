@@ -1,6 +1,6 @@
 import { DataTypes, Model, CreationOptional } from "sequelize";
-import { sequelize } from "../../config/sequelize.config";
-import { ICourse } from "./types/index.types";
+import { sequelize } from "../../../config/sequelize.config";
+import { ICourse } from "../types/index.types";
 
 export class Course extends Model<ICourse> implements ICourse {
   declare id: CreationOptional<number>;
