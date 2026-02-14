@@ -10,7 +10,7 @@
  * /course-comments/create:
  *   post:
  *     summary: Create a new course comment
- *     description: Create a comment for a specific course by a user.
+ *     description: Create a comment for a specific course by a user. The userId is automatically detected from the logged-in user.
  *     tags: [Course Comments 💬]
  *     security:
  *       - bearerAuth: []
@@ -23,20 +23,17 @@
  *             required:
  *               - content
  *               - courseId
- *               - userId
  *             properties:
  *               content:
  *                 type: string
  *                 example: "This course is very helpful!"
  *               courseId:
  *                 type: integer
- *                 example: 1
- *               userId:
- *                 type: integer
- *                 example: 2
+ *                 example: 8
  *               status:
  *                 type: string
  *                 example: "active"
+ *                 description: "Optional. Default is 'active'."
  *     responses:
  *       201:
  *         description: Course comment created successfully
@@ -52,12 +49,35 @@
  *                   $ref: '#/components/schemas/CourseComment'
  *       400:
  *         description: Validation error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Invalid input data"
  *       401:
  *         description: Unauthorized
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "کاربر وارد نشده است"
  *       500:
  *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Internal server error"
  */
-
 /**
  * @swagger
  * components:

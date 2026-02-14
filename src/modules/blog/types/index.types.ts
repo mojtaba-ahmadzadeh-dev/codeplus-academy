@@ -34,6 +34,7 @@ export interface BlogUpdateAttributes {
   content?: string;
   status?: (typeof STATUS)[keyof typeof STATUS];
   categoryId?: number | null;
+   order: string
 }
 
 export interface GetAllBlogsParams {

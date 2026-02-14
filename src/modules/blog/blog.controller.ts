@@ -16,7 +16,7 @@ class BlogController {
     this.deleteBlog = this.deleteBlog.bind(this);
     this.likeOrDislike = this.likeOrDislike.bind(this);
     this.toggleBookmark = this.toggleBookmark.bind(this);
-    this.getUserBookmarkedBlogs = this.getUserBookmarkedBlogs.bind(this);
+    this.getUserBlogs = this.getUserBlogs.bind(this);
   }
 
   async createBlog(req: Request, res: Response, next: NextFunction) {
@@ -145,13 +145,13 @@ class BlogController {
     }
   }
 
-  async getUserBookmarkedBlogs(
+  async getUserBlogs(
     req: Request,
     res: Response,
     next: NextFunction,
   ) {
     try {
-      const result = await this.blogService.getUserBookmarkedBlogs(
+      const result = await this.blogService.getUserBlogs(
         req.user?.id,
         req.query.page as string,
         req.query.limit as string,

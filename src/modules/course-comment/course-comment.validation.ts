@@ -17,12 +17,6 @@ const createCommentSchema = Joi.object({
     "number.min": "شناسه دوره معتبر نیست",
     "any.required": "شناسه دوره الزامی است",
   }),
-  userId: Joi.number().integer().min(1).required().messages({
-    "number.base": "شناسه کاربر باید عدد باشد",
-    "number.integer": "شناسه کاربر باید عدد صحیح باشد",
-    "number.min": "شناسه کاربر معتبر نیست",
-    "any.required": "شناسه کاربر الزامی است",
-  }),
   status: Joi.string()
     .valid(...Object.values(STATUS))
     .messages({ "any.only": "وضعیت کامنت معتبر نیست" }),
@@ -41,9 +35,11 @@ const idParamSchema = Joi.object({
 export function validateCreateComment(
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) {
-  const { error } = createCommentSchema.validate(req.body, { abortEarly: false });
+  const { error } = createCommentSchema.validate(req.body, {
+    abortEarly: false,
+  });
   if (error) {
     const messages = error.details.map((d) => d.message).join(", ");
     return next(createHttpError(400, messages));
@@ -54,7 +50,7 @@ export function validateCreateComment(
 export function validateCommentId(
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) {
   const { error } = idParamSchema.validate(req.params, { abortEarly: false });
   if (error) {

@@ -11,6 +11,23 @@ import {
   ToggleBookmarkResult,
 } from "../blog/types/index.types";
 import { CourseReaction } from "./entities/course-likes.model";
+import { col, fn, Op, where } from "sequelize";
+
+interface GetAllCoursesParams {
+  search?: string;
+  page?: number;
+  limit?: number;
+  sort?: "newest" | "oldest";
+}
+
+interface PaginatedCourses {
+  total: number;
+  totalPages: number;
+  page: number;
+  limit: number;
+  sort: string;
+  courses: any[];
+}
 
 class CourseService {
   async createCourse(data: CreateCourseDTO) {
@@ -41,18 +58,64 @@ class CourseService {
     return course;
   }
 
-  async getAllCourses() {
-    const courses = await Course.findAll({
+  async getAllCourses({
+    search = "",
+    page = 1,
+    limit = 10,
+    sort = "newest",
+  }: GetAllCoursesParams = {}): Promise<PaginatedCourses> {
+    const offset = (page - 1) * limit;
+
+    const result = await Course.findAndCountAll({
+      where: search
+        ? {
+            [Op.or]: ["title", "description"].map((field) =>
+              where(fn("LOWER", col(field)), {
+                [Op.like]: `%${search.toLowerCase()}%`,
+              }),
+            ),
+          }
+        : {},
+      order: [["created_at", sort === "newest" ? "DESC" : "ASC"]],
+      limit,
+      offset,
+      distinct: true,
       include: [
-        { association: "category" },
         {
-          association: "teacher",
-          attributes: ["id", "mobile", "full_name", "avatar", "role"],
+          association: "usersWhoBookmarked",
+          attributes: ["id"],
+          through: { attributes: [] },
+        },
+        {
+          association: "courseReactions",
+          attributes: ["id", "isLike"],
         },
       ],
-      order: [["created_at", "DESC"]],
     });
-    return courses;
+
+    const courses = result.rows.map((c: any) => {
+      const course = c.toJSON();
+
+      // تعداد bookmark
+      course.bookmarkCount = course.usersWhoBookmarked?.length || 0;
+      delete course.usersWhoBookmarked;
+
+      // تعداد like
+      course.likeCount =
+        course.courseReactions?.filter((r: any) => r.isLike).length || 0;
+      delete course.courseReactions;
+
+      return course;
+    });
+
+    return {
+      total: result.count,
+      totalPages: Math.ceil(result.count / limit),
+      page,
+      limit,
+      sort,
+      courses,
+    };
   }
 
   async getCourseById(id: number) {
@@ -61,7 +124,7 @@ class CourseService {
       include: [
         { association: "category" },
         {
-          association: "teacher",
+          association: "teacher", 
           attributes: ["id", "mobile", "full_name", "avatar", "role"],
         },
       ],

@@ -132,11 +132,37 @@
  * @swagger
  * /courses:
  *   get:
- *     summary: Get all courses
- *     description: Fetch all courses including category and teacher details. Only accessible by users with READ_COURSE permission.
+ *     summary: Get all courses with pagination, search, and sorting
+ *     description: Fetch all courses including category, teacher, bookmark count, and like count. Supports search on title and description, sort by newest or oldest, and pagination.
  *     tags: [Courses 🎓]
  *     security:
  *       - bearerAuth: []
+ *     parameters:
+ *       - in: query
+ *         name: search
+ *         schema:
+ *           type: string
+ *         description: Search term to filter courses by title or description
+ *         example: next.js
+ *       - in: query
+ *         name: page
+ *         schema:
+ *           type: integer
+ *           default: 1
+ *         description: Page number for pagination
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: integer
+ *           default: 10
+ *         description: Number of courses per page
+ *       - in: query
+ *         name: sort
+ *         schema:
+ *           type: string
+ *           enum: [newest, oldest]
+ *           default: newest
+ *         description: Sort courses by creation date
  *     responses:
  *       200:
  *         description: List of courses retrieved successfully
@@ -145,12 +171,21 @@
  *             schema:
  *               type: object
  *               properties:
- *                 statusCode:
+ *                 total:
  *                   type: integer
- *                   example: 200
- *                 message:
+ *                   example: 42
+ *                 totalPages:
+ *                   type: integer
+ *                   example: 5
+ *                 page:
+ *                   type: integer
+ *                   example: 1
+ *                 limit:
+ *                   type: integer
+ *                   example: 10
+ *                 sort:
  *                   type: string
- *                   example: Courses fetched successfully
+ *                   example: newest
  *                 courses:
  *                   type: array
  *                   items:

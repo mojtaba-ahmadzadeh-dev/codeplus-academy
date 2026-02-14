@@ -3,6 +3,7 @@ import courseCommentService from "./course-comment.service";
 import { CourseCommentCreationAttributes } from "./types/index.types";
 import { StatusCodes } from "http-status-codes";
 import { CourseCommentMessages } from "../../constant/messages";
+import createHttpError from "http-errors";
 
 class CourseCommentController {
   private courseCommentService: typeof courseCommentService;
@@ -19,14 +20,18 @@ class CourseCommentController {
 
   async createComment(req: Request, res: Response, next: NextFunction) {
     try {
+      const userId = req.user?.id;
+      if (!userId) throw createHttpError.Unauthorized("کاربر وارد نشده است");
+
       const data: CourseCommentCreationAttributes = {
-        content: req.body.content,
+        ...req.body,
         courseId: Number(req.body.courseId),
-        userId: Number(req.body.userId),
-        status: req.body.status || "active",
+        userId, 
+        status: req.body.status || "active", 
       };
 
       const comment = await this.courseCommentService.createComment(data);
+
       res.status(StatusCodes.CREATED).json({
         message: CourseCommentMessages.COURSE_COMMENT_CREATE_SUCCESSFULLY,
         comment,

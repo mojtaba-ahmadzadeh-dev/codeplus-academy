@@ -30,7 +30,13 @@ class CategoryService {
 
   async getAllCategories() {
     const categories = await this.categoryModel.findAll({
-      include: [{ model: this.categoryModel, as: "children" }],
+      where: { parentId: null }, // فقط دسته‌بندی‌های اصلی
+      include: [
+        {
+          model: this.categoryModel,
+          as: "children", // **باید با alias در مدل یکی باشه**
+        },
+      ],
     });
     return categories;
   }
