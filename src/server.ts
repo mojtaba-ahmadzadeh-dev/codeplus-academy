@@ -5,3 +5,4 @@ const PORT = Number(process.env.PORT) || 3000;
 const app = new Application(PORT, sequelize);
 
 app.start();
+

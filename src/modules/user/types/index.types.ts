@@ -1,5 +1,7 @@
 import { CreationOptional } from "sequelize";
 import { User } from "../user.model";
+import { Blog } from "../../blog/entities/blog.model";
+import { Course } from "../../course/entities/course.model";
 
 export interface IUser {
   id?: number;
@@ -9,10 +11,12 @@ export interface IUser {
   is_banned?: boolean;
   isAdmin?: boolean;
   role?: CreationOptional<string>;
-  bookmarkedBlogs?: number[];
+
+  bookmarkedBlogs?: Blog[];
+  bookmarkedCourses?: Course[];
+
   created_at?: Date;
 }
-
 export interface IOTP {
   id?: number;
   user_id: number;

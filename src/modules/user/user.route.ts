@@ -13,6 +13,18 @@ userRouter.get(
 );
 
 userRouter.get(
+  "/bookmarks/all",
+  rbacGuard([Permissions.USER_GETALL]),
+  userController.getAllUsersBookmarks,
+);
+
+userRouter.get(
+  "/likes/all",
+  rbacGuard([Permissions.USER_GETALL]),
+  userController.getAllUsersLikes,
+);
+
+userRouter.get(
   "/:id",
   rbacGuard([Permissions.USER_BY_ID]),
   userController.getUserById,

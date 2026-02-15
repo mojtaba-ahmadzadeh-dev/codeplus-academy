@@ -1,5 +1,8 @@
 import { userMessage } from "../../constant/messages";
+import { Reaction } from "../blog/entities/blog-likes.model";
 import { Blog } from "../blog/entities/blog.model";
+import { CourseReaction } from "../course/entities/course-likes.model";
+import { Course } from "../course/entities/course.model";
 import { CreateUserDTO } from "./types/index.types";
 import { User } from "./user.model";
 
@@ -65,6 +68,48 @@ class UserService {
 
     await user.update({ is_banned: isBanned });
     return user;
+  }
+
+  async getAllUsersBookmarks() {
+    const users = await User.findAll({
+      attributes: ["id", "full_name", "mobile"],
+      include: [
+        {
+          model: Blog,
+          as: "bookmarkedBlogs",
+          through: { attributes: [] }, // حذف ستون‌های جدول واسط
+          // attributes حذف شد تا همه ستون‌ها بیاد
+        },
+        {
+          model: Course,
+          as: "bookmarkedCourses",
+          through: { attributes: [] },
+          // attributes حذف شد تا همه ستون‌ها بیاد
+        },
+      ],
+    });
+
+    return users;
+  }
+
+  async getAllUsersLikes() {
+    const users = await User.findAll({
+      attributes: ["id", "full_name", "mobile"],
+      include: [
+        {
+          model: Blog,
+          as: "likedBlogs",
+          through: { attributes: [] },
+        },
+        {
+          model: Course,
+          as: "likedCourses",
+          through: { attributes: [] },
+        },
+      ],
+    });
+
+    return users;
   }
 }
 

@@ -32,8 +32,8 @@ const initDatabase = async (): Promise<void> => {
   Category.belongsTo(Category, { as: "parent", foreignKey: "parentId" });
 
   // User → Course
-User.hasMany(Course, { foreignKey: "teacher_id", as: "coursesTaught" });
-Course.belongsTo(User, { foreignKey: "teacher_id", as: "teacher" });
+  User.hasMany(Course, { foreignKey: "teacher_id", as: "coursesTaught" });
+  Course.belongsTo(User, { foreignKey: "teacher_id", as: "teacher" });
 
   // Category → Course
   Category.hasMany(Course, { foreignKey: "category_id" });
@@ -70,14 +70,34 @@ Course.belongsTo(User, { foreignKey: "teacher_id", as: "teacher" });
   User.hasMany(Blog, { foreignKey: "authorId" });
 
   // User ↔ Blog (Bookmark Many-to-Many)
-  User.belongsToMany(Blog, { through: Bookmark, foreignKey: "userId", as: "bookmarkedBlogs" });
-  Blog.belongsToMany(User, { through: Bookmark, foreignKey: "blogId", as: "usersWhoBookmarked" });
+  User.belongsToMany(Blog, {
+    through: Reaction,
+    foreignKey: "userId",
+    as: "likedBlogs", 
+  });
+  Blog.belongsToMany(User, {
+    through: Reaction,
+    foreignKey: "blogId",
+    as: "usersWhoLiked",
+  });
 
   // User → Bookmark
-  User.hasMany(Bookmark, { foreignKey: "userId" });
+  User.belongsToMany(Blog, {
+    through: Bookmark,
+    foreignKey: "userId",
+    otherKey: "blogId",
+    as: "bookmarkedBlogs", 
+  });
 
   // Blog → Reaction
-  Blog.hasMany(Reaction, { foreignKey: "blogId" });
+
+  Blog.belongsToMany(User, {
+    through: Bookmark,
+    foreignKey: "blogId",
+    otherKey: "userId",
+    as: "usersWhoBookmarked",
+  });
+
   Reaction.belongsTo(Blog, { foreignKey: "blogId" });
 
   // User → Reaction
@@ -85,7 +105,11 @@ Course.belongsTo(User, { foreignKey: "teacher_id", as: "teacher" });
   Reaction.belongsTo(User, { foreignKey: "userId" });
 
   // User ↔ Course (Bookmark Many-to-Many)
-  User.belongsToMany(Course, { through: CourseBookmark, foreignKey: "userId", as: "bookmarkedCourses" });
+  User.belongsToMany(Course, {
+    through: CourseBookmark,
+    foreignKey: "userId",
+    as: "bookmarkedCourses",
+  });
   Course.belongsToMany(User, {
     through: CourseBookmark,
     foreignKey: "courseId",
@@ -95,8 +119,23 @@ Course.belongsTo(User, { foreignKey: "teacher_id", as: "teacher" });
   // User → CourseBookmark
   User.hasMany(CourseBookmark, { foreignKey: "userId" });
 
-  // Course Reaction (Like / Dislike)
-  Course.hasMany(CourseReaction, { foreignKey: "courseId", as: "courseReactions" });
+  // User ↔ Course (Likes Many-to-Many) - اصلاح شده
+  User.belongsToMany(Course, {
+    through: CourseReaction,
+    foreignKey: "userId",
+    as: "likedCourses", // مهم برای include
+  });
+  Course.belongsToMany(User, {
+    through: CourseReaction,
+    foreignKey: "courseId",
+    as: "usersWhoLikedCourses",
+  });
+
+  // Course → CourseReaction
+  Course.hasMany(CourseReaction, {
+    foreignKey: "courseId",
+    as: "courseReactions",
+  });
   CourseReaction.belongsTo(Course, { foreignKey: "courseId" });
 
   // User → CourseReaction

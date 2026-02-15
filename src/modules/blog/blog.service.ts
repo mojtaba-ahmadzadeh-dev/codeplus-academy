@@ -259,25 +259,11 @@ class BlogService {
     const limit = Number(limitParam) || 10;
     const offset = (page - 1) * limit;
 
-    const { rows: bookmarks, count } = await Bookmark.findAndCountAll({
-      where: { userId },
+    const { rows: blogs, count } = await this.blogModel.findAndCountAll({
+      where: { authorId: userId },
       offset,
       limit,
       order: [["createdAt", "DESC"]],
-    });
-
-    const blogIds = bookmarks.map((b) => b.blogId);
-    if (!blogIds.length)
-      return {
-        count,
-        totalPages: Math.ceil(count / limit),
-        page,
-        limit,
-        rows: [],
-      };
-
-    const blogs = await this.blogModel.findAll({
-      where: { id: blogIds },
       attributes: { exclude: ["authorId", "categoryId"] },
       include: [
         {
@@ -291,24 +277,45 @@ class BlogService {
             "role",
           ],
         },
-        { model: Reaction, attributes: ["id"] },
+        {
+          model: User,
+          as: "usersWhoLiked",
+          attributes: ["id"],
+          through: { attributes: [] },
+        },
+        {
+          model: User,
+          as: "usersWhoBookmarked",
+          attributes: ["id"],
+          through: { attributes: [] },
+        },
       ],
     });
 
-    const [bookmarkCountMap] = await this.getBookmarkAndReactionCounts(blogIds);
-
     const rows = blogs.map((blog: any) => {
       const blogJSON = blog.toJSON();
-      const likeCount = blogJSON.blog_likes?.length ?? 0;
-      delete blogJSON.blog_likes;
+
+      const likeCount = blogJSON.usersWhoLiked?.length ?? 0;
+      const bookmarkCount = blogJSON.usersWhoBookmarked?.length ?? 0;
+
+      delete blogJSON.usersWhoLiked;
+      delete blogJSON.usersWhoBookmarked;
+
       return {
         ...blogJSON,
-        bookmarkCount: bookmarkCountMap[blogJSON.id] || 0,
         likeCount,
+        bookmarkCount,
       };
     });
 
-    return { count, totalPages: Math.ceil(count / limit), page, limit, rows };
+    return {
+      message: "User blogs fetched successfully",
+      count,
+      totalPages: Math.ceil(count / limit),
+      page,
+      limit,
+      rows,
+    };
   }
 }
 

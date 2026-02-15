@@ -19,6 +19,8 @@ class UserController {
     this.changeRole = this.changeRole.bind(this);
     this.createUser = this.createUser.bind(this);
     this.banUser = this.banUser.bind(this);
+    this.getAllUsersBookmarks = this.getAllUsersBookmarks.bind(this);
+    this.getAllUsersLikes = this.getAllUsersLikes.bind(this);
   }
 
   async getAllUsers(req: Request, res: Response, next: NextFunction) {
@@ -186,6 +188,34 @@ class UserController {
           ? userMessage.USER_BANNED
           : userMessage.USER_UNBANNED,
         data: user,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async getAllUsersBookmarks(req: Request, res: Response, next: NextFunction) {
+    try {
+      const data = await this.service.getAllUsersBookmarks();
+
+      res.status(StatusCodes.OK).json({
+        statusCode: StatusCodes.OK,
+        message: "All users bookmarks retrieved successfully",
+        data,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async getAllUsersLikes(req: Request, res: Response, next: NextFunction) {
+    try {
+      const data = await this.service.getAllUsersLikes();
+
+      res.status(StatusCodes.OK).json({
+        statusCode: StatusCodes.OK,
+        message: "All users likes retrieved successfully",
+        data,
       });
     } catch (error) {
       next(error);
