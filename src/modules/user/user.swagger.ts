@@ -330,23 +330,16 @@
 
 /**
  * @swagger
- * /users/{id}/bookmarks:
+ * /users/bookmarks/all:
  *   get:
- *     summary: Get bookmarked blogs for a user
- *     description: Retrieve all blogs bookmarked by a specific user. Requires a valid access token.
+ *     summary: Get all users with their bookmarked blogs and courses
+ *     description: Returns all users along with their bookmarked blogs and bookmarked courses.
  *     tags: [Users 👥]
  *     security:
  *       - bearerAuth: []
- *     parameters:
- *       - name: id
- *         in: path
- *         required: true
- *         description: User ID
- *         schema:
- *           type: integer
  *     responses:
  *       200:
- *         description: Bookmarked blogs retrieved successfully
+ *         description: All users bookmarks retrieved successfully
  *         content:
  *           application/json:
  *             schema:
@@ -354,16 +347,34 @@
  *               properties:
  *                 statusCode:
  *                   type: integer
+ *                   example: 200
  *                 message:
  *                   type: string
+ *                   example: All users bookmarks retrieved successfully
  *                 data:
  *                   type: array
  *                   items:
- *                     $ref: '#/components/schemas/Blog'
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: integer
+ *                         example: 1
+ *                       full_name:
+ *                         type: string
+ *                         example: Ali Rezaei
+ *                       mobile:
+ *                         type: string
+ *                         example: 09123456789
+ *                       bookmarkedBlogs:
+ *                         type: array
+ *                         items:
+ *                           $ref: '#/components/schemas/Blog'
+ *                       bookmarkedCourses:
+ *                         type: array
+ *                         items:
+ *                           $ref: '#/components/schemas/Course'
  *       401:
- *         description: Unauthorized - user not authenticated
- *       404:
- *         description: User not found
+ *         description: Unauthorized
  *       500:
  *         description: Internal server error
  */
@@ -381,23 +392,79 @@
  *           type: string
  *         content:
  *           type: string
- *         status:
- *           type: string
  *         authorId:
  *           type: integer
  *         categoryId:
  *           type: integer
- *           nullable: true
- *         likes:
+ *         createdAt:
+ *           type: string
+ *           format: date-time
+ *
+ *     Course:
+ *       type: object
+ *       properties:
+ *         id:
  *           type: integer
- *         dislikes:
+ *         title:
+ *           type: string
+ *         description:
+ *           type: string
+ *         teacher_id:
  *           type: integer
- *         bookmarks:
+ *         category_id:
  *           type: integer
  *         createdAt:
  *           type: string
  *           format: date-time
- *         updatedAt:
- *           type: string
- *           format: date-time
+ */
+
+/**
+ * @swagger
+ * /users/likes/all:
+ *   get:
+ *     summary: Get all users with their liked blogs and courses
+ *     description: Returns all users along with the blogs and courses they liked.
+ *     tags: [Users 👥]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: All users likes retrieved successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 200
+ *                 message:
+ *                   type: string
+ *                   example: All users likes retrieved successfully
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: integer
+ *                         example: 1
+ *                       full_name:
+ *                         type: string
+ *                         example: Ali Rezaei
+ *                       mobile:
+ *                         type: string
+ *                         example: 09123456789
+ *                       likedBlogs:
+ *                         type: array
+ *                         items:
+ *                           $ref: '#/components/schemas/Blog'
+ *                       likedCourses:
+ *                         type: array
+ *                         items:
+ *                           $ref: '#/components/schemas/Course'
+ *       401:
+ *         description: Unauthorized
+ *       500:
+ *         description: Internal server error
  */
