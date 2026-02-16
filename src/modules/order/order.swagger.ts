@@ -99,7 +99,7 @@
 
 /**
  * @swagger
- * /order:
+ * /order/user:
  *   get:
  *     summary: Get all orders of the logged-in user
  *     description: Retrieve all orders created by the logged-in user, including course details. Orders are sorted by creation date descending.
@@ -236,4 +236,54 @@
  *                 message:
  *                   type: string
  *                   example: "Order not found or does not belong to the user"
+ */
+
+/**
+ * @swagger
+ * /order/admin:
+ *   get:
+ *     summary: Get all orders (Admin)
+ *     description: Retrieve all orders from all users, including course details. Only accessible by admin.
+ *     tags: [Orders 🧾]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: All orders retrieved successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "All orders retrieved successfully"
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     $ref: '#/components/schemas/Order'
+ *                 totalPrice:
+ *                   type: number
+ *                   format: float
+ *                   example: 10000000
+ *       401:
+ *         description: Unauthorized
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Unauthorized"
+ *       403:
+ *         description: Forbidden (not admin)
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Forbidden"
  */

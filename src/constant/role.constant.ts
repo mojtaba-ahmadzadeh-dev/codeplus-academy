@@ -75,6 +75,7 @@ export enum Permissions {
   ORDER_CREATE = "order:create",
   ORDER_GETALL = "order:get-all",
   ORDER_DELETE = "order:delete",
+  ORDER_GETALL_ADMIN = "order:get-all-admin",
 }
 
 const adminPermissions: Permissions[] = [
@@ -146,6 +147,7 @@ const adminPermissions: Permissions[] = [
   Permissions.ORDER_CREATE,
   Permissions.ORDER_GETALL,
   Permissions.ORDER_DELETE,
+  Permissions.ORDER_GETALL_ADMIN,
 ];
 
 const teacherPermissions: Permissions[] = [

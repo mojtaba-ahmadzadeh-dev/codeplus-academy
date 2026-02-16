@@ -10,6 +10,7 @@ class OrderController {
     this.createOrder = this.createOrder.bind(this);
     this.getUserOrders = this.getUserOrders.bind(this);
     this.deleteOrderItem = this.deleteOrderItem.bind(this);
+    this.getAllOrdersForAdmin = this.getAllOrdersForAdmin.bind(this);
   }
 
   async createOrder(req: Request, res: Response, next: NextFunction) {
@@ -34,14 +35,14 @@ class OrderController {
     try {
       const userId = req.user?.id;
       if (!userId) {
-        return res.status(401).json({ message: "کاربر لاگین نکرده است" });
+        return res.status(401).json({ message: "User is not logged in" });
       }
 
       const { totalPrice, orders } =
         await this.orderService.getUserOrders(userId);
 
       return res.status(200).json({
-        message: "سفارشات کاربر با موفقیت بازیابی شد",
+        message: "User orders retrieved successfully",
         data: orders,
         totalPrice,
       });
@@ -62,6 +63,20 @@ class OrderController {
       const result = await this.orderService.deleteOrderItem(userId, orderId);
 
       return res.status(200).json(result);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async getAllOrdersForAdmin(req: Request, res: Response, next: NextFunction) {
+    try {
+      const result = await this.orderService.getAllOrdersForAdmin();
+
+      return res.status(200).json({
+        message: "تمام سفارش‌ها با موفقیت بازیابی شد",
+        data: result.orders,
+        totalPrice: result.totalPrice,
+      });
     } catch (error) {
       next(error);
     }

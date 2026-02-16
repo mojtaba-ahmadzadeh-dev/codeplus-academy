@@ -79,29 +79,48 @@ class OrderService {
     const totalPrice = orders.reduce((sum, order) => sum + order.totalPrice, 0);
 
     const sanitizedOrders = orders.map((order) => {
-      const { totalPrice, ...rest } = order.toJSON(); 
+      const { totalPrice, ...rest } = order.toJSON();
       return rest;
     });
 
     return {
-        orders: sanitizedOrders,
-        totalPrice
+      orders: sanitizedOrders,
+      totalPrice,
     };
   }
 
   async deleteOrderItem(userId: number, orderId: number) {
-  const order = await this.orderModel.findOne({
-    where: { id: orderId, userId },
-  });
+    const order = await this.orderModel.findOne({
+      where: { id: orderId, userId },
+    });
 
-  if (!order) {
-    throw new Error("سفارش موردنظر پیدا نشد یا به کاربر تعلق ندارد");
+    if (!order) {
+      throw new Error("سفارش موردنظر پیدا نشد یا به کاربر تعلق ندارد");
+    }
+
+    await order.destroy();
+
+    return { message: "آیتم سفارش با موفقیت حذف شد" };
   }
 
-  await order.destroy();
+  async getAllOrdersForAdmin() {
+    const orders = await this.orderModel.findAll({
+      include: [{ model: Course, as: "course" }],
+      order: [["createdAt", "DESC"]],
+    });
 
-  return { message: "آیتم سفارش با موفقیت حذف شد" };
-}
+    const totalPrice = orders.reduce((sum, order) => sum + order.totalPrice, 0);
+
+    const sanitizedOrders = orders.map((order) => {
+      const { totalPrice, ...rest } = order.toJSON();
+      return rest;
+    });
+
+    return {
+      orders: sanitizedOrders,
+      totalPrice,
+    };
+  }
 }
 
 export default new OrderService();
