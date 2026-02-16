@@ -11,6 +11,7 @@ import { Reaction } from "../modules/blog/entities/blog-likes.model";
 import { OTP, User } from "../modules/user/user.model";
 import { CourseBookmark } from "../modules/course/entities/course-bookmarks.model";
 import { CourseReaction } from "../modules/course/entities/course-likes.model";
+import { Basket } from "../modules/basket/basket.model";
 
 const initDatabase = async (): Promise<void> => {
   // User → OTP
@@ -73,7 +74,7 @@ const initDatabase = async (): Promise<void> => {
   User.belongsToMany(Blog, {
     through: Reaction,
     foreignKey: "userId",
-    as: "likedBlogs", 
+    as: "likedBlogs",
   });
   Blog.belongsToMany(User, {
     through: Reaction,
@@ -86,7 +87,7 @@ const initDatabase = async (): Promise<void> => {
     through: Bookmark,
     foreignKey: "userId",
     otherKey: "blogId",
-    as: "bookmarkedBlogs", 
+    as: "bookmarkedBlogs",
   });
 
   // Blog → Reaction
@@ -141,6 +142,12 @@ const initDatabase = async (): Promise<void> => {
   // User → CourseReaction
   User.hasMany(CourseReaction, { foreignKey: "userId" });
   CourseReaction.belongsTo(User, { foreignKey: "userId" });
+
+  User.hasOne(Basket, { foreignKey: "userId", as: "basket" });
+  Basket.belongsTo(User, { foreignKey: "userId", as: "user" });
+
+  // Basket → Course
+  Basket.belongsTo(Course, { foreignKey: "courseId", as: "course" });
 
   // sequelize.sync({alter: true})
   console.log("✅ Database associations initialized successfully");

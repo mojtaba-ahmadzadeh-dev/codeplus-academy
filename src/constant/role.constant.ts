@@ -64,6 +64,10 @@ export enum Permissions {
   BLOG_BOOKMARK = "blog:bookmark",
   BLOG_READ = "blog:read",
   BLOG__BOOKMARKS_ME = "blog:bookmarks-me",
+
+  // Basket
+  BASKET_CREATE = "basket:create",
+  BASKET_GETALL = "basket:get-all",
 }
 
 const adminPermissions: Permissions[] = [
@@ -124,6 +128,10 @@ const adminPermissions: Permissions[] = [
   Permissions.BLOG__BY_ID,
   Permissions.COURSE_BOOKMARK,
   Permissions.COURSE_LIKE,
+
+  // Baket
+  Permissions.BASKET_CREATE,
+  Permissions.BASKET_GETALL,
 ];
 
 const teacherPermissions: Permissions[] = [
@@ -171,6 +179,10 @@ const teacherPermissions: Permissions[] = [
   Permissions.BLOG__BY_ID,
   Permissions.COURSE_BOOKMARK,
   Permissions.COURSE_LIKE,
+
+  // Basket
+   Permissions.BASKET_CREATE,
+   Permissions.BASKET_GETALL,
 ];
 
 export const RolePermissions: Record<Roles, Permissions[]> = {
