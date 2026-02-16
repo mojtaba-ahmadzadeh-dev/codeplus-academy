@@ -5,8 +5,8 @@ import { Course } from "../../course/entities/course.model";
 export interface BasketAttributes {
   id: number;
   userId: number;
-  courseId: number;      // اضافه شد
-  quantity: number;      // اضافه شد
+  courseId: number;   
+  quantity: number;   
   totalPrice: number;
   status: (typeof STATUS)[keyof typeof STATUS];
   createdAt?: Date;

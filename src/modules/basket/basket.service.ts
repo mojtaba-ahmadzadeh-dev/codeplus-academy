@@ -1,11 +1,9 @@
 import { STATUS } from "../../constant/status.constant";
 import { Course } from "../course/entities/course.model";
 import { Basket } from "./basket.model";
-
-export enum BasketAction {
-  INCREMENT = "increment",
-  DECREMENT = "decrement",
-}
+import { BasketAction } from "../../constant/basket.constant";
+import createHttpError from "http-errors";
+import { BasketMessages } from "../../constant/messages";
 
 class BasketService {
   private basketModel: typeof Basket;
@@ -23,11 +21,7 @@ class BasketService {
     const { userId, courseId } = data;
     const quantity = data.quantity && data.quantity > 0 ? data.quantity : 1;
 
-    const course = await Course.findByPk(courseId);
-
-    if (!course) {
-      throw new Error("Course not found");
-    }
+    const course = (await Course.findByPk(courseId)) as Course;
 
     const totalPrice = this.calculateItemTotalPrice(course, quantity);
 
@@ -118,10 +112,6 @@ class BasketService {
   async removeItem(userId: number, itemIdParam: string) {
     const itemId = Number(itemIdParam);
 
-    if (!Number.isInteger(itemId) || itemId <= 0) {
-      throw new Error("Invalid itemId");
-    }
-
     const basketItem = await this.basketModel.findOne({
       where: {
         id: itemId,
@@ -131,7 +121,7 @@ class BasketService {
     });
 
     if (!basketItem) {
-      throw new Error("Basket item not found");
+      throw createHttpError.BadRequest(BasketMessages.BASKET_NOT_FOUND);
     }
 
     await basketItem.destroy();

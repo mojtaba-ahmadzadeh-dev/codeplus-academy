@@ -1,6 +1,8 @@
 import { NextFunction, Request, Response } from "express";
 import createHttpError from "http-errors";
-import basketService, { BasketAction } from "./basket.service";
+import basketService from "./basket.service";
+import { BasketAction } from "../../constant/basket.constant";
+import { BasketMessages } from "../../constant/messages";
 
 class BasketController {
   private basketService: typeof basketService;
@@ -21,7 +23,6 @@ class BasketController {
       const { courseId, quantity } = req.body;
 
       if (!userId) throw createHttpError.Unauthorized("Unauthorized");
-      if (!courseId) throw createHttpError.BadRequest("courseId is required");
 
       const basket = await this.basketService.createBasket({
         userId,
@@ -30,7 +31,7 @@ class BasketController {
       });
 
       return res.status(201).json({
-        message: "Basket created successfully",
+        message: BasketMessages.BASKET_CREATED_SUCCESSFULLY,
         data: basket,
       });
     } catch (error) {
@@ -48,7 +49,7 @@ class BasketController {
       const basket = await this.basketService.getUserBasket(userId);
 
       return res.status(200).json({
-        message: "Basket retrieved successfully",
+        message: BasketMessages.BASKET_FETCHED_SUCCESSFULLY,
         data: basket,
       });
     } catch (error) {
@@ -72,7 +73,7 @@ class BasketController {
       );
 
       return res.status(200).json({
-        message: "Basket updated successfully",
+        message: BasketMessages.BASKET_UPDATED_SUCCESSFULLY,
         data: result,
       });
     } catch (error) {
@@ -87,12 +88,11 @@ class BasketController {
       const { itemId } = req.params;
 
       if (!userId) throw createHttpError.Unauthorized("Unauthorized");
-      if (!itemId) throw createHttpError.BadRequest("itemId is required");
 
       const result = await this.basketService.removeItem(userId, itemId);
 
       return res.status(200).json({
-        message: "Basket item removed successfully",
+        message: BasketMessages.BASKET_REMOVED_SUCCESSFULLY,
         data: result,
       });
     } catch (error) {
