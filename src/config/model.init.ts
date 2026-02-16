@@ -12,6 +12,7 @@ import { OTP, User } from "../modules/user/user.model";
 import { CourseBookmark } from "../modules/course/entities/course-bookmarks.model";
 import { CourseReaction } from "../modules/course/entities/course-likes.model";
 import { Basket } from "../modules/basket/basket.model";
+import { Order } from "../modules/order/order.model";
 
 const initDatabase = async (): Promise<void> => {
   // User → OTP
@@ -148,6 +149,14 @@ const initDatabase = async (): Promise<void> => {
 
   // Basket → Course
   Basket.belongsTo(Course, { foreignKey: "courseId", as: "course" });
+
+  // User → Order
+  User.hasMany(Order, { foreignKey: "userId", as: "orders" });
+  Order.belongsTo(User, { foreignKey: "userId", as: "user" });
+
+  // Course → Order
+  Course.hasMany(Order, { foreignKey: "courseId", as: "orders" });
+  Order.belongsTo(Course, { foreignKey: "courseId", as: "course" });
 
   // sequelize.sync({alter: true})
   console.log("✅ Database associations initialized successfully");

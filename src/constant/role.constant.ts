@@ -70,6 +70,11 @@ export enum Permissions {
   BASKET_GETALL = "basket:get-all",
   BASKET_UPDATE = "basket:update",
   BASKET_DELETE = "basket:delete",
+
+  // Order
+  ORDER_CREATE = "order:create",
+  ORDER_GETALL = "order:get-all",
+  ORDER_DELETE = "order:delete",
 }
 
 const adminPermissions: Permissions[] = [
@@ -136,6 +141,11 @@ const adminPermissions: Permissions[] = [
   Permissions.BASKET_GETALL,
   Permissions.BASKET_UPDATE,
   Permissions.BASKET_DELETE,
+
+  // Order
+  Permissions.ORDER_CREATE,
+  Permissions.ORDER_GETALL,
+  Permissions.ORDER_DELETE,
 ];
 
 const teacherPermissions: Permissions[] = [
@@ -189,6 +199,11 @@ const teacherPermissions: Permissions[] = [
   Permissions.BASKET_GETALL,
   Permissions.BASKET_UPDATE,
   Permissions.BASKET_DELETE,
+
+  // Order
+  Permissions.ORDER_CREATE,
+  Permissions.ORDER_GETALL,
+  Permissions.ORDER_DELETE,
 ];
 
 export const RolePermissions: Record<Roles, Permissions[]> = {
@@ -203,5 +218,8 @@ export const RolePermissions: Record<Roles, Permissions[]> = {
     Permissions.BASKET_GETALL,
     Permissions.BASKET_UPDATE,
     Permissions.BASKET_DELETE,
+    Permissions.ORDER_CREATE,
+    Permissions.ORDER_GETALL,
+    Permissions.ORDER_DELETE,
   ],
 };
