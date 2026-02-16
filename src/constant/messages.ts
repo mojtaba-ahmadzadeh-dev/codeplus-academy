@@ -130,3 +130,11 @@ export enum BlogMessages {
   BLOG_USER_FETCHED_SUCCESSFULLY = "بلاگ‌های کاربر با موفقیت دریافت شدند",
   BLOG_USER_NOT_FOUND = "هیچ بلاگی برای این کاربر یافت نشد",
 }
+
+export enum BasketMessages {
+  BASKET_CREATED_SUCCESSFULLY = "سبد خرید با موفقیت ایجاد شد",
+  BASKET_FETCHED_SUCCESSFULLY = "سبد خرید با موفقیت دریافت شد",
+  BASKET_UPDATED_SUCCESSFULLY = "سبد خرید شما با موفقیت آپدیت شد",
+  BASKET_REMOVED_SUCCESSFULLY = "محصول مورد نظر شما با موفقیت حذف شد",
+  BASKET_NOT_FOUND = "محصول مورد نظر یافت نشد",
+}

@@ -64,6 +64,12 @@ export enum Permissions {
   BLOG_BOOKMARK = "blog:bookmark",
   BLOG_READ = "blog:read",
   BLOG__BOOKMARKS_ME = "blog:bookmarks-me",
+
+  // Basket
+  BASKET_CREATE = "basket:create",
+  BASKET_GETALL = "basket:get-all",
+  BASKET_UPDATE = "basket:update",
+  BASKET_DELETE = "basket:delete",
 }
 
 const adminPermissions: Permissions[] = [
@@ -124,6 +130,12 @@ const adminPermissions: Permissions[] = [
   Permissions.BLOG__BY_ID,
   Permissions.COURSE_BOOKMARK,
   Permissions.COURSE_LIKE,
+
+  // Baket
+  Permissions.BASKET_CREATE,
+  Permissions.BASKET_GETALL,
+  Permissions.BASKET_UPDATE,
+  Permissions.BASKET_DELETE,
 ];
 
 const teacherPermissions: Permissions[] = [
@@ -171,6 +183,12 @@ const teacherPermissions: Permissions[] = [
   Permissions.BLOG__BY_ID,
   Permissions.COURSE_BOOKMARK,
   Permissions.COURSE_LIKE,
+
+  // Basket
+  Permissions.BASKET_CREATE,
+  Permissions.BASKET_GETALL,
+  Permissions.BASKET_UPDATE,
+  Permissions.BASKET_DELETE,
 ];
 
 export const RolePermissions: Record<Roles, Permissions[]> = {
@@ -181,5 +199,9 @@ export const RolePermissions: Record<Roles, Permissions[]> = {
     Permissions.BLOG_BOOKMARK,
     Permissions.BLOG_READ,
     Permissions.BLOG__BOOKMARKS_ME,
+    Permissions.BASKET_CREATE,
+    Permissions.BASKET_GETALL,
+    Permissions.BASKET_UPDATE,
+    Permissions.BASKET_DELETE,
   ],
 };
