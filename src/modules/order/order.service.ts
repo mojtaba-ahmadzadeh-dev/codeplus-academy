@@ -1,7 +1,9 @@
 import { Basket } from "../basket/basket.model";
 import { Order } from "./order.model";
-import { STATUS } from "../../constant/status.constant";
+import { STATUS, StatusType } from "../../constant/status.constant";
 import { Course } from "../course/entities/course.model";
+import createHttpError from "http-errors";
+import { orderMessages } from "../../constant/messages";
 
 class OrderService {
   private orderModel = Order;
@@ -69,9 +71,15 @@ class OrderService {
     return orders;
   }
 
-  async getUserOrders(userId: number) {
+  async getUserOrders(userId: number, status?: string) {
+    const whereClause: any = { userId };
+
+    if (status) {
+      whereClause.status = status;
+    }
+
     const orders = await this.orderModel.findAll({
-      where: { userId },
+      where: whereClause,
       include: [{ model: Course, as: "course" }],
       order: [["createdAt", "DESC"]],
     });
@@ -103,8 +111,15 @@ class OrderService {
     return { message: "آیتم سفارش با موفقیت حذف شد" };
   }
 
-  async getAllOrdersForAdmin() {
+  async getAllOrdersForAdmin(status?: string) {
+    const whereClause: any = {};
+
+    if (status) {
+      whereClause.status = status; // فیلتر براساس وضعیت
+    }
+
     const orders = await this.orderModel.findAll({
+      where: whereClause,
       include: [{ model: Course, as: "course" }],
       order: [["createdAt", "DESC"]],
     });
@@ -120,6 +135,48 @@ class OrderService {
       orders: sanitizedOrders,
       totalPrice,
     };
+  }
+
+  async getOrderById(userId: number, orderId: number) {
+    const order = await this.orderModel.findOne({
+      where: { id: orderId, userId },
+      include: [{ model: Course, as: "course" }],
+    });
+
+    if (!order) {
+      throw createHttpError.BadRequest(orderMessages.ORDER_NOT_FOUND);
+    }
+
+    const { totalPrice, ...rest } = order.toJSON();
+    return rest;
+  }
+
+  async changeOrderStatus(
+    orderId: number,
+    status: "pending" | "processing" | "completed" | "cancelled",
+  ) {
+    const order = await this.orderModel.findByPk(orderId);
+
+    if (!order) {
+      throw new Error(orderMessages.ORDER_NOT_FOUND);
+    }
+
+    const validStatuses = [
+      "pending",
+      "processing",
+      "completed",
+      "cancelled",
+    ] as const;
+
+    if (!validStatuses.includes(status)) {
+      throw new Error("وضعیت نامعتبر است");
+    }
+
+    order.status = status;
+    await order.save();
+
+    const { totalPrice, ...rest } = order.toJSON();
+    return rest;
   }
 }
 

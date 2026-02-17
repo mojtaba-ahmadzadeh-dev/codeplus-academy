@@ -18,14 +18,26 @@ orderRouter.get(
 
 orderRouter.delete(
   "/:orderId",
-  rbacGuard([Permissions.ORDER_DELETE]), 
-  orderController.deleteOrderItem
+  rbacGuard([Permissions.ORDER_DELETE]),
+  orderController.deleteOrderItem,
 );
 
 orderRouter.get(
   "/admin",
-  rbacGuard([Permissions.ORDER_GETALL_ADMIN]), // فقط ادمین
-  orderController.getAllOrdersForAdmin
+  rbacGuard([Permissions.ORDER_GETALL_ADMIN]),
+  orderController.getAllOrdersForAdmin,
+);
+
+orderRouter.get(
+  "/:orderId",
+  rbacGuard([Permissions.ORDER_GET_BY_ID]),
+  orderController.getOrderById,
+);
+
+orderRouter.patch(
+  "/:orderId/status",
+  rbacGuard([Permissions.ORDER_UPDATE_STATUS]),
+  orderController.changeOrderStatus,
 );
 
 export default orderRouter;

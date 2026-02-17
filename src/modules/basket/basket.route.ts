@@ -11,28 +11,35 @@ import {
 
 const basketRouter = Router();
 
+// 🟢 CREATE BASKET
 basketRouter.post(
   "/",
   rbacGuard([Permissions.BASKET_CREATE]),
   validateCreateBasket,
   basketController.createBasket,
 );
+
+// 🟢 GET USER BASKET
 basketRouter.get(
   "/",
   rbacGuard([Permissions.BASKET_GETALL]),
-  validateRemoveItem,
+  validateGetUserBasket, // ✅ اصلاح شد
   basketController.getUserBasket,
 );
+
+// 🟢 UPDATE QUANTITY
 basketRouter.patch(
   "/:itemId",
   rbacGuard([Permissions.BASKET_UPDATE]),
   validateUpdateQuantity,
   basketController.updateQuantity,
 );
+
+// 🟢 REMOVE ITEM
 basketRouter.delete(
   "/:itemId",
   rbacGuard([Permissions.BASKET_UPDATE]),
-  validateGetUserBasket,
+  validateRemoveItem, // ✅ اصلاح شد
   basketController.removeItem,
 );
 
