@@ -1,9 +1,10 @@
 import { Basket } from "../basket/basket.model";
 import { Order } from "./order.model";
-import { STATUS, StatusType } from "../../constant/status.constant";
+import { STATUS } from "../../constant/status.constant";
 import { Course } from "../course/entities/course.model";
 import createHttpError from "http-errors";
 import { orderMessages } from "../../constant/messages";
+import { OrderAttributes } from "./types/index.types";
 
 class OrderService {
   private orderModel = Order;
@@ -103,19 +104,17 @@ class OrderService {
     });
 
     if (!order) {
-      throw new Error("سفارش موردنظر پیدا نشد یا به کاربر تعلق ندارد");
+      throw createHttpError.BadRequest(orderMessages.ORDER_NOT_FOUND);
     }
 
     await order.destroy();
-
-    return { message: "آیتم سفارش با موفقیت حذف شد" };
   }
 
   async getAllOrdersForAdmin(status?: string) {
     const whereClause: any = {};
 
     if (status) {
-      whereClause.status = status; // فیلتر براساس وضعیت
+      whereClause.status = status;
     }
 
     const orders = await this.orderModel.findAll({
@@ -151,33 +150,33 @@ class OrderService {
     return rest;
   }
 
-  async changeOrderStatus(
-    orderId: number,
-    status: "pending" | "processing" | "completed" | "cancelled",
-  ) {
-    const order = await this.orderModel.findByPk(orderId);
+async changeOrderStatus(
+  orderId: number,
+  status: OrderAttributes["status"],
+): Promise<Omit<OrderAttributes, "totalPrice">> {
+  const order = await this.orderModel.findByPk(orderId, {
+    include: [{ model: Course, as: "course" }],
+  });
 
-    if (!order) {
-      throw new Error(orderMessages.ORDER_NOT_FOUND);
-    }
-
-    const validStatuses = [
-      "pending",
-      "processing",
-      "completed",
-      "cancelled",
-    ] as const;
-
-    if (!validStatuses.includes(status)) {
-      throw new Error("وضعیت نامعتبر است");
-    }
-
-    order.status = status;
-    await order.save();
-
-    const { totalPrice, ...rest } = order.toJSON();
-    return rest;
+  if (!order) {
+    throw new Error(orderMessages.ORDER_NOT_FOUND);
   }
+
+  if (!["pending", "processing", "completed", "cancelled"].includes(status)) {
+    throw createHttpError.BadRequest("وضعیت نامعتبر است");
+  }
+
+  if (order.status === status) {
+    const { totalPrice, ...orderData } = order.toJSON() as OrderAttributes;
+    return orderData;
+  }
+
+  order.status = status;
+  await order.save();
+
+  const { totalPrice, ...orderData } = order.toJSON() as OrderAttributes;
+  return orderData;
+}
 }
 
 export default new OrderService();

@@ -19,7 +19,6 @@ categoryRouter.post(
 );
 categoryRouter.get(
   "/",
-  rbacGuard([Permissions.CATEGORY_GETALL]),
   categoryController.getAllCategories,
 );
 categoryRouter.put(

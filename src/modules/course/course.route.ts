@@ -18,7 +18,6 @@ courseRouter.post(
 );
 courseRouter.get(
   "/",
-  rbacGuard([Permissions.COURSE_GETALL]),
   courseController.getAllCourses,
 );
 

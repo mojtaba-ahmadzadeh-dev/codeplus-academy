@@ -99,7 +99,7 @@
 
 /**
  * @swagger
- * /order/user:
+ * /order/me:
  *   get:
  *     summary: Get all orders of the logged-in user
  *     description: >
@@ -194,7 +194,7 @@
 
 /**
  * @swagger
- * /order/{orderId}:
+ * /order/{id}:
  *   delete:
  *     summary: Delete a specific order item
  *     description: Delete a specific order that belongs to the logged-in user.
@@ -323,7 +323,7 @@
 
 /**
  * @swagger
- * /order/{orderId}:
+ * /order/{id}:
  *   get:
  *     summary: Get a specific order by ID
  *     description: Retrieve a specific order of the logged-in user by order ID. Returns error if the order does not belong to the user or does not exist.
@@ -384,7 +384,7 @@
 
 /**
  * @swagger
- * /order/{orderId}/status:
+ * /order/{id}/status:
  *   patch:
  *     summary: Change order status
  *     description: Update the status of a specific order. Only accessible by authorized users/admin.
@@ -393,7 +393,7 @@
  *       - bearerAuth: []
  *     parameters:
  *       - in: path
- *         name: orderId
+ *         name: id
  *         required: true
  *         schema:
  *           type: integer
@@ -430,7 +430,7 @@
  *                 data:
  *                   $ref: '#/components/schemas/Order'
  *       400:
- *         description: Invalid or missing status
+ *         description: Invalid or missing status / Invalid order ID
  *         content:
  *           application/json:
  *             schema:
@@ -438,9 +438,35 @@
  *               properties:
  *                 message:
  *                   type: string
- *                   example: "Invalid status"
+ *                   example: "Invalid status or order ID"
  *       401:
  *         description: Unauthorized
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Unauthorized"
  *       404:
  *         description: Order not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Order not found"
+ *       500:
+ *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Internal server error"
  */

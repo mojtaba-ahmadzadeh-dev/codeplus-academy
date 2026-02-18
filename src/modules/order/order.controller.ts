@@ -70,7 +70,10 @@ class OrderController {
 
       const result = await this.orderService.deleteOrderItem(userId, orderId);
 
-      return res.status(200).json(result);
+      return res.status(200).json({
+        message: "آیتم سفارش با موفقیت حذف شد",
+        result,
+      });
     } catch (error) {
       next(error);
     }
@@ -114,12 +117,8 @@ class OrderController {
 
   async changeOrderStatus(req: Request, res: Response, next: NextFunction) {
     try {
-      const orderId = parseInt(req.params.orderId);
+      const orderId = parseInt(req.params.id, 10); 
       const { status } = req.body;
-
-      if (!status) {
-        return res.status(400).json({ message: "وضعیت جدید مشخص نشده است" });
-      }
 
       const updatedOrder = await this.orderService.changeOrderStatus(
         orderId,

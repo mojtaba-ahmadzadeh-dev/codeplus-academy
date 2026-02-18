@@ -17,7 +17,6 @@ courseCommentRouter.post(
 );
 courseCommentRouter.get(
   "/",
-  rbacGuard([Permissions.COURSE_COMMENT_GETALL]),
   courseCommentController.getAllComments,
 );
 courseCommentRouter.get(

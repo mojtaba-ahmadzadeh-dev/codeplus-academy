@@ -11,13 +11,13 @@ orderRouter.post(
   orderController.createOrder,
 );
 orderRouter.get(
-  "/user",
+  "/me",
   rbacGuard([Permissions.ORDER_GETALL]),
   orderController.getUserOrders,
 );
 
 orderRouter.delete(
-  "/:orderId",
+  "/:id",
   rbacGuard([Permissions.ORDER_DELETE]),
   orderController.deleteOrderItem,
 );
@@ -29,13 +29,13 @@ orderRouter.get(
 );
 
 orderRouter.get(
-  "/:orderId",
+  "/:id",
   rbacGuard([Permissions.ORDER_GET_BY_ID]),
   orderController.getOrderById,
 );
 
 orderRouter.patch(
-  "/:orderId/status",
+  "/:id/status",
   rbacGuard([Permissions.ORDER_UPDATE_STATUS]),
   orderController.changeOrderStatus,
 );

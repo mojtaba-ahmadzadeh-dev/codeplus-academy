@@ -19,7 +19,6 @@ blogRouter.get(
 
 blogRouter.get(
   "/",
-  rbacGuard([Permissions.BLOG_GETALL]),
   blogController.getAllBlogs,
 );
 

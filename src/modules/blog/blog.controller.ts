@@ -145,11 +145,7 @@ class BlogController {
     }
   }
 
-  async getUserBlogs(
-    req: Request,
-    res: Response,
-    next: NextFunction,
-  ) {
+  async getUserBlogs(req: Request, res: Response, next: NextFunction) {
     try {
       const result = await this.blogService.getUserBlogs(
         req.user?.id,
@@ -158,10 +154,10 @@ class BlogController {
       );
 
       return res.status(StatusCodes.OK).json({
+        ...result,
         message: result.rows.length
           ? "Bookmarked blogs fetched successfully"
           : "No bookmarked blogs found",
-        ...result,
       });
     } catch (error) {
       next(error);

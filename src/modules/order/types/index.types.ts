@@ -1,6 +1,4 @@
-// src/modules/order/types/index.types.ts
 import { Optional } from "sequelize";
-import { STATUS } from "../../../constant/status.constant";
 import { Course } from "../../course/entities/course.model";
 
 export interface OrderAttributes {
@@ -12,7 +10,7 @@ export interface OrderAttributes {
   status: "pending" | "processing" | "completed" | "cancelled";
   createdAt?: Date;
   updatedAt?: Date;
-  course?: Course; // ارتباط با مدل Course، برای eager loading
+  course?: Course; 
 }
 
 export type OrderCreationAttributes = Optional<

@@ -151,20 +151,21 @@ class BlogService {
           ],
           required: false,
         },
-        { model: Reaction, attributes: ["id"], required: false },
       ],
     });
 
     if (!blog) return null;
 
-    const blogJSON = blog.toJSON() as any;
-    const bookmarkCount = await Bookmark.count({
-      where: { blogId: blogJSON.id },
-    });
-    const likeCount = blogJSON.blog_likes?.length ?? 0;
-    delete blogJSON.blog_likes;
+    const [bookmarkCount, likeCount] = await Promise.all([
+      Bookmark.count({ where: { blogId: id } }),
+      Reaction.count({ where: { blogId: id } }),
+    ]);
 
-    return { ...blogJSON, bookmarkCount, likeCount };
+    return {
+      ...blog.toJSON(),
+      bookmarkCount,
+      likeCount,
+    };
   }
 
   async updateBlog(

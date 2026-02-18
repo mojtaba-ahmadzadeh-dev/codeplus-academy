@@ -4,7 +4,8 @@ export const STATUS = {
   PENDING: "pending",
   ACCEPTED: "accepted",
   PROCESSING: "processing",
-  COMPLETED: "completed",
+  PAID: "paid",
+  UNPAID: "unPaid",
   CANCELLED: "cancelled"
 } as const;
 
