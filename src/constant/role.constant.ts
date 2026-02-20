@@ -91,6 +91,18 @@ export enum Permissions {
   DEPARTMENT_GETALL = "department:get-all",
   DEPARTMENT_DELETE_ID = "department:delete",
   DEPARTMENT_UPDATE = "department:update",
+
+
+  NOTIFICATION_CREATE = "notification:create",
+  NOTIFICATION_GETALL = "notification:get-all",
+  NOTIFICATION_SEEN = "notification:seen",
+  NOTIFICATION_UNSEEN = "notification:unseen",
+  NOTIFICATION_COUNT = "notification:count",
+  NOTIFICATION_BT_ID = "notification:by-id",
+  NOTIFICATION__UPDATE_BY_ID_SEEN = "notification:update-by-id-seen",
+  NOTIFICATION_UPDATE_SEEND_ALL = "notification:update-seend-all",
+  NOTIFICATION_DELETE_ID = "notification:delete-id",
+  NOTIFICATION_DELETE = "notification:delete",
 }
 
 const adminPermissions: Permissions[] = [
@@ -180,6 +192,16 @@ const adminPermissions: Permissions[] = [
   Permissions.DEPARTMENT_GETALL,
   Permissions.DEPARTMENT_UPDATE,
   Permissions.DEPARTMENT_DELETE_ID,
+
+
+  Permissions.NOTIFICATION_CREATE,
+  Permissions.NOTIFICATION_GETALL,
+  Permissions.NOTIFICATION_SEEN,
+  Permissions.NOTIFICATION_UNSEEN,
+  Permissions.NOTIFICATION_BT_ID,
+  Permissions.NOTIFICATION__UPDATE_BY_ID_SEEN,
+  Permissions.NOTIFICATION_DELETE_ID,
+  Permissions.NOTIFICATION_DELETE,
 ];
 
 const teacherPermissions: Permissions[] = [
@@ -247,6 +269,18 @@ const teacherPermissions: Permissions[] = [
   Permissions.TICKET_READ,
   Permissions.TICKET_READ_ALL,
   Permissions.TICKET_DELETE_ID,
+
+  // Notification
+
+  Permissions.NOTIFICATION_CREATE,
+  Permissions.NOTIFICATION_GETALL,
+  Permissions.NOTIFICATION_SEEN,
+  Permissions.NOTIFICATION_UNSEEN,
+  Permissions.NOTIFICATION_BT_ID,
+  Permissions.NOTIFICATION__UPDATE_BY_ID_SEEN,
+  Permissions.NOTIFICATION_UPDATE_SEEND_ALL,
+  Permissions.NOTIFICATION_DELETE_ID,
+  Permissions.NOTIFICATION_DELETE
 ];
 
 export const RolePermissions: Record<Roles, Permissions[]> = {

@@ -12,6 +12,7 @@ import basketRouter from "../modules/basket/basket.route";
 import orderRouter from "../modules/order/order.route";
 import ticketRouter from "../modules/ticket/ticket.route";
 import departmentRouter from "../modules/department/department.route";
+import notificationRouter from "../modules/notification/notification.route";
 
 const AllRoutes: Router = Router();
 
@@ -28,5 +29,6 @@ AllRoutes.use(`/basket`, basketRouter);
 AllRoutes.use(`/order`, orderRouter);
 AllRoutes.use(`/tickets`, ticketRouter);
 AllRoutes.use(`/departments`, departmentRouter);
+AllRoutes.use(`/notifications`, notificationRouter);
 
 export { AllRoutes };
