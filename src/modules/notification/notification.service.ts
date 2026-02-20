@@ -13,15 +13,15 @@ class NotificationService {
     return notification;
   }
 
-  async getNotifications(
-    userId: number,
-    options?: { limit?: number; offset?: number },
-  ) {
+  async getNotifications(userId: number, query?: any) {
+    const limit = query?.limit ? Number(query.limit) : 20;
+    const offset = query?.offset ? Number(query.offset) : 0;
+
     const notifications = await this.notificationModel.findAll({
       where: { userId },
       order: [["createdAt", "DESC"]],
-      limit: options?.limit || 20,
-      offset: options?.offset || 0,
+      limit,
+      offset,
     });
 
     return notifications;
@@ -59,35 +59,35 @@ class NotificationService {
     return { message: `${updatedCount} notifications marked as read` };
   }
 
-  async getSeenNotifications(
-    userId: number,
-    options?: { limit?: number; offset?: number },
-  ) {
+  async getSeenNotifications(userId: number, query?: any) {
+    const limit = query?.limit ? Number(query.limit) : 20;
+    const offset = query?.offset ? Number(query.offset) : 0;
+
     const notifications = await this.notificationModel.findAll({
       where: {
         userId,
         read: true,
       },
       order: [["createdAt", "DESC"]],
-      limit: options?.limit || 20,
-      offset: options?.offset || 0,
+      limit,
+      offset,
     });
 
     return notifications;
   }
 
-  async getUnseenNotifications(
-    userId: number,
-    options?: { limit?: number; offset?: number },
-  ) {
+  async getUnseenNotifications(userId: number, query?: any) {
+    const limit = query?.limit ? Number(query.limit) : 20;
+    const offset = query?.offset ? Number(query.offset) : 0;
+
     const notifications = await this.notificationModel.findAll({
       where: {
         userId,
         read: false,
       },
       order: [["createdAt", "DESC"]],
-      limit: options?.limit ?? 20,
-      offset: options?.offset ?? 0,
+      limit,
+      offset,
     });
 
     return notifications;
@@ -114,12 +114,12 @@ class NotificationService {
   }
 
   async countUnseenNotifications(userId: number) {
-  const count = await this.notificationModel.count({
-    where: { userId, read: false },
-  });
+    const count = await this.notificationModel.count({
+      where: { userId, read: false },
+    });
 
-  return { count };
-}
+    return { count };
+  }
 }
 
 export default new NotificationService();

@@ -151,7 +151,7 @@ export enum orderMessages {
 export enum ticketMessages {
   TICKET_NOT_FOUND = "تیکت مورد نظر یافت نشد",
   TICKET_DELETE_SUCCESSFULLY = "تیکت مورد نظر با موفقیت حذف شد",
-  TICKET_ID_FETCHED_SUCCESSFULLY = "تیکت مورد نظر باموفقیت دریافت شد"
+  TICKET_ID_FETCHED_SUCCESSFULLY = "تیکت مورد نظر باموفقیت دریافت شد",
 }
 
 export enum departmentMessages {
@@ -160,4 +160,21 @@ export enum departmentMessages {
   DEPARTMENT_UPDATE_SUCCESSFULLY = "دپارتمان مورد نظر با موفقیت آپدیت شد",
   DEPARTMENT_FETCHED_SUCCESSFULLY = "دپارتمان ها با موفقیت دریافت شدند",
   DEPARTMENT_NOT_FOUND = "دیپارتمان موردنظر وجود ندارد",
+}
+
+export enum notificationMessages {
+  NOTIFICATION_CREATE_SUCCESSFULLY = "پیغام مورد نظر با موفقیت ساخته شد",
+  NOTIFICATION_FETCHED_SUCCESSFULLY = "پیغام‌ها با موفقیت دریافت شدند",
+  NOTIFICATION_FETCHED_ID_SUCCESSFULLY = "پیغام مورد نظر با موفقیت دریافت شد",
+
+  NOTIFICATION_MARKED_AS_READ = "پیغام با موفقیت به عنوان خوانده شده علامت‌گذاری شد",
+  NOTIFICATIONS_MARKED_AS_READ = "همه پیغام‌ها با موفقیت خوانده شدند",
+
+  SEEN_NOTIFICATIONS_FETCHED = "پیغام‌های خوانده شده با موفقیت دریافت شدند",
+  UNSEEN_NOTIFICATIONS_FETCHED = "پیغام‌های خوانده نشده با موفقیت دریافت شدند",
+
+  NOTIFICATION_DELETED = "پیغام با موفقیت حذف شد",
+  NOTIFICATIONS_DELETED = "همه پیغام‌ها با موفقیت حذف شدند",
+
+  UNSEEN_COUNT_FETCHED = "تعداد پیغام‌های خوانده نشده با موفقیت دریافت شد",
 }

@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import notificationService from "./notification.service";
 import createHttpError from "http-errors";
+import { notificationMessages } from "../../constant/messages";
 
 class NotificationController {
   private notificationService: typeof notificationService;
@@ -11,8 +12,7 @@ class NotificationController {
     this.getNotifications = this.getNotifications.bind(this);
     this.getNotificationById = this.getNotificationById.bind(this);
     this.markNotificationAsRead = this.markNotificationAsRead.bind(this);
-    this.markAllNotificationsAsRead =
-      this.markAllNotificationsAsRead.bind(this);
+    this.markAllNotificationsAsRead = this.markAllNotificationsAsRead.bind(this);
     this.getSeenNotifications = this.getSeenNotifications.bind(this);
     this.getUnseenNotifications = this.getUnseenNotifications.bind(this);
     this.deleteNotification = this.deleteNotification.bind(this);
@@ -23,7 +23,6 @@ class NotificationController {
   async createNotification(req: Request, res: Response, next: NextFunction) {
     try {
       const { title, message, type } = req.body;
-
       const userId = req.user?.id;
 
       if (!userId) throw createHttpError.Unauthorized("کاربر وارد نشده است");
@@ -38,7 +37,7 @@ class NotificationController {
 
       return res.status(201).json({
         success: true,
-        message: "Notification created successfully",
+        message: notificationMessages.NOTIFICATION_CREATE_SUCCESSFULLY,
         data: notification,
       });
     } catch (error) {
@@ -51,17 +50,14 @@ class NotificationController {
       const userId = req.user?.id;
       if (!userId) throw createHttpError.Unauthorized("کاربر وارد نشده است");
 
-      const limit = Number(req.query.limit) || 20;
-      const offset = Number(req.query.offset) || 0;
-
       const notifications = await this.notificationService.getNotifications(
         userId,
-        { limit, offset },
+        req.query,
       );
 
       return res.status(200).json({
         success: true,
-        message: "Notifications fetched successfully",
+        message: notificationMessages.NOTIFICATION_FETCHED_SUCCESSFULLY,
         data: notifications,
       });
     } catch (error) {
@@ -82,7 +78,7 @@ class NotificationController {
 
       return res.status(200).json({
         success: true,
-        message: "Notification fetched successfully",
+        message: notificationMessages.NOTIFICATION_FETCHED_ID_SUCCESSFULLY,
         data: notification,
       });
     } catch (error) {
@@ -109,7 +105,7 @@ class NotificationController {
 
       return res.status(200).json({
         success: true,
-        message: "Notification marked as read",
+        message: notificationMessages.NOTIFICATIONS_MARKED_AS_READ,
         data: notification,
       });
     } catch (error) {
@@ -142,20 +138,14 @@ class NotificationController {
       const userId = req.user?.id;
       if (!userId) throw createHttpError.Unauthorized("کاربر وارد نشده است");
 
-      const limit = Number(req.query.limit) || 20;
-      const offset = Number(req.query.offset) || 0;
-
       const notifications = await this.notificationService.getSeenNotifications(
         userId,
-        {
-          limit,
-          offset,
-        },
+        req.query,
       );
 
       return res.status(200).json({
         success: true,
-        message: "Seen notifications fetched successfully",
+        message: notificationMessages.SEEN_NOTIFICATIONS_FETCHED,
         data: notifications,
       });
     } catch (error) {
@@ -172,18 +162,15 @@ class NotificationController {
       const userId = req.user?.id;
       if (!userId) throw createHttpError.Unauthorized("کاربر وارد نشده است");
 
-      const limit = Number(req.query.limit) || 20;
-      const offset = Number(req.query.offset) || 0;
-
       const notifications =
-        await this.notificationService.getUnseenNotifications(userId, {
-          limit,
-          offset,
-        });
+        await this.notificationService.getUnseenNotifications(
+          userId,
+          req.query,
+        );
 
       return res.status(200).json({
         success: true,
-        message: "Unseen notifications fetched successfully",
+        message: notificationMessages.UNSEEN_NOTIFICATIONS_FETCHED,
         data: notifications,
       });
     } catch (error) {
@@ -195,18 +182,13 @@ class NotificationController {
     try {
       const userId = req.user?.id;
       if (!userId) throw createHttpError.Unauthorized("کاربر وارد نشده است");
-
       const id = Number(req.params.id);
-      if (isNaN(id)) throw createHttpError.BadRequest("آیدی معتبر نیست");
 
-      const result = await this.notificationService.deleteNotification(
-        userId,
-        id,
-      );
+      await this.notificationService.deleteNotification(userId, id);
 
       return res.status(200).json({
         success: true,
-        message: result.message,
+        message: notificationMessages.NOTIFICATION_DELETED,
       });
     } catch (error) {
       next(error);
@@ -227,7 +209,7 @@ class NotificationController {
 
       return res.status(200).json({
         success: true,
-        message: result.message,
+        message: notificationMessages.NOTIFICATIONS_DELETED,
       });
     } catch (error) {
       next(error);
@@ -235,25 +217,26 @@ class NotificationController {
   }
 
   async countUnseenNotifications(
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) {
-  try {
-    const userId = req.user?.id;
-    if (!userId) throw createHttpError.Unauthorized("کاربر وارد نشده است");
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) {
+    try {
+      const userId = req.user?.id;
+      if (!userId) throw createHttpError.Unauthorized("کاربر وارد نشده است");
 
-    const result = await this.notificationService.countUnseenNotifications(userId);
+      const result =
+        await this.notificationService.countUnseenNotifications(userId);
 
-    return res.status(200).json({
-      success: true,
-      message: "Unseen notifications count fetched successfully",
-      data: result,
-    });
-  } catch (error) {
-    next(error);
+      return res.status(200).json({
+        success: true,
+        message: notificationMessages.UNSEEN_COUNT_FETCHED,
+        data: result,
+      });
+    } catch (error) {
+      next(error);
+    }
   }
-}
 }
 
 export default new NotificationController();
