@@ -153,3 +153,11 @@ export enum ticketMessages {
   TICKET_DELETE_SUCCESSFULLY = "تیکت مورد نظر با موفقیت حذف شد",
   TICKET_ID_FETCHED_SUCCESSFULLY = "تیکت مورد نظر باموفقیت دریافت شد"
 }
+
+export enum departmentMessages {
+  DEPARTMENT_CREATE_SUCCESSFULLY = "دپارتمان موردنظر با موفقیت ایجاد شد",
+  DEPARTMENT_DELETE_SUCCESSFULLY = "دپارتمان مورد نظر با موفقیت حذف شد",
+  DEPARTMENT_UPDATE_SUCCESSFULLY = "دپارتمان مورد نظر با موفقیت آپدیت شد",
+  DEPARTMENT_FETCHED_SUCCESSFULLY = "دپارتمان ها با موفقیت دریافت شدند",
+  DEPARTMENT_NOT_FOUND = "دیپارتمان موردنظر وجود ندارد",
+}

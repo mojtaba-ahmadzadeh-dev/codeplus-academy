@@ -219,3 +219,59 @@
  *       500:
  *         description: Internal server error
  */
+
+/**
+ * @swagger
+ * /departments/{id}:
+ *   delete:
+ *     summary: Delete a department
+ *     description: Remove a department from the system by its ID
+ *     tags: [Department 🏢]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID of the department to delete
+ *     responses:
+ *       200:
+ *         description: Department deleted successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 200
+ *                 message:
+ *                   type: string
+ *                   example: Department deleted successfully
+ *       404:
+ *         description: Department not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 404
+ *                 message:
+ *                   type: string
+ *                   example: Department not found
+ *       500:
+ *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 500
+ *                 message:
+ *                   type: string
+ *                   example: Internal server error
+ */
