@@ -196,3 +196,114 @@
  *       500:
  *         description: Internal server error
  */
+
+/**
+ * @swagger
+ * /notifications/{id}/seen:
+ *   put:
+ *     summary: Mark a notification as read
+ *     description: Marks a single notification as read for the authenticated user
+ *     tags: [Notifications 🔔]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: Notification ID
+ *     responses:
+ *       200:
+ *         description: Notification marked as read successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: Notification marked as read
+ *                 data:
+ *                   $ref: '#/components/schemas/Notification'
+ *       400:
+ *         description: Invalid notification ID
+ *       401:
+ *         description: Unauthorized
+ *       404:
+ *         description: Notification not found
+ */
+
+/**
+ * @swagger
+ * /notifications/seen-all:
+ *   put:
+ *     summary: Mark all notifications as read
+ *     description: Marks all notifications as read for the authenticated user
+ *     tags: [Notifications 🔔]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: All notifications marked as read successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: 5 notifications marked as read
+ *       401:
+ *         description: Unauthorized
+ *       500:
+ *         description: Internal server error
+ */
+
+/**
+ * @swagger
+ * /notifications/seen:
+ *   get:
+ *     summary: Get all seen notifications
+ *     description: Returns all notifications that are marked as read for the authenticated user
+ *     tags: [Notifications 🔔]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: integer
+ *           default: 20
+ *       - in: query
+ *         name: offset
+ *         schema:
+ *           type: integer
+ *           default: 0
+ *     responses:
+ *       200:
+ *         description: Seen notifications fetched successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: Seen notifications fetched successfully
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     $ref: '#/components/schemas/Notification'
+ *       401:
+ *         description: Unauthorized
+ */

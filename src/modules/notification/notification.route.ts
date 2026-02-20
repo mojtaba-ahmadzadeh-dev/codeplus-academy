@@ -17,11 +17,29 @@ notificationRouter.get(
   notificationController.getNotifications,
 );
 
-// گرفتن نوتیفیکیشن براساس ID
+notificationRouter.get(
+  "/seen",
+  rbacGuard([Permissions.NOTIFICATION_CREATE]),
+  notificationController.getSeenNotifications,
+);
+
+
 notificationRouter.get(
   "/:id",
   rbacGuard([Permissions.NOTIFICATION_CREATE]),
   notificationController.getNotificationById,
 );
 
+notificationRouter.put(
+  "/:id/seen",
+  rbacGuard([Permissions.NOTIFICATION_CREATE]),
+  notificationController.markNotificationAsRead,
+);
+
+// mark all notifications as read
+notificationRouter.put(
+  "/seen-all",
+  rbacGuard([Permissions.NOTIFICATION_CREATE]),
+  notificationController.markAllNotificationsAsRead
+);
 export default notificationRouter;

@@ -36,6 +36,45 @@ class NotificationService {
 
     return notification;
   }
+
+  async markAsRead(userId: number, id: number) {
+    const notification = await this.notificationModel.findOne({
+      where: { id, userId },
+    });
+
+    if (!notification) throw createHttpError.NotFound("نوتیفیکیشن پیدا نشد");
+
+    notification.read = true;
+    await notification.save();
+
+    return notification;
+  }
+
+  async markAllAsRead(userId: number) {
+    const [updatedCount] = await this.notificationModel.update(
+      { read: true },
+      { where: { userId, read: false } },
+    );
+
+    return { message: `${updatedCount} notifications marked as read` };
+  }
+
+  async getSeenNotifications(
+    userId: number,
+    options?: { limit?: number; offset?: number },
+  ) {
+    const notifications = await this.notificationModel.findAll({
+      where: {
+        userId,
+        read: true,
+      },
+      order: [["createdAt", "DESC"]],
+      limit: options?.limit || 20,
+      offset: options?.offset || 0,
+    });
+
+    return notifications;
+  }
 }
 
 export default new NotificationService();
