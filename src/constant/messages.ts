@@ -147,3 +147,9 @@ export enum orderMessages {
   ORDER_CHANGE_STATUS_UPDATE_SUCCESSFULLY = "وضعیت سفارش با موفقیت تغییر یافت",
   ORDER_NOT_FOUND = "سفارش موردنظر پیدا نشد یا به کاربر تعلق ندارد",
 }
+
+export enum ticketMessages {
+  TICKET_NOT_FOUND = "تیکت مورد نظر یافت نشد",
+  TICKET_DELETE_SUCCESSFULLY = "تیکت مورد نظر با موفقیت حذف شد",
+  TICKET_ID_FETCHED_SUCCESSFULLY = "تیکت مورد نظر باموفقیت دریافت شد"
+}

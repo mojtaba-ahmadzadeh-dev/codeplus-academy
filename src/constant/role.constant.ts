@@ -79,6 +79,12 @@ export enum Permissions {
   ORDER_GET_BY_ID = "order:get-by-id",
   ORDER_UPDATE_STATUS = "order:change-status",
   ORDER_UPDATE_FILTER_BY_STATUS = "order:filter-by-status",
+
+  // Ticket
+  TICKET_CREATE = "ticket:create",
+  TICKET_READ = "ticket:read",
+  TICKET_READ_ALL = "ticket:read-all",
+  TICKET_DELETE_ID = "ticket:delete-all",
 }
 
 const adminPermissions: Permissions[] = [
@@ -154,6 +160,12 @@ const adminPermissions: Permissions[] = [
   Permissions.ORDER_GET_BY_ID,
   Permissions.ORDER_UPDATE_STATUS,
   Permissions.ORDER_UPDATE_FILTER_BY_STATUS,
+
+  // Ticket
+  Permissions.TICKET_CREATE,
+  Permissions.TICKET_READ,
+  Permissions.TICKET_READ_ALL,
+  Permissions.TICKET_DELETE_ID,
 ];
 
 const teacherPermissions: Permissions[] = [
@@ -215,6 +227,12 @@ const teacherPermissions: Permissions[] = [
   Permissions.ORDER_GET_BY_ID,
   Permissions.ORDER_UPDATE_STATUS,
   Permissions.ORDER_UPDATE_FILTER_BY_STATUS,
+
+  // Ticket
+  Permissions.TICKET_CREATE,
+  Permissions.TICKET_READ,
+  Permissions.TICKET_READ_ALL,
+  Permissions.TICKET_DELETE_ID,
 ];
 
 export const RolePermissions: Record<Roles, Permissions[]> = {
@@ -233,5 +251,9 @@ export const RolePermissions: Record<Roles, Permissions[]> = {
     Permissions.ORDER_GETALL,
     Permissions.ORDER_DELETE,
     Permissions.ORDER_GET_BY_ID,
+    Permissions.TICKET_CREATE,
+    Permissions.TICKET_READ,
+    Permissions.TICKET_READ_ALL,
+    Permissions.TICKET_DELETE_ID,
   ],
 };
