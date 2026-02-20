@@ -91,6 +91,9 @@ export enum Permissions {
   DEPARTMENT_GETALL = "department:get-all",
   DEPARTMENT_DELETE_ID = "department:delete",
   DEPARTMENT_UPDATE = "department:update",
+
+
+  NOTIFICATION_CREATE = "notification:create",
 }
 
 const adminPermissions: Permissions[] = [
@@ -180,6 +183,9 @@ const adminPermissions: Permissions[] = [
   Permissions.DEPARTMENT_GETALL,
   Permissions.DEPARTMENT_UPDATE,
   Permissions.DEPARTMENT_DELETE_ID,
+
+
+  Permissions.NOTIFICATION_CREATE,
 ];
 
 const teacherPermissions: Permissions[] = [
@@ -247,6 +253,11 @@ const teacherPermissions: Permissions[] = [
   Permissions.TICKET_READ,
   Permissions.TICKET_READ_ALL,
   Permissions.TICKET_DELETE_ID,
+
+  // Notification
+
+  Permissions.NOTIFICATION_CREATE
+
 ];
 
 export const RolePermissions: Record<Roles, Permissions[]> = {

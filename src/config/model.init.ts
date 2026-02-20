@@ -15,6 +15,7 @@ import { Basket } from "../modules/basket/basket.model";
 import { Order } from "../modules/order/order.model";
 import { Ticket } from "../modules/ticket/ticket.model";
 import { Department } from "../modules/department/department.model";
+import { Notification } from "../modules/notification/notification.model";
 
 const initDatabase = async (): Promise<void> => {
   // User → OTP
@@ -167,6 +168,18 @@ const initDatabase = async (): Promise<void> => {
   Ticket.belongsTo(Department, {
     foreignKey: "departmentId",
     as: "department",
+  });
+
+  User.hasMany(Notification, {
+    foreignKey: "userId",
+    as: "notifications",
+    onDelete: "CASCADE",
+  });
+
+  // Notification -> User
+  Notification.belongsTo(User, {
+    foreignKey: "userId",
+    as: "user",
   });
 
   // sequelize.sync({alter: true})
