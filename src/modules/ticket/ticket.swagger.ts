@@ -89,3 +89,60 @@
  *       500:
  *         description: Internal server error
  */
+
+/**
+ * @swagger
+ * /tickets/user:
+ *   get:
+ *     summary: Get tickets of the current user
+ *     description: |
+ *       Retrieve all tickets created by the currently authenticated user.
+ *       Requires authentication via bearer token.
+ *     tags: [Ticket 🎫]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: List of user's tickets
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 tickets:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: integer
+ *                         example: 1
+ *                       title:
+ *                         type: string
+ *                         example: "Cannot login to account"
+ *                       description:
+ *                         type: string
+ *                         example: "I am unable to login with my credentials"
+ *                       status:
+ *                         type: string
+ *                         example: "pending"
+ *                       priority:
+ *                         type: string
+ *                         example: "medium"
+ *                       userId:
+ *                         type: integer
+ *                         example: 1
+ *                       createdAt:
+ *                         type: string
+ *                         format: date-time
+ *                       updatedAt:
+ *                         type: string
+ *                         format: date-time
+ *       401:
+ *         description: Unauthorized
+ *       500:
+ *         description: Internal server error
+ */

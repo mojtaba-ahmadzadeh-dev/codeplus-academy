@@ -82,6 +82,7 @@ export enum Permissions {
 
   // Ticket
   TICKET_CREATE = "ticket:create",
+  TICKET_READ = "ticket:read",
 }
 
 const adminPermissions: Permissions[] = [
@@ -160,6 +161,7 @@ const adminPermissions: Permissions[] = [
 
   // Ticket
   Permissions.TICKET_CREATE,
+  Permissions.TICKET_READ,
 ];
 
 const teacherPermissions: Permissions[] = [
@@ -224,6 +226,7 @@ const teacherPermissions: Permissions[] = [
 
   // Ticket
   Permissions.TICKET_CREATE,
+  Permissions.TICKET_READ,
 ];
 
 export const RolePermissions: Record<Roles, Permissions[]> = {
@@ -243,5 +246,6 @@ export const RolePermissions: Record<Roles, Permissions[]> = {
     Permissions.ORDER_DELETE,
     Permissions.ORDER_GET_BY_ID,
     Permissions.TICKET_CREATE,
+    Permissions.TICKET_READ,
   ],
 };

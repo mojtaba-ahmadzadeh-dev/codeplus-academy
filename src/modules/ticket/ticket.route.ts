@@ -11,4 +11,10 @@ ticketRouter.post(
   ticketController.createTicket,
 );
 
+ticketRouter.get(
+  "/user",
+  rbacGuard([Permissions.TICKET_READ]),
+  ticketController.getUserTickets,
+);
+
 export default ticketRouter;
