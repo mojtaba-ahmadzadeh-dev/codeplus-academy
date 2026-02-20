@@ -19,14 +19,20 @@ ticketRouter.get(
 
 ticketRouter.get(
   "/admin",
-  rbacGuard([Permissions.TICKET_READ_ALL]), 
+  rbacGuard([Permissions.TICKET_READ_ALL]),
   ticketController.getAllTicketsForAdmin,
 );
 
 ticketRouter.get(
   "/:id",
-  rbacGuard([Permissions.TICKET_READ]), 
+  rbacGuard([Permissions.TICKET_READ]),
   ticketController.getTicketById,
+);
+
+ticketRouter.delete(
+  "/:id",
+  rbacGuard([Permissions.TICKET_DELETE_ID]),
+  ticketController.deleteTicket,
 );
 
 export default ticketRouter;

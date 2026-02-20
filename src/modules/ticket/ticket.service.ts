@@ -1,6 +1,7 @@
 import createHttpError from "http-errors";
 import { Ticket } from "./ticket.model";
 import { TicketCreationAttributes } from "./types/index.types";
+import { ticketMessages } from "../../constant/messages";
 
 class TicketService {
   private ticketModel: typeof Ticket;
@@ -32,11 +33,22 @@ class TicketService {
   async getTicketById(ticketId: number) {
     const ticket = await this.ticketModel.findByPk(ticketId);
 
-    if (!ticket) throw createHttpError.BadRequest("تیکت مورد نظر یافت نشد");
+    if (!ticket)
+      throw createHttpError.BadRequest(ticketMessages.TICKET_NOT_FOUND);
 
     return ticket;
   }
 
+  async deleteTicket(ticketId: number) {
+    const ticket = await this.ticketModel.findByPk(ticketId);
+
+    if (!ticket)
+      throw createHttpError.BadRequest(ticketMessages.TICKET_NOT_FOUND);
+
+    await ticket.destroy();
+
+    return;
+  }
 }
 
 export default new TicketService();

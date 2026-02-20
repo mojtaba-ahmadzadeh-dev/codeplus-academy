@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import ticketService from "./ticket.service";
+import { ticketMessages } from "../../constant/messages";
 
 class TicketController {
   private ticketService: typeof ticketService;
@@ -10,11 +11,12 @@ class TicketController {
     this.getUserTickets = this.getUserTickets.bind(this);
     this.getAllTicketsForAdmin = this.getAllTicketsForAdmin.bind(this);
     this.getTicketById = this.getTicketById.bind(this);
+    this.deleteTicket = this.deleteTicket.bind(this);
   }
 
   async createTicket(req: Request, res: Response, next: NextFunction) {
     try {
-      const { title, description, priority, status, department, subdepartment } = req.body;
+      const { title, description, priority, status } = req.body;
       const userId = req.user?.id;
 
       if (!userId) {
@@ -29,8 +31,6 @@ class TicketController {
         priority,
         status,
         userId,
-        department,
-        subdepartment
       });
 
       return res.status(201).json({ success: true, ticket });
@@ -73,7 +73,34 @@ class TicketController {
 
       const ticket = await this.ticketService.getTicketById(ticketId);
 
-      return res.status(200).json({ success: true, ticket: ticket || {} });
+      return res.status(200).json({
+        success: true,
+        message: ticketMessages.TICKET_ID_FETCHED_SUCCESSFULLY,
+        ticket,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async deleteTicket(req: Request, res: Response, next: NextFunction) {
+    try {
+      const ticketId = Number(req.params.id);
+      const userId = req.user?.id;
+
+      if (!userId) {
+        return res
+          .status(401)
+          .json({ success: false, message: "Unauthorized" });
+      }
+
+      const result = await this.ticketService.deleteTicket(ticketId);
+
+      return res.status(200).json({
+        success: true,
+        result,
+        message: ticketMessages.TICKET_DELETE_SUCCESSFULLY,
+      });
     } catch (error) {
       next(error);
     }

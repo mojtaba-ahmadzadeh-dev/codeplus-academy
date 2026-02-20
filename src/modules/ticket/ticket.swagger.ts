@@ -13,7 +13,7 @@
  *     description: |
  *       Create a new support ticket for the currently authenticated user.  
  *       - UserId is automatically taken from the access token, no need to send it.  
- *       - Requires title, description, and department.  
+ *       - Requires title and description.  
  *       - Priority, status, and subdepartment are optional.
  *     tags: [Ticket 🎫]
  *     security:
@@ -27,7 +27,6 @@
  *             required:
  *               - title
  *               - description
- *               - department
  *             properties:
  *               title:
  *                 type: string
@@ -37,10 +36,6 @@
  *                 type: string
  *                 example: "I am unable to login with my credentials"
  *                 description: Detailed description of the issue
- *               department:
- *                 type: string
- *                 example: "IT Support"
- *                 description: The main department of the ticket
  *               subdepartment:
  *                 type: string
  *                 example: "Login Issues"
@@ -78,9 +73,6 @@
  *                     description:
  *                       type: string
  *                       example: "I am unable to login with my credentials"
- *                     department:
- *                       type: string
- *                       example: "IT Support"
  *                     subdepartment:
  *                       type: string
  *                       example: "Login Issues"
@@ -104,6 +96,7 @@
  *       500:
  *         description: Internal server error
  */
+
 /**
  * @swagger
  * /tickets/user:
@@ -255,6 +248,50 @@
  *         description: Forbidden (user cannot access other user's ticket)
  *       404:
  *         description: Ticket not found
+ *       500:
+ *         description: Internal server error
+ */
+
+/**
+ * @swagger
+ * /tickets/{id}:
+ *   delete:
+ *     summary: Delete a ticket by ID
+ *     description: |
+ *       Deletes a ticket by its ID.  
+ *       - Users can only delete their own tickets.  
+ *       - Admins can delete any ticket.  
+ *       Requires authentication via bearer token.
+ *     tags: [Ticket 🎫]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: The ticket ID to delete
+ *     responses:
+ *       200:
+ *         description: Ticket successfully deleted
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: "تیکت با موفقیت حذف شد"
+ *       400:
+ *         description: Invalid ticket ID or ticket not found
+ *       401:
+ *         description: Unauthorized (user not logged in)
+ *       403:
+ *         description: Forbidden (user cannot delete other user's ticket)
  *       500:
  *         description: Internal server error
  */
