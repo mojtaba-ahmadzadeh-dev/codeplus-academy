@@ -92,6 +92,18 @@ class NotificationService {
 
     return notifications;
   }
+
+  async deleteNotification(userId: number, id: number) {
+    const notification = await this.notificationModel.findOne({
+      where: { id, userId },
+    });
+
+    if (!notification) throw createHttpError.NotFound("نوتیفیکیشن پیدا نشد");
+
+    await notification.destroy();
+
+    return { message: "Notification deleted successfully" };
+  }
 }
 
 export default new NotificationService();

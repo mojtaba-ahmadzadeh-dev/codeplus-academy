@@ -47,4 +47,11 @@ notificationRouter.put(
   rbacGuard([Permissions.NOTIFICATION_CREATE]),
   notificationController.markAllNotificationsAsRead
 );
+
+notificationRouter.delete(
+  "/:id",
+  rbacGuard([Permissions.NOTIFICATION_CREATE]),
+  notificationController.deleteNotification,
+);
+
 export default notificationRouter;
