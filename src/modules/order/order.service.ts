@@ -150,33 +150,33 @@ class OrderService {
     return rest;
   }
 
-async changeOrderStatus(
-  orderId: number,
-  status: OrderAttributes["status"],
-): Promise<Omit<OrderAttributes, "totalPrice">> {
-  const order = await this.orderModel.findByPk(orderId, {
-    include: [{ model: Course, as: "course" }],
-  });
+  async changeOrderStatus(
+    orderId: number,
+    status: OrderAttributes["status"],
+  ): Promise<Omit<OrderAttributes, "totalPrice">> {
+    const order = await this.orderModel.findByPk(orderId, {
+      include: [{ model: Course, as: "course" }],
+    });
 
-  if (!order) {
-    throw new Error(orderMessages.ORDER_NOT_FOUND);
-  }
+    if (!order) {
+      throw new Error(orderMessages.ORDER_NOT_FOUND);
+    }
 
-  if (!["pending", "processing", "completed", "cancelled"].includes(status)) {
-    throw createHttpError.BadRequest("وضعیت نامعتبر است");
-  }
+    if (!["pending", "processing", "completed", "cancelled"].includes(status)) {
+      throw createHttpError.BadRequest("وضعیت نامعتبر است");
+    }
 
-  if (order.status === status) {
+    if (order.status === status) {
+      const { totalPrice, ...orderData } = order.toJSON() as OrderAttributes;
+      return orderData;
+    }
+
+    order.status = status;
+    await order.save();
+
     const { totalPrice, ...orderData } = order.toJSON() as OrderAttributes;
     return orderData;
   }
-
-  order.status = status;
-  await order.save();
-
-  const { totalPrice, ...orderData } = order.toJSON() as OrderAttributes;
-  return orderData;
-}
 }
 
 export default new OrderService();
