@@ -150,3 +150,72 @@
  *                   type: string
  *                   example: Internal server error
  */
+
+/**
+ * @swagger
+ * /departments/{id}:
+ *   put:
+ *     summary: Update an existing department
+ *     description: Update the title of a department. Title must be one of the predefined options.
+ *     tags: [Department 🏢]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID of the department to update
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - title
+ *             properties:
+ *               title:
+ *                 type: string
+ *                 enum:
+ *                   - مالی
+ *                   - تراکنشات
+ *                   - پشتیبانی سایت
+ *                   - مشاوره خرید
+ *                 default: مالی
+ *                 description: Select the new title for the department
+ *     responses:
+ *       200:
+ *         description: Department updated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 200
+ *                 message:
+ *                   type: string
+ *                   example: Department updated successfully
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     id:
+ *                       type: integer
+ *                       example: 1
+ *                     title:
+ *                       type: string
+ *                       example: مالی
+ *                     createdAt:
+ *                       type: string
+ *                       format: date-time
+ *                     updatedAt:
+ *                       type: string
+ *                       format: date-time
+ *       400:
+ *         description: Invalid title
+ *       404:
+ *         description: Department not found
+ *       500:
+ *         description: Internal server error
+ */

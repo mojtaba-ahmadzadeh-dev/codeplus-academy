@@ -5,5 +5,6 @@ const departmentRouter = Router()
 
 departmentRouter.post("/", departmentController.createDepartment);
 departmentRouter.get("/", departmentController.getAllDepartments);
+departmentRouter.put("/:id", departmentController.updateDepartment);
 
 export default departmentRouter

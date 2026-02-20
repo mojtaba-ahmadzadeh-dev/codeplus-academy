@@ -8,6 +8,7 @@ class DepartmentController {
 
     this.createDepartment = this.createDepartment.bind(this);
     this.getAllDepartments = this.getAllDepartments.bind(this);
+    this.updateDepartment = this.updateDepartment.bind(this);
   }
 
   async createDepartment(req: Request, res: Response, next: NextFunction) {
@@ -32,6 +33,23 @@ class DepartmentController {
         statusCode: 200,
         message: "Departments retrieved successfully",
         data: departments,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+   async updateDepartment(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id } = req.params;
+      const { title } = req.body;
+
+      const updated = await this.departmentService.updateDepartment(Number(id), title);
+
+      res.status(200).json({
+        statusCode: 200,
+        message: "Department updated successfully",
+        data: updated,
       });
     } catch (error) {
       next(error);
