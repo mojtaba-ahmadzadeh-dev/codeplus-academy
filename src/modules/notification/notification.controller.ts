@@ -12,8 +12,9 @@ class NotificationController {
     this.getNotificationById = this.getNotificationById.bind(this);
     this.markNotificationAsRead = this.markNotificationAsRead.bind(this);
     this.markAllNotificationsAsRead =
-    this.markAllNotificationsAsRead.bind(this);
+      this.markAllNotificationsAsRead.bind(this);
     this.getSeenNotifications = this.getSeenNotifications.bind(this);
+    this.getUnseenNotifications = this.getUnseenNotifications.bind(this);
   }
 
   async createNotification(req: Request, res: Response, next: NextFunction) {
@@ -152,6 +153,34 @@ class NotificationController {
       return res.status(200).json({
         success: true,
         message: "Seen notifications fetched successfully",
+        data: notifications,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async getUnseenNotifications(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) {
+    try {
+      const userId = req.user?.id;
+      if (!userId) throw createHttpError.Unauthorized("کاربر وارد نشده است");
+
+      const limit = Number(req.query.limit) || 20;
+      const offset = Number(req.query.offset) || 0;
+
+      const notifications =
+        await this.notificationService.getUnseenNotifications(userId, {
+          limit,
+          offset,
+        });
+
+      return res.status(200).json({
+        success: true,
+        message: "Unseen notifications fetched successfully",
         data: notifications,
       });
     } catch (error) {

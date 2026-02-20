@@ -75,6 +75,23 @@ class NotificationService {
 
     return notifications;
   }
+
+  async getUnseenNotifications(
+    userId: number,
+    options?: { limit?: number; offset?: number },
+  ) {
+    const notifications = await this.notificationModel.findAll({
+      where: {
+        userId,
+        read: false,
+      },
+      order: [["createdAt", "DESC"]],
+      limit: options?.limit ?? 20,
+      offset: options?.offset ?? 0,
+    });
+
+    return notifications;
+  }
 }
 
 export default new NotificationService();

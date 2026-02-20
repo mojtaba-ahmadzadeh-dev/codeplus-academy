@@ -307,3 +307,43 @@
  *       401:
  *         description: Unauthorized
  */
+
+/**
+ * @swagger
+ * /notifications/unseen:
+ *   get:
+ *     summary: Get all unseen notifications
+ *     description: Returns all unread notifications for the authenticated user
+ *     tags: [Notifications 🔔]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: integer
+ *           default: 20
+ *       - in: query
+ *         name: offset
+ *         schema:
+ *           type: integer
+ *           default: 0
+ *     responses:
+ *       200:
+ *         description: Unseen notifications fetched successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: Unseen notifications fetched successfully
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     $ref: '#/components/schemas/Notification'
+ */

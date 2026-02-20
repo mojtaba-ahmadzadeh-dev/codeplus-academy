@@ -23,6 +23,11 @@ notificationRouter.get(
   notificationController.getSeenNotifications,
 );
 
+notificationRouter.get(
+  "/unseen",
+  rbacGuard([Permissions.NOTIFICATION_CREATE]),
+  notificationController.getUnseenNotifications,
+);
 
 notificationRouter.get(
   "/:id",
