@@ -11,6 +11,17 @@ class NotificationService {
     const notification = await this.notificationModel.create(data);
     return notification;
   }
+
+    async getNotifications(userId: number, options?: { limit?: number; offset?: number }) {
+    const notifications = await this.notificationModel.findAll({
+      where: { userId },
+      order: [["createdAt", "DESC"]],
+      limit: options?.limit || 20,
+      offset: options?.offset || 0,
+    });
+
+    return notifications;
+  }
 }
 
 export default new NotificationService();

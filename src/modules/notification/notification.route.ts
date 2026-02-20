@@ -5,6 +5,16 @@ import { Permissions } from "../../constant/role.constant";
 
 const notificationRouter = Router();
 
-notificationRouter.post("/", rbacGuard([Permissions.NOTIFICATION_CREATE]) , notificationController.createNotification);
+notificationRouter.post(
+  "/",
+  rbacGuard([Permissions.NOTIFICATION_CREATE]),
+  notificationController.createNotification,
+);
+
+notificationRouter.get(
+  "/",
+  rbacGuard([Permissions.NOTIFICATION_CREATE]),
+  notificationController.getNotifications,
+);
 
 export default notificationRouter;

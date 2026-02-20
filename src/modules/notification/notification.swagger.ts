@@ -104,3 +104,51 @@
  *       500:
  *         description: Internal server error
  */
+
+/**
+ * @swagger
+ * /notifications:
+ *   get:
+ *     summary: Get notifications for the current user
+ *     description: |
+ *       Returns a list of notifications for the authenticated user.
+ *       Supports pagination with `limit` and `offset` query parameters.
+ *     tags: [Notifications 🔔]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: integer
+ *           default: 20
+ *         description: Number of notifications to return
+ *       - in: query
+ *         name: offset
+ *         schema:
+ *           type: integer
+ *           default: 0
+ *         description: Number of notifications to skip
+ *     responses:
+ *       200:
+ *         description: Notifications fetched successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: Notifications fetched successfully
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     $ref: '#/components/schemas/Notification'
+ *       401:
+ *         description: Unauthorized
+ *       500:
+ *         description: Internal server error
+ */
