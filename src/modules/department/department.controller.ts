@@ -7,6 +7,7 @@ class DepartmentController {
     this.departmentService = departmentService;
 
     this.createDepartment = this.createDepartment.bind(this);
+    this.getAllDepartments = this.getAllDepartments.bind(this);
   }
 
   async createDepartment(req: Request, res: Response, next: NextFunction) {
@@ -23,7 +24,19 @@ class DepartmentController {
       next(error);
     }
   }
-  
+
+  async getAllDepartments(req: Request, res: Response, next: NextFunction) {
+    try {
+      const departments = await this.departmentService.getAllDepartments();
+      res.status(200).json({
+        statusCode: 200,
+        message: "Departments retrieved successfully",
+        data: departments,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
 }
 
 export default new DepartmentController();

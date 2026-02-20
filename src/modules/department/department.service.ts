@@ -11,6 +11,10 @@ class DepartmentService {
     return department;
   }
 
+    async getAllDepartments() {
+    const departments = await this.departmentModel.findAll();
+    return departments;
+  }
 }
 
 export default new DepartmentService();
