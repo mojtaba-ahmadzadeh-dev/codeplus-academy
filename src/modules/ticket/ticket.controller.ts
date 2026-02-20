@@ -8,6 +8,8 @@ class TicketController {
 
     this.createTicket = this.createTicket.bind(this);
     this.getUserTickets = this.getUserTickets.bind(this);
+    this.getAllTicketsForAdmin = this.getAllTicketsForAdmin.bind(this);
+    this.getTicketById = this.getTicketById.bind(this);
   }
 
   async createTicket(req: Request, res: Response, next: NextFunction) {
@@ -48,6 +50,28 @@ class TicketController {
       const tickets = await this.ticketService.getTicketsByUser(userId);
 
       return res.status(200).json({ success: true, tickets });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async getAllTicketsForAdmin(req: Request, res: Response, next: NextFunction) {
+    try {
+      const tickets = await this.ticketService.getAllTickets();
+
+      return res.status(200).json({ success: true, tickets });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async getTicketById(req: Request, res: Response, next: NextFunction) {
+    try {
+      const ticketId = Number(req.params.id);
+
+      const ticket = await this.ticketService.getTicketById(ticketId);
+
+      return res.status(200).json({ success: true, ticket: ticket || {} });
     } catch (error) {
       next(error);
     }

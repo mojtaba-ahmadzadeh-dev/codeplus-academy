@@ -17,4 +17,16 @@ ticketRouter.get(
   ticketController.getUserTickets,
 );
 
+ticketRouter.get(
+  "/admin",
+  rbacGuard([Permissions.TICKET_READ_ALL]), 
+  ticketController.getAllTicketsForAdmin,
+);
+
+ticketRouter.get(
+  "/:id",
+  rbacGuard([Permissions.TICKET_READ]), 
+  ticketController.getTicketById,
+);
+
 export default ticketRouter;

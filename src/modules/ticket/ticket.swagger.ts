@@ -146,3 +146,101 @@
  *       500:
  *         description: Internal server error
  */
+
+/**
+ * @swagger
+ * /tickets/admin:
+ *   get:
+ *     summary: Get all tickets (Admin)
+ *     description: |
+ *       Retrieve all tickets in the system.  
+ *       Requires admin authentication via bearer token.
+ *     tags: [Ticket 🎫]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: List of all tickets
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 tickets:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: integer
+ *                         example: 1
+ *                       title:
+ *                         type: string
+ *                         example: "Cannot login to account"
+ *                       description:
+ *                         type: string
+ *                         example: "I am unable to login with my credentials"
+ *                       status:
+ *                         type: string
+ *                         example: "pending"
+ *                       priority:
+ *                         type: string
+ *                         example: "medium"
+ *                       userId:
+ *                         type: integer
+ *                         example: 1
+ *                       createdAt:
+ *                         type: string
+ *                         format: date-time
+ *                       updatedAt:
+ *                         type: string
+ *                         format: date-time
+ *       401:
+ *         description: Unauthorized
+ *       403:
+ *         description: Forbidden (if not admin)
+ *       500:
+ *         description: Internal server error
+ */
+
+/**
+ * @swagger
+ * /tickets/{id}:
+ *   get:
+ *     summary: Get ticket by ID
+ *     description: Retrieve a ticket by its ID. Users can only access their own tickets unless they are admin.
+ *     tags: [Ticket 🎫]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: The ticket ID
+ *     responses:
+ *       200:
+ *         description: Ticket found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 ticket:
+ *                   $ref: '#/components/schemas/Ticket'
+ *       400:
+ *         description: Invalid ticket ID
+ *       403:
+ *         description: Forbidden (user cannot access other user's ticket)
+ *       404:
+ *         description: Ticket not found
+ *       500:
+ *         description: Internal server error
+ */
