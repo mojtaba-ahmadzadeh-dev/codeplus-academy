@@ -79,6 +79,9 @@ export enum Permissions {
   ORDER_GET_BY_ID = "order:get-by-id",
   ORDER_UPDATE_STATUS = "order:change-status",
   ORDER_UPDATE_FILTER_BY_STATUS = "order:filter-by-status",
+
+  // Ticket
+  TICKET_CREATE = "ticket:create",
 }
 
 const adminPermissions: Permissions[] = [
@@ -154,6 +157,9 @@ const adminPermissions: Permissions[] = [
   Permissions.ORDER_GET_BY_ID,
   Permissions.ORDER_UPDATE_STATUS,
   Permissions.ORDER_UPDATE_FILTER_BY_STATUS,
+
+  // Ticket
+  Permissions.TICKET_CREATE,
 ];
 
 const teacherPermissions: Permissions[] = [
@@ -215,6 +221,9 @@ const teacherPermissions: Permissions[] = [
   Permissions.ORDER_GET_BY_ID,
   Permissions.ORDER_UPDATE_STATUS,
   Permissions.ORDER_UPDATE_FILTER_BY_STATUS,
+
+  // Ticket
+  Permissions.TICKET_CREATE,
 ];
 
 export const RolePermissions: Record<Roles, Permissions[]> = {
@@ -233,5 +242,6 @@ export const RolePermissions: Record<Roles, Permissions[]> = {
     Permissions.ORDER_GETALL,
     Permissions.ORDER_DELETE,
     Permissions.ORDER_GET_BY_ID,
+    Permissions.TICKET_CREATE,
   ],
 };
