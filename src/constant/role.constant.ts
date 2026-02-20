@@ -85,6 +85,12 @@ export enum Permissions {
   TICKET_READ = "ticket:read",
   TICKET_READ_ALL = "ticket:read-all",
   TICKET_DELETE_ID = "ticket:delete-all",
+
+  // Department
+  DEPARTMENT_CREATE = "department:create",
+  DEPARTMENT_GETALL = "department:get-all",
+  DEPARTMENT_DELETE_ID = "department:delete",
+  DEPARTMENT_UPDATE = "department:update",
 }
 
 const adminPermissions: Permissions[] = [
@@ -166,6 +172,14 @@ const adminPermissions: Permissions[] = [
   Permissions.TICKET_READ,
   Permissions.TICKET_READ_ALL,
   Permissions.TICKET_DELETE_ID,
+  Permissions.TICKET_DELETE_ID,
+
+  // Department
+
+  Permissions.DEPARTMENT_CREATE,
+  Permissions.DEPARTMENT_GETALL,
+  Permissions.DEPARTMENT_UPDATE,
+  Permissions.DEPARTMENT_DELETE_ID,
 ];
 
 const teacherPermissions: Permissions[] = [
