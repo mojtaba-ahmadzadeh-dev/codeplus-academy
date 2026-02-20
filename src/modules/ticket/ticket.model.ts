@@ -1,4 +1,3 @@
-// src/modules/ticket/ticket.model.ts
 import { DataTypes, Model } from "sequelize";
 import { sequelize } from "../../config/sequelize.config";
 import { STATUS } from "../../constant/status.constant";
@@ -18,6 +17,9 @@ class Ticket
   public status!: (typeof STATUS)[keyof typeof STATUS];
   public priority!: (typeof PRIORITY)[keyof typeof PRIORITY];
   public userId!: number;
+
+  public department!: string;       // اضافه شد
+  public subdepartment!: string;    // اضافه شد
 
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
@@ -58,6 +60,16 @@ Ticket.init(
       allowNull: false,
       references: { model: "users", key: "id" },
       onDelete: "CASCADE",
+    },
+
+    department: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+
+    subdepartment: {
+      type: DataTypes.STRING,
+      allowNull: true,
     },
   },
   {

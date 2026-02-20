@@ -14,7 +14,7 @@ class TicketController {
 
   async createTicket(req: Request, res: Response, next: NextFunction) {
     try {
-      const { title, description, priority, status } = req.body;
+      const { title, description, priority, status, department, subdepartment } = req.body;
       const userId = req.user?.id;
 
       if (!userId) {
@@ -29,6 +29,8 @@ class TicketController {
         priority,
         status,
         userId,
+        department,
+        subdepartment
       });
 
       return res.status(201).json({ success: true, ticket });

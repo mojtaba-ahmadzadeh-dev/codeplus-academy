@@ -13,8 +13,8 @@
  *     description: |
  *       Create a new support ticket for the currently authenticated user.  
  *       - UserId is automatically taken from the access token, no need to send it.  
- *       - Requires title and description.  
- *       - Priority and status are optional; default values will be applied if not provided.
+ *       - Requires title, description, and department.  
+ *       - Priority, status, and subdepartment are optional.
  *     tags: [Ticket 🎫]
  *     security:
  *       - bearerAuth: []
@@ -27,6 +27,7 @@
  *             required:
  *               - title
  *               - description
+ *               - department
  *             properties:
  *               title:
  *                 type: string
@@ -36,6 +37,14 @@
  *                 type: string
  *                 example: "I am unable to login with my credentials"
  *                 description: Detailed description of the issue
+ *               department:
+ *                 type: string
+ *                 example: "IT Support"
+ *                 description: The main department of the ticket
+ *               subdepartment:
+ *                 type: string
+ *                 example: "Login Issues"
+ *                 description: The subdepartment of the ticket (optional)
  *               priority:
  *                 type: string
  *                 enum: [low, medium, high]
@@ -69,6 +78,12 @@
  *                     description:
  *                       type: string
  *                       example: "I am unable to login with my credentials"
+ *                     department:
+ *                       type: string
+ *                       example: "IT Support"
+ *                     subdepartment:
+ *                       type: string
+ *                       example: "Login Issues"
  *                     status:
  *                       type: string
  *                       example: "pending"
@@ -89,7 +104,6 @@
  *       500:
  *         description: Internal server error
  */
-
 /**
  * @swagger
  * /tickets/user:
