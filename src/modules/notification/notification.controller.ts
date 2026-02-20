@@ -16,6 +16,7 @@ class NotificationController {
     this.getSeenNotifications = this.getSeenNotifications.bind(this);
     this.getUnseenNotifications = this.getUnseenNotifications.bind(this);
     this.deleteNotification = this.deleteNotification.bind(this);
+    this.deleteAllNotifications = this.deleteAllNotifications.bind(this);
   }
 
   async createNotification(req: Request, res: Response, next: NextFunction) {
@@ -201,6 +202,27 @@ class NotificationController {
         userId,
         id,
       );
+
+      return res.status(200).json({
+        success: true,
+        message: result.message,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async deleteAllNotifications(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) {
+    try {
+      const userId = req.user?.id;
+      if (!userId) throw createHttpError.Unauthorized("کاربر وارد نشده است");
+
+      const result =
+        await this.notificationService.deleteAllNotifications(userId);
 
       return res.status(200).json({
         success: true,

@@ -54,4 +54,10 @@ notificationRouter.delete(
   notificationController.deleteNotification,
 );
 
+notificationRouter.delete(
+  "/",
+  rbacGuard([Permissions.NOTIFICATION_CREATE]),
+  notificationController.deleteAllNotifications,
+);
+
 export default notificationRouter;

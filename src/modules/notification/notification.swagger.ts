@@ -385,3 +385,30 @@
  *       404:
  *         description: Notification not found
  */
+
+/**
+ * @swagger
+ * /notifications:
+ *   delete:
+ *     summary: Delete all notifications
+ *     description: Deletes all notifications for the authenticated user
+ *     tags: [Notifications 🔔]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: All notifications deleted successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: 5 notifications deleted successfully
+ *       401:
+ *         description: Unauthorized
+ */
