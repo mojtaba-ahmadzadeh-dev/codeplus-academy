@@ -138,3 +138,12 @@ export enum BasketMessages {
   BASKET_REMOVED_SUCCESSFULLY = "محصول مورد نظر شما با موفقیت حذف شد",
   BASKET_NOT_FOUND = "محصول مورد نظر یافت نشد",
 }
+
+export enum orderMessages {
+  ORDER_CREATED_SUCCESSFULLY = "سفارش با موفقیت ایجاد شد",
+  ORDER_USER_FETCHED_SUCCESSFULLY = "سفارشات کاربر با موفقیت دریافت شدند",
+  ORDER_ADMIN_FETCHED_SUCCESSFULLY = "سفارشات برای ادمین با موفقیت دریافت شدند",
+  ORDER_ID_FETCHED_SUCCESSFULLY = "سفارش با موفقیت بازیابی شد",
+  ORDER_CHANGE_STATUS_UPDATE_SUCCESSFULLY = "وضعیت سفارش با موفقیت تغییر یافت",
+  ORDER_NOT_FOUND = "سفارش موردنظر پیدا نشد یا به کاربر تعلق ندارد",
+}

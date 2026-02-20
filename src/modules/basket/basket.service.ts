@@ -21,7 +21,11 @@ class BasketService {
     const { userId, courseId } = data;
     const quantity = data.quantity && data.quantity > 0 ? data.quantity : 1;
 
-    const course = (await Course.findByPk(courseId)) as Course;
+    const course = await Course.findByPk(courseId);
+
+    if (!course) {
+      throw createHttpError.NotFound("دوره مورد نظر یافت نشد");
+    }
 
     const totalPrice = this.calculateItemTotalPrice(course, quantity);
 

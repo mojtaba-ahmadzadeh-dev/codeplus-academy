@@ -50,7 +50,6 @@ export const rbacGuard = (
       if (!hasPermission) {
         return res.status(403).json({ message: "Forbidden" });
       }
-
       next();
     } catch (err) {
       next(createHttpError.Unauthorized(RBACMessags.UNAUTHORIZED));

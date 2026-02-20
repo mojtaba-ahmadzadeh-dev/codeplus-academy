@@ -3,6 +3,10 @@ export const STATUS = {
   INACTIVE: "inactive",
   PENDING: "pending",
   ACCEPTED: "accepted",
+  PROCESSING: "processing",
+  PAID: "paid",
+  UNPAID: "unPaid",
+  CANCELLED: "cancelled"
 } as const;
 
 export type StatusType = typeof STATUS[keyof typeof STATUS];
