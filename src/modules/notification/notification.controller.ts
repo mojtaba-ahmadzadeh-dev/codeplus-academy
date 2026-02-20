@@ -17,6 +17,7 @@ class NotificationController {
     this.getUnseenNotifications = this.getUnseenNotifications.bind(this);
     this.deleteNotification = this.deleteNotification.bind(this);
     this.deleteAllNotifications = this.deleteAllNotifications.bind(this);
+    this.countUnseenNotifications = this.countUnseenNotifications.bind(this);
   }
 
   async createNotification(req: Request, res: Response, next: NextFunction) {
@@ -232,6 +233,27 @@ class NotificationController {
       next(error);
     }
   }
+
+  async countUnseenNotifications(
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) {
+  try {
+    const userId = req.user?.id;
+    if (!userId) throw createHttpError.Unauthorized("کاربر وارد نشده است");
+
+    const result = await this.notificationService.countUnseenNotifications(userId);
+
+    return res.status(200).json({
+      success: true,
+      message: "Unseen notifications count fetched successfully",
+      data: result,
+    });
+  } catch (error) {
+    next(error);
+  }
+}
 }
 
 export default new NotificationController();

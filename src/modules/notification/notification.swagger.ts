@@ -412,3 +412,36 @@
  *       401:
  *         description: Unauthorized
  */
+
+/**
+ * @swagger
+ * /notifications/count:
+ *   get:
+ *     summary: Get count of unseen notifications
+ *     description: Returns the number of unread notifications for the authenticated user
+ *     tags: [Notifications 🔔]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Unseen notifications count fetched successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: Unseen notifications count fetched successfully
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     count:
+ *                       type: integer
+ *                       example: 5
+ *       401:
+ *         description: Unauthorized
+ */

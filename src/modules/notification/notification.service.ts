@@ -106,11 +106,19 @@ class NotificationService {
   }
 
   async deleteAllNotifications(userId: number) {
-  const deletedCount = await this.notificationModel.destroy({
-    where: { userId },
+    const deletedCount = await this.notificationModel.destroy({
+      where: { userId },
+    });
+
+    return { message: `${deletedCount} notifications deleted successfully` };
+  }
+
+  async countUnseenNotifications(userId: number) {
+  const count = await this.notificationModel.count({
+    where: { userId, read: false },
   });
 
-  return { message: `${deletedCount} notifications deleted successfully` };
+  return { count };
 }
 }
 

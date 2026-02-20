@@ -30,6 +30,12 @@ notificationRouter.get(
 );
 
 notificationRouter.get(
+  "/count",
+  rbacGuard([Permissions.NOTIFICATION_CREATE]),
+  notificationController.countUnseenNotifications,
+);
+
+notificationRouter.get(
   "/:id",
   rbacGuard([Permissions.NOTIFICATION_CREATE]),
   notificationController.getNotificationById,
