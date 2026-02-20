@@ -17,4 +17,11 @@ notificationRouter.get(
   notificationController.getNotifications,
 );
 
+// گرفتن نوتیفیکیشن براساس ID
+notificationRouter.get(
+  "/:id",
+  rbacGuard([Permissions.NOTIFICATION_CREATE]),
+  notificationController.getNotificationById,
+);
+
 export default notificationRouter;

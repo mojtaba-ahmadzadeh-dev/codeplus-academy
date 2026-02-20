@@ -152,3 +152,47 @@
  *       500:
  *         description: Internal server error
  */
+
+/**
+ * @swagger
+ * /notifications/{id}:
+ *   get:
+ *     summary: Get a single notification by ID
+ *     description: |
+ *       Returns a single notification for the authenticated user.
+ *       User can only fetch their own notifications.
+ *     tags: [Notifications 🔔]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: Notification ID
+ *     responses:
+ *       200:
+ *         description: Notification fetched successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: Notification fetched successfully
+ *                 data:
+ *                   $ref: '#/components/schemas/Notification'
+ *       400:
+ *         description: Invalid notification ID
+ *       401:
+ *         description: Unauthorized
+ *       404:
+ *         description: Notification not found
+ *       500:
+ *         description: Internal server error
+ */

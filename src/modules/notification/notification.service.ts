@@ -1,3 +1,4 @@
+import createHttpError from "http-errors";
 import { Notification } from "./notification.model";
 import { NotificationCreationAttributes } from "./types/index.types";
 
@@ -12,7 +13,10 @@ class NotificationService {
     return notification;
   }
 
-    async getNotifications(userId: number, options?: { limit?: number; offset?: number }) {
+  async getNotifications(
+    userId: number,
+    options?: { limit?: number; offset?: number },
+  ) {
     const notifications = await this.notificationModel.findAll({
       where: { userId },
       order: [["createdAt", "DESC"]],
@@ -21,6 +25,16 @@ class NotificationService {
     });
 
     return notifications;
+  }
+
+  async getNotificationById(userId: number, id: number) {
+    const notification = await this.notificationModel.findOne({
+      where: { id, userId },
+    });
+
+    if (!notification) throw createHttpError.NotFound("نوتیفیکیشن پیدا نشد");
+
+    return notification;
   }
 }
 

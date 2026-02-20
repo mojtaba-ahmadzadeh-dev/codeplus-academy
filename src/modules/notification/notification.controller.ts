@@ -9,6 +9,7 @@ class NotificationController {
 
     this.createNotification = this.createNotification.bind(this);
     this.getNotifications = this.getNotifications.bind(this);
+    this.getNotificationById = this.getNotificationById.bind(this);
   }
 
   async createNotification(req: Request, res: Response, next: NextFunction) {
@@ -45,12 +46,36 @@ class NotificationController {
       const limit = Number(req.query.limit) || 20;
       const offset = Number(req.query.offset) || 0;
 
-      const notifications = await this.notificationService.getNotifications(userId, { limit, offset });
+      const notifications = await this.notificationService.getNotifications(
+        userId,
+        { limit, offset },
+      );
 
       return res.status(200).json({
         success: true,
         message: "Notifications fetched successfully",
         data: notifications,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async getNotificationById(req: Request, res: Response, next: NextFunction) {
+    try {
+      const userId = req.user?.id;
+      if (!userId) throw createHttpError.Unauthorized("کاربر وارد نشده است");
+      const id = Number(req.params.id);
+
+      const notification = await this.notificationService.getNotificationById(
+        userId,
+        id,
+      );
+
+      return res.status(200).json({
+        success: true,
+        message: "Notification fetched successfully",
+        data: notification,
       });
     } catch (error) {
       next(error);
