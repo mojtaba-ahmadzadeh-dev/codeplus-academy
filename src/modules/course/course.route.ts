@@ -2,37 +2,52 @@ import { Router } from "express";
 import courseController from "./course.controller";
 import { rbacGuard } from "../../middleware/guard/rbac.guard";
 import { Permissions } from "../../constant/role.constant";
-import { validateCourseIdParam, validateCreateCourse, validateUpdateCourse } from "./course.validation";
+import {
+  validateCourseIdParam,
+  validateCreateCourse,
+  validateUpdateCourse,
+} from "./course.validation";
 
 const courseRouter: Router = Router();
 
 courseRouter.post(
   "/create",
-  rbacGuard([Permissions.CREATE_COURSE]),
+  rbacGuard([Permissions.COURSE_CREATE]),
   validateCreateCourse,
   courseController.createCourse,
 );
 courseRouter.get(
   "/",
-  rbacGuard([Permissions.CATEGORY_GETALL]),
   courseController.getAllCourses,
+);
+
+courseRouter.put(
+  "/:id/like",
+  rbacGuard([Permissions.COURSE_LIKE]),
+  courseController.likeOrDislike,
+);
+
+courseRouter.put(
+  "/:id/bookmark",
+  rbacGuard([Permissions.COURSE_BOOKMARK]),
+  courseController.toggleBookmark,
 );
 courseRouter.get(
   "/:id",
-  rbacGuard([Permissions.CATEGORY_GETALL]),
+  rbacGuard([Permissions.COURSE_GET_BY_ID]),
   courseController.getCourseById,
 );
 
 courseRouter.put(
   "/update/:id",
-  rbacGuard([Permissions.UPDATE_COURSE]),
+  rbacGuard([Permissions.COURSE_UPDATE_BY_ID]),
   validateUpdateCourse,
   courseController.updateCourse,
 );
 
 courseRouter.delete(
   "/delete/:id",
-  rbacGuard([Permissions.DELETE_COURSE]),
+  rbacGuard([Permissions.COURSE_DELETE_BY_ID]),
   validateCourseIdParam,
   courseController.deleteCourse,
 );

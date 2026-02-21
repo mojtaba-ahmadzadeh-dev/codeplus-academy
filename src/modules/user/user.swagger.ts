@@ -327,3 +327,144 @@
  *       500:
  *         description: Internal server error
  */
+
+/**
+ * @swagger
+ * /users/bookmarks/all:
+ *   get:
+ *     summary: Get all users with their bookmarked blogs and courses
+ *     description: Returns all users along with their bookmarked blogs and bookmarked courses.
+ *     tags: [Users 👥]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: All users bookmarks retrieved successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 200
+ *                 message:
+ *                   type: string
+ *                   example: All users bookmarks retrieved successfully
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: integer
+ *                         example: 1
+ *                       full_name:
+ *                         type: string
+ *                         example: Ali Rezaei
+ *                       mobile:
+ *                         type: string
+ *                         example: 09123456789
+ *                       bookmarkedBlogs:
+ *                         type: array
+ *                         items:
+ *                           $ref: '#/components/schemas/Blog'
+ *                       bookmarkedCourses:
+ *                         type: array
+ *                         items:
+ *                           $ref: '#/components/schemas/Course'
+ *       401:
+ *         description: Unauthorized
+ *       500:
+ *         description: Internal server error
+ */
+
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     Blog:
+ *       type: object
+ *       properties:
+ *         id:
+ *           type: integer
+ *         title:
+ *           type: string
+ *         content:
+ *           type: string
+ *         authorId:
+ *           type: integer
+ *         categoryId:
+ *           type: integer
+ *         createdAt:
+ *           type: string
+ *           format: date-time
+ *
+ *     Course:
+ *       type: object
+ *       properties:
+ *         id:
+ *           type: integer
+ *         title:
+ *           type: string
+ *         description:
+ *           type: string
+ *         teacher_id:
+ *           type: integer
+ *         category_id:
+ *           type: integer
+ *         createdAt:
+ *           type: string
+ *           format: date-time
+ */
+
+/**
+ * @swagger
+ * /users/likes/all:
+ *   get:
+ *     summary: Get all users with their liked blogs and courses
+ *     description: Returns all users along with the blogs and courses they liked.
+ *     tags: [Users 👥]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: All users likes retrieved successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 200
+ *                 message:
+ *                   type: string
+ *                   example: All users likes retrieved successfully
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: integer
+ *                         example: 1
+ *                       full_name:
+ *                         type: string
+ *                         example: Ali Rezaei
+ *                       mobile:
+ *                         type: string
+ *                         example: 09123456789
+ *                       likedBlogs:
+ *                         type: array
+ *                         items:
+ *                           $ref: '#/components/schemas/Blog'
+ *                       likedCourses:
+ *                         type: array
+ *                         items:
+ *                           $ref: '#/components/schemas/Course'
+ *       401:
+ *         description: Unauthorized
+ *       500:
+ *         description: Internal server error
+ */

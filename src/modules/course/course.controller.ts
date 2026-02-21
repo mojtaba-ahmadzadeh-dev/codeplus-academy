@@ -14,6 +14,8 @@ class CourseController {
     this.getCourseById = this.getCourseById.bind(this);
     this.updateCourse = this.updateCourse.bind(this);
     this.deleteCourse = this.deleteCourse.bind(this);
+    this.toggleBookmark = this.toggleBookmark.bind(this);
+    this.likeOrDislike = this.likeOrDislike.bind(this);
   }
 
   async createCourse(req: Request, res: Response, next: NextFunction) {
@@ -104,6 +106,35 @@ class CourseController {
         message: result.message,
       });
     } catch (error: any) {
+      next(error);
+    }
+  }
+
+  async likeOrDislike(req: Request, res: Response, next: NextFunction) {
+    try {
+      const result = await this.courseService.likeOrDislike(
+        Number(req.params.id),
+        req.user!.id,
+        req.body.isLike,
+      );
+
+      return res.status(StatusCodes.OK).json(result);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async toggleBookmark(req: Request, res: Response, next: NextFunction) {
+    try {
+      const result = await this.courseService.toggleBookmark(
+        req.user!.id,
+        req.params.id,
+      );
+      res.status(StatusCodes.OK).json({
+        message: "Course bookmark updated successfully",
+        ...result,
+      });
+    } catch (error) {
       next(error);
     }
   }

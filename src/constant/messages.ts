@@ -47,16 +47,12 @@ export enum userMessage {
 export enum RBACMessags {
   PERMISSION_ALREADY_EXISTS = "مجوز مورد نظر از قبل وجود دارد",
   PERMISSION_CREATE_SUCCESS = "مجوز با موفقیت ایجاد شد",
-
   ROLE_ALREADY_EXISTS = "نقش مورد نظر از قبل وجود دارد",
   ROLE_CREATE_SUCCESS = "نقش با موفقیت ایجاد شد",
   ROLE_ASSIGN_SUCCESS = "نقش با موفقیت اختصاص داده شد",
-
   ROLE_NOT_FOUND = "نقش مورد نظر یافت نشد",
   PERMISSION_NOT_FOUND = "یک یا چند مجوز یافت نشد",
-
   PERMISSION_ASSIGN_SUCCESS = "مجوزها با موفقیت به نقش اختصاص داده شدند",
-
   USER_NOT_FOUND = "کاربر مورد نظر یافت نشد",
   UNAUTHORIZED = "دسترسی غیرمجاز. لطفاً وارد شوید",
   FORBIDDEN = "دسترسی غیرمجاز. تنها ادمین و مدرس مجاز است",
@@ -83,4 +79,106 @@ export enum CourseMessages {
   COURSE_ALREADY_EXISTS = "دوره‌ای با این عنوان قبلاً وجود دارد",
   COURSE_UPDATED_SUCCESSFULLY = "دوره با موفقیت به‌روزرسانی شد",
   COURSE_DELETED_SUCCESSFULLY = "دوره با موفقیت حذف شد",
+  REACTION_UPDATED_SUCCESSFULLY = "واکنش با موفقیت به‌روزرسانی شد",
+  INVALID_COURSE_ID = "شناسه دوره باید یک عدد باشد",
+  INVALID_REACTION = "isLike باید مقدار boolean باشد",
+  COURSE_REACTION_NOT_FOUND = "دوره مورد نظر یافت نشد",
 }
+
+export enum LessionMessages {
+  LESSION_CREATED_SUCCESSFULLY = "درس با موفقیت ایجاد شد",
+  LESSION_ALREADY_EXISTS = "این درس برای این دوره قبلاً ایجاد شده است",
+  LESSONS_FETCHED_SUCCESSFULLY = "لیست درس‌ها با موفقیت دریافت شد",
+  LESSON_FETCHED_SUCCESSFULLY = "درس با موفقیت دریافت شد",
+  LESSON_UPDATED_SUCCESSFULLY = "درس با موفقیت ویرایش شد",
+  LESSON_DELETED_SUCCESSFULLY = "درس با موفقیت حذف شد",
+  LESSON_NOT_FOUND = "درس مورد نظر یافت نشد",
+}
+
+export enum CaptureMessages {
+  CAPTURE_CREATE_SUCCESSFULLY = "درس موردنظر با موفقیت ایجاد شد",
+  CAPTURE_FETCHED_SUCCESSFULLY = "درس ها با موفقیت دریافت شدند",
+  CATEGORY_UPDATED_SUCCESSFULLY = "Capture با موفقیت بروزرسانی شد",
+  CAPTURE_ALREADY_EXISTS = "این capture قبلاً اضافه شده است",
+  CAPTURE_NOT_FOUND = "Capture پیدا نشد",
+  CAPTURE_DELETED_SUCCESSFULLY = "Capture با موفقیت حذف شد",
+}
+
+export enum CourseCommentMessages {
+  COURSE_COMMENT_CREATE_SUCCESSFULLY = "کامنت با موفقیت ایجاد شد",
+  COURSE_COMMENT_FETCHED_SUCCESSFULLY = "کامنت‌ها با موفقیت دریافت شدند",
+  COURSE_COMMENT_FETCHED_SINGLE_SUCCESSFULLY = "کامنت با موفقیت دریافت شد",
+  COURSE_COMMENT_ACCEPTED_SUCCESSFULLY = "کامنت با موفقیت تایید شد",
+  COURSE_COMMENT_NOT_FOUND = "کامنت موردنظر پیدا نشد",
+  COURSE_COMMENT_REJECTED_SUCCESSFULLY = "کامنت مورد نظر با موفقیت رد شد",
+  COURSE_COMMENT_DELETED_SUCCESSFULLY = "کامنت مورد نظر با موفقیت حذف شد",
+}
+
+export enum BlogMessages {
+  BLOG_CREATE_SUCCESSFULLY = "بلاگ موردنظر با موفقیت ایجاد شد",
+  BLOG_FETCHED_SUCCESSFULLY = "بلاگ‌ها با موفقیت دریافت شدند",
+  BLOG_NOT_FOUND = "هیچ بلاگی یافت نشد",
+  BLOG_NOT_FOUND_SEARCH = 'هیچ بلاگی با عنوان یا محتوای "{search}" یافت نشد',
+  BLOG_SINGLE_FETCHED_SUCCESSFULLY = "بلاگ با موفقیت دریافت شد",
+  BLOG_UPDATED_SUCCESSFULLY = "بلاگ موردنظر با موفقیت به‌روزرسانی شد",
+  BLOG_UPDATE_FORBIDDEN = "شما فقط می‌توانید بلاگ‌هایی که خودتان ایجاد کرده‌اید را ویرایش کنید.",
+  BLOG_DELETED_SUCCESSFULLY = "بلاگ موردنظر با موفقیت حذف شد",
+  BLOG_DELETE_FORBIDDEN = "امکان حذف این بلاگ برای شما وجود ندارد",
+  BLOG_ALREADY_BOOKMARKED = "شما قبلاً این بلاگ را بوکمارک کرده‌اید",
+  BLOG_BOOKMARKS_FETCHED_SUCCESSFULLY = "بوکمارک‌ها با موفقیت دریافت شدند",
+  BLOG_TITLE_ALREADY_EXISTS = "یک بلاگ با این عنوان قبلاً ایجاد شده است",
+  BLOG_USER_FETCHED_SUCCESSFULLY = "بلاگ‌های کاربر با موفقیت دریافت شدند",
+  BLOG_USER_NOT_FOUND = "هیچ بلاگی برای این کاربر یافت نشد",
+}
+
+export enum BasketMessages {
+  BASKET_CREATED_SUCCESSFULLY = "سبد خرید با موفقیت ایجاد شد",
+  BASKET_FETCHED_SUCCESSFULLY = "سبد خرید با موفقیت دریافت شد",
+  BASKET_UPDATED_SUCCESSFULLY = "سبد خرید شما با موفقیت آپدیت شد",
+  BASKET_REMOVED_SUCCESSFULLY = "محصول مورد نظر شما با موفقیت حذف شد",
+  BASKET_NOT_FOUND = "محصول مورد نظر یافت نشد",
+}
+
+export enum orderMessages {
+  ORDER_CREATED_SUCCESSFULLY = "سفارش با موفقیت ایجاد شد",
+  ORDER_USER_FETCHED_SUCCESSFULLY = "سفارشات کاربر با موفقیت دریافت شدند",
+  ORDER_ADMIN_FETCHED_SUCCESSFULLY = "سفارشات برای ادمین با موفقیت دریافت شدند",
+  ORDER_ID_FETCHED_SUCCESSFULLY = "سفارش با موفقیت بازیابی شد",
+  ORDER_CHANGE_STATUS_UPDATE_SUCCESSFULLY = "وضعیت سفارش با موفقیت تغییر یافت",
+  ORDER_NOT_FOUND = "سفارش موردنظر پیدا نشد یا به کاربر تعلق ندارد",
+}
+
+export enum ticketMessages {
+  TICKET_NOT_FOUND = "تیکت مورد نظر یافت نشد",
+  TICKET_DELETE_SUCCESSFULLY = "تیکت مورد نظر با موفقیت حذف شد",
+  TICKET_ID_FETCHED_SUCCESSFULLY = "تیکت مورد نظر باموفقیت دریافت شد",
+}
+
+export enum departmentMessages {
+  DEPARTMENT_CREATE_SUCCESSFULLY = "دپارتمان موردنظر با موفقیت ایجاد شد",
+  DEPARTMENT_DELETE_SUCCESSFULLY = "دپارتمان مورد نظر با موفقیت حذف شد",
+  DEPARTMENT_UPDATE_SUCCESSFULLY = "دپارتمان مورد نظر با موفقیت آپدیت شد",
+  DEPARTMENT_FETCHED_SUCCESSFULLY = "دپارتمان ها با موفقیت دریافت شدند",
+  DEPARTMENT_NOT_FOUND = "دیپارتمان موردنظر وجود ندارد",
+}
+
+export enum notificationMessages {
+  NOTIFICATION_CREATE_SUCCESSFULLY = "پیغام مورد نظر با موفقیت ساخته شد",
+  NOTIFICATION_FETCHED_SUCCESSFULLY = "پیغام‌ها با موفقیت دریافت شدند",
+  NOTIFICATION_FETCHED_ID_SUCCESSFULLY = "پیغام مورد نظر با موفقیت دریافت شد",
+
+  NOTIFICATION_MARKED_AS_READ = "پیغام با موفقیت به عنوان خوانده شده علامت‌گذاری شد",
+  NOTIFICATIONS_MARKED_AS_READ = "همه پیغام‌ها با موفقیت خوانده شدند",
+
+  SEEN_NOTIFICATIONS_FETCHED = "پیغام‌های خوانده شده با موفقیت دریافت شدند",
+  UNSEEN_NOTIFICATIONS_FETCHED = "پیغام‌های خوانده نشده با موفقیت دریافت شدند",
+
+  NOTIFICATION_DELETED = "پیغام با موفقیت حذف شد",
+  NOTIFICATIONS_DELETED = "همه پیغام‌ها با موفقیت حذف شدند",
+
+  UNSEEN_COUNT_FETCHED = "تعداد پیغام‌های خوانده نشده با موفقیت دریافت شد",
+}
+
+export enum blogCommentMessages {
+  BLOG_COMMENT_CREATE_SUCCESSFULLY = "بلاگ کورد نظر با موفقیت ساخته شد"
+} 

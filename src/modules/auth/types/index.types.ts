@@ -14,6 +14,7 @@ export interface UserDTO {
   full_name: string | null;
   avatar: string | null;
   is_banned: boolean;
+  role: string;
 }
 
 export interface AuthRequest extends Request {

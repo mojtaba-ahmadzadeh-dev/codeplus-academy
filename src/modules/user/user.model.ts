@@ -1,6 +1,7 @@
 import { DataTypes, Model, CreationOptional } from "sequelize";
 import { sequelize } from "../../config/sequelize.config";
 import { IUser, IOTP } from "./types/index.types";
+import { Blog } from "../blog/entities/blog.model";
 
 export class User extends Model<IUser> implements IUser {
   declare id: CreationOptional<number>;
@@ -8,14 +9,14 @@ export class User extends Model<IUser> implements IUser {
   declare full_name: string | null;
   declare avatar: string | null;
   declare is_banned: boolean;
-  declare role: CreationOptional<string>;;
+  declare role: CreationOptional<string>;
   declare created_at: CreationOptional<Date>;
 }
 
 User.init(
   {
     id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
-    mobile: { type: DataTypes.STRING(15), allowNull: false, unique: true },
+    mobile: { type: DataTypes.STRING(15), allowNull: false },
     full_name: { type: DataTypes.STRING(100), allowNull: true },
     avatar: { type: DataTypes.STRING, allowNull: true, defaultValue: null },
     is_banned: { type: DataTypes.BOOLEAN, defaultValue: false },

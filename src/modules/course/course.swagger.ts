@@ -132,11 +132,37 @@
  * @swagger
  * /courses:
  *   get:
- *     summary: Get all courses
- *     description: Fetch all courses including category and teacher details. Only accessible by users with READ_COURSE permission.
+ *     summary: Get all courses with pagination, search, and sorting
+ *     description: Fetch all courses including category, teacher, bookmark count, and like count. Supports search on title and description, sort by newest or oldest, and pagination.
  *     tags: [Courses 🎓]
  *     security:
  *       - bearerAuth: []
+ *     parameters:
+ *       - in: query
+ *         name: search
+ *         schema:
+ *           type: string
+ *         description: Search term to filter courses by title or description
+ *         example: next.js
+ *       - in: query
+ *         name: page
+ *         schema:
+ *           type: integer
+ *           default: 1
+ *         description: Page number for pagination
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: integer
+ *           default: 10
+ *         description: Number of courses per page
+ *       - in: query
+ *         name: sort
+ *         schema:
+ *           type: string
+ *           enum: [newest, oldest]
+ *           default: newest
+ *         description: Sort courses by creation date
  *     responses:
  *       200:
  *         description: List of courses retrieved successfully
@@ -145,12 +171,21 @@
  *             schema:
  *               type: object
  *               properties:
- *                 statusCode:
+ *                 total:
  *                   type: integer
- *                   example: 200
- *                 message:
+ *                   example: 42
+ *                 totalPages:
+ *                   type: integer
+ *                   example: 5
+ *                 page:
+ *                   type: integer
+ *                   example: 1
+ *                 limit:
+ *                   type: integer
+ *                   example: 10
+ *                 sort:
  *                   type: string
- *                   example: Courses fetched successfully
+ *                   example: newest
  *                 courses:
  *                   type: array
  *                   items:
@@ -396,6 +431,105 @@
  *         description: Unauthorized
  *       403:
  *         description: Forbidden (Only admin or teacher can delete course)
+ *       404:
+ *         description: Course not found
+ *       500:
+ *         description: Internal server error
+ */
+
+/**
+ * @swagger
+ * /courses/{id}/bookmark:
+ *   put:
+ *     summary: Toggle bookmark for a course
+ *     description: Allows a logged-in user to bookmark or remove a bookmark from a specific course.
+ *     tags: [Courses 🎓]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID of the course to toggle bookmark
+ *         example: 5
+ *     responses:
+ *       200:
+ *         description: Bookmark status updated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Bookmark updated successfully
+ *                 isBookmarked:
+ *                   type: boolean
+ *                   description: Indicates if the course is now bookmarked
+ *                   example: true
+ *       400:
+ *         description: Invalid course ID
+ *       401:
+ *         description: Unauthorized
+ *       404:
+ *         description: Course not found
+ *       500:
+ *         description: Internal server error
+ */
+
+/**
+ * @swagger
+ * /courses/{id}/like:
+ *   put:
+ *     summary: Like or dislike a course
+ *     description: Allows a logged-in user to like or dislike a specific course.
+ *     tags: [Courses 🎓]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID of the course to react to
+ *         example: 5
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - isLike
+ *             properties:
+ *               isLike:
+ *                 type: boolean
+ *                 description: true for like, false for dislike
+ *                 example: true
+ *     responses:
+ *       200:
+ *         description: Reaction updated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 likes:
+ *                   type: integer
+ *                   example: 10
+ *                 dislikes:
+ *                   type: integer
+ *                   example: 2
+ *                 message:
+ *                   type: string
+ *                   example: Reaction updated successfully
+ *       400:
+ *         description: Invalid input data
+ *       401:
+ *         description: Unauthorized
  *       404:
  *         description: Course not found
  *       500:
