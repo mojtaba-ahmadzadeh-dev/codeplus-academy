@@ -66,3 +66,20 @@ src/
 ├── configs/
 ├── database/
 └── main.ts
+```
+
+🔐 Roles & Permissions
+
+ADMIN
+
+TEACHER
+
+STUDENT
+
+RBAC is implemented using:
+
+Roles
+
+Permissions
+
+Protected Routes
