@@ -111,3 +111,9 @@ DB_NAME=lms_db
 ACCESS_TOKEN_SECRET=your_secret
 REFRESH_TOKEN_SECRET=your_refresh_secret
 ```
+
+Installation & Run
+```bash
+npm install
+npm run dev
+```
