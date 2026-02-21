@@ -46,7 +46,7 @@ BlogComment.init(
     status: {
       type: DataTypes.ENUM(...Object.values(STATUS)),
       allowNull: true,
-      defaultValue: STATUS.ACTIVE,
+      defaultValue: STATUS.PENDING,
     },
   },
   {

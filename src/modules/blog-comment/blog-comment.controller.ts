@@ -10,6 +10,9 @@ class BlogCommentController {
     this.createComment = this.createComment.bind(this);
     this.getComments = this.getComments.bind(this);
     this.getAllComments = this.getAllComments.bind(this);
+    this.acceptComment = this.acceptComment.bind(this);
+    this.rejectComment = this.rejectComment.bind(this);
+    this.deleteComment = this.deleteComment.bind(this);
   }
 
   async createComment(req: Request, res: Response, next: NextFunction) {
@@ -62,6 +65,54 @@ class BlogCommentController {
         data: comments,
       });
     } catch (error) {
+      next(error);
+    }
+  }
+
+  async acceptComment(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id } = req.params;
+
+      const comment = await this.blogCommentService.acceptComment(Number(id));
+
+      return res.status(200).json({
+        message: "Comment accepted successfully",
+        data: comment,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async rejectComment(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id } = req.params;
+
+      const comment = await this.blogCommentService.rejectComment(Number(id));
+
+      return res.status(200).json({
+        message: "Comment rejected successfully",
+        data: comment,
+      });
+    } catch (error: any) {
+      next(error);
+    }
+  }
+
+  async deleteComment(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id } = req.params;
+
+      await this.blogCommentService.deleteComment(Number(id));
+
+      return res.status(200).json({
+        message: "Comment deleted successfully",
+      });
+    } catch (error: any) {
+      if (error.message === "COMMENT_NOT_FOUND") {
+        return res.status(404).json({ message: "Comment not found" });
+      }
+
       next(error);
     }
   }

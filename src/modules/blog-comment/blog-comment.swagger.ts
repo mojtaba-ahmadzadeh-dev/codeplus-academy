@@ -173,3 +173,159 @@
  *                   type: string
  *                   example: Internal server error
  */
+
+/**
+ * @swagger
+ * /blog-comments/{id}/accept:
+ *   patch:
+ *     summary: Accept a blog comment
+ *     tags: [Blog Comments 💬]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *           example: 10
+ *
+ *     responses:
+ *       200:
+ *         description: Comment accepted successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Comment accepted successfully
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     id:
+ *                       type: integer
+ *                       example: 10
+ *                     status:
+ *                       type: string
+ *                       example: ACTIVE
+ *
+ *       404:
+ *         description: Comment not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Comment not found
+ *
+ *       401:
+ *         description: Unauthorized
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Unauthorized
+ *
+ *       500:
+ *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Internal server error
+ */
+
+/**
+ * @swagger
+ * /blog-comments/{id}/reject:
+ *   patch:
+ *     summary: Reject a blog comment
+ *     tags: [Blog Comments 💬]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *           example: 10
+ *
+ *     responses:
+ *       200:
+ *         description: Comment rejected successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Comment rejected successfully
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     id:
+ *                       type: integer
+ *                       example: 10
+ *                     status:
+ *                       type: string
+ *                       example: REJECTED
+ *
+ *       404:
+ *         description: Comment not found
+ *
+ *       401:
+ *         description: Unauthorized
+ *
+ *       500:
+ *         description: Internal server error
+ */
+
+/**
+ * @swagger
+ * /blog-comments/{id}:
+ *   delete:
+ *     summary: Delete a blog comment
+ *     tags: [Blog Comments 💬]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *           example: 10
+ *
+ *     responses:
+ *       200:
+ *         description: Comment deleted successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Comment deleted successfully
+ *
+ *       404:
+ *         description: Comment not found
+ *
+ *       401:
+ *         description: Unauthorized
+ *
+ *       500:
+ *         description: Internal server error
+ */

@@ -12,7 +12,7 @@ class BlogCommentService {
       userId,
       blogId,
       content,
-      status: STATUS.ACTIVE,
+      status: STATUS.PENDING,
     });
     return comment;
   }
@@ -29,6 +29,43 @@ class BlogCommentService {
       where: { status: STATUS.ACTIVE },
       order: [["createdAt", "DESC"]],
     });
+  }
+
+  async acceptComment(commentId: number) {
+    const comment = await this.blogCommentModel.findByPk(commentId);
+
+    if (!comment) {
+      throw new Error("Comment not found");
+    }
+
+    comment.status = STATUS.ACCEPTED; // یا ACCEPTED (بسته به مدل)
+    await comment.save();
+
+    return comment;
+  }
+
+  async rejectComment(commentId: number) {
+    const comment = await this.blogCommentModel.findByPk(commentId);
+
+    if (!comment) {
+      throw new Error("COMMENT_NOT_FOUND");
+    }
+
+    comment.status = STATUS.REJECTED;
+    await comment.save();
+
+    return comment;
+  }
+
+  async deleteComment(commentId: number) {
+    const comment = await this.blogCommentModel.findByPk(commentId);
+
+    if (!comment) {
+      throw new Error("COMMENT_NOT_FOUND");
+    }
+
+    await comment.destroy();
+    return true;
   }
 }
 
