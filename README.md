@@ -27,9 +27,9 @@ This project is designed for **online education, course management, and user lea
 ## 🛠 Tech Stack
 
 * TypeScript
-* Node.js (NestJS)
-* PostgreSQL
-* TypeORM / Prisma
+* Node.js (Express)
+* Mysql
+* srqulize
 * JWT Authentication
 * Swagger (API Docs)
 * Multer (File Upload)
