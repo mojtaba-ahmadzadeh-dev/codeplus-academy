@@ -1,29 +1,68 @@
-📚 LMS Educational Platform
-📌 Description
+# LMS Platform
 
-LMS Educational Platform is a production-ready RESTful API built with Node.js and Express.js for managing an online learning system.
-The project is designed with clean architecture and modular structure to ensure scalability and maintainability.
+## ⭐ Learning Management System
 
-It provides advanced features such as user authentication, course management, enrollment system, and progress tracking.
+A **modern and scalable LMS** built with **TypeScript and NestJS**.
+This project is designed for **online education, course management, and user learning progress tracking** with a clean and modular architecture.
 
-🚀 Features
+---
 
-🔐 Authentication & Authorization (JWT + Cookies)
-🧑‍🎓 User & Role management
-📚 Course & Lesson management
-📝 Enrollment system
-📊 Progress tracking
-⚙️ Modular architecture
-📑 API documentation
-⚠ Centralized error handling
-🛡 Production-ready security standards
+## 🚀 Features
 
-🛠 Tech Stack
+* 🔐 Authentication & Authorization (JWT)
+* 🧑‍🎓 Role-Based Access Control (Student, Teacher, Admin)
+* 📚 Course Management (Create, Update, Delete)
+* 🎥 Lesson & Video Management
+* 📝 Quizzes & Assignments
+* 📊 User Progress Tracking
+* 💬 Comments & Discussions
+* 🏆 Certificates
+* 📩 Notifications
+* 📤 File Uploads
+* ⚙ API Documentation (Swagger)
+* 🛡 Secure and Scalable Architecture
 
-Node.js
-Express.js
-Sequelize ORM
-MySQL / PostgreSQL
-JWT Authentication
-Validation & Middleware
-Environment-based configuration
+---
+
+## 🛠 Tech Stack
+
+* TypeScript
+* Node.js (NestJS)
+* PostgreSQL
+* TypeORM / Prisma
+* JWT Authentication
+* Swagger (API Docs)
+* Multer (File Upload)
+* Class Validator (Validation)
+* RBAC (Role Based Access Control)
+
+---
+
+## 📂 Project Structure
+
+```bash
+src/
+├── modules/
+│   ├── auth/
+│   ├── users/
+│   ├── courses/
+│   ├── lessons/
+│   ├── category/
+│   ├── course-comment/
+│   ├── order/
+│   ├── RBAC/
+│   ├── ticket/
+│   ├── capture/
+│   ├── blog-comment/
+│   ├── blog/
+│   ├── basket/
+│   ├── department/
+│   └── notifications/
+├── middleware/
+│   ├── guards/
+│   ├── rbacGuard/
+│   ├── interceptors/
+│   └── utils/
+├── configs/
+├── database/
+└── main.ts
