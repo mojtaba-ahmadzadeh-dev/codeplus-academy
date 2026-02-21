@@ -9,32 +9,32 @@ This project is designed for **online education, course management, and user lea
 
 ## 🚀 Features
 
-* 🔐 Authentication & Authorization (JWT)
-* 🧑‍🎓 Role-Based Access Control (Student, Teacher, Admin)
-* 📚 Course Management (Create, Update, Delete)
-* 🎥 Lesson & Video Management
-* 📝 Quizzes & Assignments
-* 📊 User Progress Tracking
-* 💬 Comments & Discussions
-* 🏆 Certificates
-* 📩 Notifications
-* 📤 File Uploads
-* ⚙ API Documentation (Swagger)
-* 🛡 Secure and Scalable Architecture
+- 🔐 Authentication & Authorization (JWT)
+- 🧑‍🎓 Role-Based Access Control (Student, Teacher, Admin)
+- 📚 Course Management (Create, Update, Delete)
+- 🎥 Lesson & Video Management
+- 📝 Quizzes & Assignments
+- 📊 User Progress Tracking
+- 💬 Comments & Discussions
+- 🏆 Certificates
+- 📩 Notifications
+- 📤 File Uploads
+- ⚙ API Documentation (Swagger)
+- 🛡 Secure and Scalable Architecture
 
 ---
 
 ## 🛠 Tech Stack
 
-* TypeScript
-* Node.js (Express)
-* Mysql
-* srqulize
-* JWT Authentication
-* Swagger (API Docs)
-* Multer (File Upload)
-* Class Validator (Validation)
-* RBAC (Role Based Access Control)
+- TypeScript
+- Node.js (Express)
+- Mysql
+- srqulize
+- JWT Authentication
+- Swagger (API Docs)
+- Multer (File Upload)
+- Class Validator (Validation)
+- RBAC (Role Based Access Control)
 
 ---
 
@@ -68,6 +68,10 @@ src/
 └── main.ts
 ```
 
+## 📂 Project preview
+
+![LMS Preview](./screencapture.png)
+
 🔐 Roles & Permissions
 
 ADMIN
@@ -89,6 +93,7 @@ Protected Routes
 Swagger documentation is available.
 
 After running the project, open:
+
 ```bash
 http://localhost:3000/api-docs/
 ```
@@ -96,6 +101,7 @@ http://localhost:3000/api-docs/
 ## ⚙️ Environment Variables
 
 Create a .env file based on .env.example:
+
 ```bash
 PORT=3000
 NODE_ENV=development
@@ -113,6 +119,7 @@ REFRESH_TOKEN_SECRET=your_refresh_secret
 ```
 
 Installation & Run
+
 ```bash
 npm install
 npm run dev
