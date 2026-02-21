@@ -181,7 +181,7 @@ const initDatabase = async (): Promise<void> => {
     foreignKey: "userId",
     as: "user",
   });
-
+  
   // sequelize.sync({alter: true})
   console.log("✅ Database associations initialized successfully");
 };

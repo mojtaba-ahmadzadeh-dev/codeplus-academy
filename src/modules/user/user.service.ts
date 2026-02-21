@@ -4,7 +4,7 @@ import { Blog } from "../blog/entities/blog.model";
 import { CourseReaction } from "../course/entities/course-likes.model";
 import { Course } from "../course/entities/course.model";
 import { CreateUserDTO } from "./types/index.types";
-import { User } from "./user.model";
+import { User } from "../user/user.model";
 
 class UserService {
   private model: typeof User;

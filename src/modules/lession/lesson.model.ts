@@ -1,4 +1,3 @@
-// src/modules/lesson/lesson.model.ts
 import { DataTypes, Model } from "sequelize";
 import { sequelize } from "../../config/sequelize.config";
 import { STATUS } from "../../constant/status.constant";
