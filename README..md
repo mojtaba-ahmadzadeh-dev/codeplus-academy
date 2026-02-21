@@ -70,7 +70,7 @@ src/
 
 ## 📂 Project preview
 
-![LMS Preview](screencapture-localhost-3000-api-docs-2026-02-21-15_52_51.png)
+![LMS Preview](./screencapture.png)
 
 🔐 Roles & Permissions
 
