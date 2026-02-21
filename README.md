@@ -2,7 +2,7 @@
 
 ## ⭐ Learning Management System
 
-A **modern and scalable LMS** built with **TypeScript and NestJS**.
+A **modern and scalable LMS** built with **TypeScript and Node.js (Express.js)**.  
 This project is designed for **online education, course management, and user learning progress tracking** with a clean and modular architecture.
 
 ---
