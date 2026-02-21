@@ -178,3 +178,7 @@ export enum notificationMessages {
 
   UNSEEN_COUNT_FETCHED = "تعداد پیغام‌های خوانده نشده با موفقیت دریافت شد",
 }
+
+export enum blogCommentMessages {
+  BLOG_COMMENT_CREATE_SUCCESSFULLY = "بلاگ کورد نظر با موفقیت ساخته شد"
+} 
