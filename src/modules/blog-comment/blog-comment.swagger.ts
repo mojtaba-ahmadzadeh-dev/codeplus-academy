@@ -50,3 +50,78 @@
  *       500:
  *         description: Internal server error
  */
+
+/**
+ * @swagger
+ * /blog-comments/{blogId}:
+ *   get:
+ *     summary: Get all comments of a blog
+ *     tags: [Blog Comments 💬]
+ *     parameters:
+ *       - in: path
+ *         name: blogId
+ *         required: true
+ *         schema:
+ *           type: integer
+ *           example: 37
+ *
+ *     responses:
+ *       200:
+ *         description: Comments fetched successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Comments fetched successfully
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *
+ *       400:
+ *         description: Bad Request - Invalid blog ID
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Invalid blog ID
+ *
+ *       401:
+ *         description: Unauthorized
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Unauthorized
+ *
+ *       404:
+ *         description: Comments not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: No comments found
+ *
+ *       500:
+ *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Internal server error
+ */

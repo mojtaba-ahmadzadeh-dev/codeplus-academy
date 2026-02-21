@@ -11,4 +11,10 @@ blogCommentRouter.post(
   blogCommentController.createComment,
 );
 
+blogCommentRouter.get(
+  "/:blogId",
+  rbacGuard([Permissions.BLOG_COMMENT_CREATE]), // اگر نیاز به دسترسی داره
+  blogCommentController.getComments,
+);
+
 export default blogCommentRouter;
