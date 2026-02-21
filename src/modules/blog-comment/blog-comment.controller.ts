@@ -9,6 +9,7 @@ class BlogCommentController {
 
     this.createComment = this.createComment.bind(this);
     this.getComments = this.getComments.bind(this);
+    this.getAllComments = this.getAllComments.bind(this);
   }
 
   async createComment(req: Request, res: Response, next: NextFunction) {
@@ -34,23 +35,36 @@ class BlogCommentController {
       next(error);
     }
   }
-  
+
   async getComments(req: Request, res: Response, next: NextFunction) {
-  try {
-    const { blogId } = req.params;
+    try {
+      const { blogId } = req.params;
 
-    const comments = await this.blogCommentService.getCommentsByBlogId(
-      Number(blogId)
-    );
+      const comments = await this.blogCommentService.getCommentsByBlogId(
+        Number(blogId),
+      );
 
-    return res.status(200).json({
-      message: "Comments fetched successfully",
-      data: comments,
-    });
-  } catch (error) {
-    next(error);
+      return res.status(200).json({
+        message: "Comments fetched successfully",
+        data: comments,
+      });
+    } catch (error) {
+      next(error);
+    }
   }
-}
+
+  async getAllComments(req: Request, res: Response, next: NextFunction) {
+    try {
+      const comments = await this.blogCommentService.getAllComments();
+
+      return res.status(200).json({
+        message: "Comments fetched successfully",
+        data: comments,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
 }
 
 export default new BlogCommentController();

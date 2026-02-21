@@ -17,4 +17,10 @@ blogCommentRouter.get(
   blogCommentController.getComments,
 );
 
+blogCommentRouter.get(
+  "/",
+  rbacGuard([Permissions.BLOG_COMMENT_CREATE]),
+  blogCommentController.getAllComments,
+);
+
 export default blogCommentRouter;

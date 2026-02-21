@@ -23,6 +23,13 @@ class BlogCommentService {
       order: [["createdAt", "DESC"]],
     });
   }
+
+  async getAllComments() {
+    return await this.blogCommentModel.findAll({
+      where: { status: STATUS.ACTIVE },
+      order: [["createdAt", "DESC"]],
+    });
+  }
 }
 
 export default new BlogCommentService();
