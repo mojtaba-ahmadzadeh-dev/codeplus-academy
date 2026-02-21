@@ -83,3 +83,31 @@ Roles
 Permissions
 
 Protected Routes
+
+## 📖 API Documentation
+
+Swagger documentation is available.
+
+After running the project, open:
+```bash
+http://localhost:3000/api-docs/
+```
+
+## ⚙️ Environment Variables
+
+Create a .env file based on .env.example:
+```bash
+PORT=3000
+NODE_ENV=development
+
+# Database
+DB_HOST=localhost
+DB_PORT=5432
+DB_USER=postgres
+DB_PASSWORD=your_password
+DB_NAME=lms_db
+
+# JWT
+ACCESS_TOKEN_SECRET=your_secret
+REFRESH_TOKEN_SECRET=your_refresh_secret
+```
