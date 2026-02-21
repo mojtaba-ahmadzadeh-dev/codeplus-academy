@@ -16,6 +16,7 @@ import { Order } from "../modules/order/order.model";
 import { Ticket } from "../modules/ticket/ticket.model";
 import { Department } from "../modules/department/department.model";
 import { Notification } from "../modules/notification/notification.model";
+import { BlogComment } from "../modules/blog-comment/blog-comment.model";
 
 const initDatabase = async (): Promise<void> => {
   // User → OTP
@@ -180,6 +181,28 @@ const initDatabase = async (): Promise<void> => {
   Notification.belongsTo(User, {
     foreignKey: "userId",
     as: "user",
+  });
+
+  // User → BlogComment
+  User.hasMany(BlogComment, {
+    foreignKey: "userId",
+    as: "comments",
+    onDelete: "CASCADE",
+  });
+  BlogComment.belongsTo(User, {
+    foreignKey: "userId",
+    as: "user",
+  });
+
+  // Blog → BlogComment
+  Blog.hasMany(BlogComment, {
+    foreignKey: "blogId",
+    as: "comments",
+    onDelete: "CASCADE",
+  });
+  BlogComment.belongsTo(Blog, {
+    foreignKey: "blogId",
+    as: "blog",
   });
 
   // sequelize.sync({alter: true})

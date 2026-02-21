@@ -1,6 +1,7 @@
 export const STATUS = {
   ACTIVE: "active",
   INACTIVE: "inactive",
+  REJECTED: "reject",
   PENDING: "pending",
   ACCEPTED: "accepted",
   PROCESSING: "processing",

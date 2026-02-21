@@ -92,7 +92,6 @@ export enum Permissions {
   DEPARTMENT_DELETE_ID = "department:delete",
   DEPARTMENT_UPDATE = "department:update",
 
-
   NOTIFICATION_CREATE = "notification:create",
   NOTIFICATION_GETALL = "notification:get-all",
   NOTIFICATION_SEEN = "notification:seen",
@@ -103,6 +102,9 @@ export enum Permissions {
   NOTIFICATION_UPDATE_SEEND_ALL = "notification:update-seend-all",
   NOTIFICATION_DELETE_ID = "notification:delete-id",
   NOTIFICATION_DELETE = "notification:delete",
+
+  // Blog Comment
+  BLOG_COMMENT_CREATE = "blog-comment:create",
 }
 
 const adminPermissions: Permissions[] = [
@@ -193,7 +195,6 @@ const adminPermissions: Permissions[] = [
   Permissions.DEPARTMENT_UPDATE,
   Permissions.DEPARTMENT_DELETE_ID,
 
-
   Permissions.NOTIFICATION_CREATE,
   Permissions.NOTIFICATION_GETALL,
   Permissions.NOTIFICATION_SEEN,
@@ -202,6 +203,9 @@ const adminPermissions: Permissions[] = [
   Permissions.NOTIFICATION__UPDATE_BY_ID_SEEN,
   Permissions.NOTIFICATION_DELETE_ID,
   Permissions.NOTIFICATION_DELETE,
+
+  // Blog Comment
+  Permissions.BLOG_COMMENT_CREATE,
 ];
 
 const teacherPermissions: Permissions[] = [
@@ -280,7 +284,10 @@ const teacherPermissions: Permissions[] = [
   Permissions.NOTIFICATION__UPDATE_BY_ID_SEEN,
   Permissions.NOTIFICATION_UPDATE_SEEND_ALL,
   Permissions.NOTIFICATION_DELETE_ID,
-  Permissions.NOTIFICATION_DELETE
+  Permissions.NOTIFICATION_DELETE,
+
+  // Blog Comment
+  Permissions.BLOG_COMMENT_CREATE,
 ];
 
 export const RolePermissions: Record<Roles, Permissions[]> = {
@@ -303,5 +310,6 @@ export const RolePermissions: Record<Roles, Permissions[]> = {
     Permissions.TICKET_READ,
     Permissions.TICKET_READ_ALL,
     Permissions.TICKET_DELETE_ID,
+    Permissions.BLOG_COMMENT_CREATE,
   ],
 };

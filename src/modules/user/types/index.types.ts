@@ -1,5 +1,5 @@
 import { CreationOptional } from "sequelize";
-import { User } from "../user.model";
+import { User } from "../entities/user.model";
 import { Blog } from "../../blog/entities/blog.model";
 import { Course } from "../../course/entities/course.model";
 
@@ -33,4 +33,16 @@ export interface CreateUserDTO {
   password?: string;
   role?: string;
   is_banned?: boolean;
+}
+
+
+export interface IUserGoogleAuth {
+  id?: CreationOptional<number>;
+  user_id: number;           // FK به جدول User
+  google_id: string;         // Google unique id
+  email: string;             // ایمیل گوگل
+  full_name?: string | null; // نام کامل از گوگل
+  avatar?: string | null;    // عکس پروفایل گوگل
+  created_at?: CreationOptional<Date>;
+  user?: User;               // رابطه با جدول User
 }
