@@ -2,7 +2,6 @@ import { Router } from "express";
 import rbacController from "./rbac.controller";
 import {
   validateAssignPermissionToRole,
-  validateAssignRoleToUser,
   validateCreatePermission,
   validateCreateRole,
 } from "./rbac.validation";
@@ -20,6 +19,7 @@ RBACRouter.post(
   validateCreateRole,
   rbacController.createRole,
 );
+
 RBACRouter.post(
   "/assign-permission-to-role",
   validateAssignPermissionToRole,
@@ -28,7 +28,6 @@ RBACRouter.post(
 
 RBACRouter.get(
   "/roles",
-  validateAssignRoleToUser,
   rbacController.getAllRoles,
 );
 
