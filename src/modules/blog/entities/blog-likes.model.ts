@@ -1,4 +1,3 @@
-// modules/reaction/reaction.model.ts
 import { DataTypes, Model, Optional } from "sequelize";
 import { sequelize } from "../../../config/sequelize.config";
 

@@ -126,6 +126,8 @@ export enum BlogMessages {
   BLOG_DELETE_FORBIDDEN = "امکان حذف این بلاگ برای شما وجود ندارد",
   BLOG_ALREADY_BOOKMARKED = "شما قبلاً این بلاگ را بوکمارک کرده‌اید",
   BLOG_BOOKMARKS_FETCHED_SUCCESSFULLY = "بوکمارک‌ها با موفقیت دریافت شدند",
+  BLOG_BOOKMARKS_NOT_FOUND = "هیچ بوکمارکی یافت نشد",
+
   BLOG_TITLE_ALREADY_EXISTS = "یک بلاگ با این عنوان قبلاً ایجاد شده است",
   BLOG_USER_FETCHED_SUCCESSFULLY = "بلاگ‌های کاربر با موفقیت دریافت شدند",
   BLOG_USER_NOT_FOUND = "هیچ بلاگی برای این کاربر یافت نشد",

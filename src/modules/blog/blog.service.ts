@@ -78,59 +78,46 @@ class BlogService {
 
   async getAllBlogs(params: GetAllBlogsParams): Promise<PaginatedBlogs> {
     const { search = "", page = 1, limit = 10, sort = "newest" } = params;
-    const p = Math.max(1, +page);
-    const l = Math.min(50, Math.max(1, +limit));
+    const p = Math.max(1, +page || 1);
+    const l = Math.min(50, Math.max(1, +limit || 10));
     const offset = (p - 1) * l;
 
-    const whereCondition = search
+    const where = search
       ? {
-          [Op.or]: ["title", "content"].map((f) =>
-            where(fn("LOWER", col(f)), {
-              [Op.like]: `%${search.toLowerCase()}%`,
-            }),
-          ),
+          [Op.or]: ["title", "content"].map((f) => ({
+            [f]: { [Op.like]: `%${search}%` },
+          })),
         }
       : {};
 
-    const result = await Blog.findAndCountAll({
-      where: whereCondition,
+    const { rows, count } = await Blog.findAndCountAll({
+      where,
       order: [["createdAt", sort === "newest" ? "DESC" : "ASC"]],
       limit: l,
       offset,
       distinct: true,
-      attributes: { exclude: ["authorId", "categoryId"] },
       include: [{ model: User, attributes: ["id", "full_name", "avatar"] }],
     });
 
-    const ids = result.rows.map((b) => b.id);
-    if (!ids.length)
-      return {
-        total: result.count,
-        totalPages: Math.ceil(result.count / l),
-        page: p,
-        limit: l,
-        sort,
-        blogs: [],
-      };
-
-    const [bmMap, rcMap] = await this.getBookmarkAndReactionCounts(ids);
-
-    const blogs = result.rows.map((b: any) => {
-      const j = b.toJSON();
-      return {
-        ...j,
-        bookmarkCount: bmMap[j.id] || 0,
-        likeCount: rcMap[j.id] || 0,
-      };
-    });
+    const ids = rows.map((b) => b.id);
+    const [bmMap, rcMap] = ids.length
+      ? await this.getBookmarkAndReactionCounts(ids)
+      : [{}, {}];
 
     return {
-      total: result.count,
-      totalPages: Math.ceil(result.count / l),
+      total: count,
+      totalPages: Math.ceil(count / l),
       page: p,
       limit: l,
       sort,
-      blogs,
+      blogs: rows.map((b: any) => {
+        const j = b.toJSON();
+        return {
+          ...j,
+          bookmarkCount: bmMap[j.id] || 0,
+          likeCount: rcMap[j.id] || 0,
+        };
+      }),
     };
   }
 
@@ -253,14 +240,14 @@ class BlogService {
     return { isBookmarked: true };
   }
 
-  async getUserBlogs(userId?: number, pageParam?: string, limitParam?: string) {
+  async getUserBlogs(userId?: number, pageParam = "1", limitParam = "10") {
     if (!userId) throw createHttpError.Unauthorized("Unauthorized");
 
-    const page = Number(pageParam) || 1;
-    const limit = Number(limitParam) || 10;
+    const page = Math.max(1, +pageParam);
+    const limit = Math.min(50, Math.max(1, +limitParam));
     const offset = (page - 1) * limit;
 
-    const { rows: blogs, count } = await this.blogModel.findAndCountAll({
+    const { rows, count } = await this.blogModel.findAndCountAll({
       where: { authorId: userId },
       offset,
       limit,
@@ -293,29 +280,22 @@ class BlogService {
       ],
     });
 
-    const rows = blogs.map((blog: any) => {
-      const blogJSON = blog.toJSON();
-
-      const likeCount = blogJSON.usersWhoLiked?.length ?? 0;
-      const bookmarkCount = blogJSON.usersWhoBookmarked?.length ?? 0;
-
-      delete blogJSON.usersWhoLiked;
-      delete blogJSON.usersWhoBookmarked;
-
-      return {
-        ...blogJSON,
-        likeCount,
-        bookmarkCount,
-      };
-    });
-
     return {
-      message: "User blogs fetched successfully",
+      message: rows.length
+        ? "User blogs fetched successfully"
+        : "No blogs found",
       count,
       totalPages: Math.ceil(count / limit),
       page,
       limit,
-      rows,
+      rows: rows.map((blog: any) => {
+        const j = blog.toJSON();
+        return {
+          ...j,
+          likeCount: j.usersWhoLiked?.length ?? 0,
+          bookmarkCount: j.usersWhoBookmarked?.length ?? 0,
+        };
+      }),
     };
   }
 }

@@ -1,7 +1,7 @@
 import { DataTypes, Model, Optional } from "sequelize";
 import { sequelize } from "../../../config/sequelize.config";
 import { STATUS } from "../../../constant/status.constant";
-import { User } from "../../user/entities/user.model";
+import { User } from "../../user/user.model";
 import { Category } from "../../category/category.model";
 import { BlogAttributes, BlogCreationAttributes } from "../types/index.types";
 

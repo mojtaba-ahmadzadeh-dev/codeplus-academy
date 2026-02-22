@@ -156,8 +156,8 @@ class BlogController {
       return res.status(StatusCodes.OK).json({
         ...result,
         message: result.rows.length
-          ? "Bookmarked blogs fetched successfully"
-          : "No bookmarked blogs found",
+          ? BlogMessages.BLOG_USER_FETCHED_SUCCESSFULLY
+          : BlogMessages.BLOG_USER_NOT_FOUND,
       });
     } catch (error) {
       next(error);

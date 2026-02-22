@@ -3,7 +3,6 @@ import { StatusCodes } from "http-status-codes";
 import rbacService from "./rbac.service";
 import {
   AssignPermissionToRoleDTO,
-  AssignRoleToUserDTO,
   CreatePermissionDTO,
   CreateRoleDTO,
 } from "./types/index.types";
