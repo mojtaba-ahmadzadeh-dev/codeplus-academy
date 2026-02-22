@@ -1,10 +1,9 @@
 import { userMessage } from "../../constant/messages";
-import { Reaction } from "../blog/entities/blog-likes.model";
 import { Blog } from "../blog/entities/blog.model";
-import { CourseReaction } from "../course/entities/course-likes.model";
 import { Course } from "../course/entities/course.model";
 import { CreateUserDTO } from "./types/index.types";
 import { User } from "../user/user.model";
+import createHttpError from "http-errors";
 
 class UserService {
   private model: typeof User;
@@ -12,21 +11,17 @@ class UserService {
   constructor() {
     this.model = User;
   }
-
   async getAllUsers() {
-    const users = await this.model.findAll();
-    return users;
+    return this.model.findAll();
   }
 
   async getUserById(id: string) {
-    const user = await User.findByPk(id);
+    const user = await this.findUserOrFail(id);
     return user;
   }
 
   async updateUserById(id: number, payload: Partial<User>) {
-    const user = await User.findByPk(id);
-
-    if (!user) throw new Error("User not found");
+    const user = await this.findUserOrFail(id);
 
     await user.update(payload);
 
@@ -34,18 +29,14 @@ class UserService {
   }
 
   async removeUserById(id: number) {
-    const user = await this.model.findByPk(id);
-
-    if (!user) throw new Error(userMessage.USER_NOT_FOUND);
+    const user = await this.findUserOrFail(id);
 
     await user.destroy();
     return user;
   }
 
   async changeRole(id: number, role: string) {
-    const user = await this.model.findByPk(id);
-
-    if (!user) throw new Error(userMessage.USER_NOT_FOUND);
+    const user = await this.findUserOrFail(id);
 
     await user.update({ role });
 
@@ -56,35 +47,35 @@ class UserService {
     const exists = await this.model.findOne({
       where: { mobile: payload.mobile },
     });
-    if (exists) throw new Error(userMessage.MOBILE_ALREADY_EXISTS);
+
+    if (exists) {
+      throw createHttpError.Conflict(userMessage.MOBILE_ALREADY_EXISTS);
+    }
 
     const user = await this.model.create(payload);
     return user;
   }
 
   async banUser(id: number, isBanned: boolean) {
-    const user = await this.model.findByPk(id);
-    if (!user) throw new Error(userMessage.USER_NOT_FOUND);
+    const user = await this.findUserOrFail(id);
 
     await user.update({ is_banned: isBanned });
     return user;
   }
 
   async getAllUsersBookmarks() {
-    const users = await User.findAll({
+    const users = await this.model.findAll({
       attributes: ["id", "full_name", "mobile"],
       include: [
         {
           model: Blog,
           as: "bookmarkedBlogs",
-          through: { attributes: [] }, // حذف ستون‌های جدول واسط
-          // attributes حذف شد تا همه ستون‌ها بیاد
+          through: { attributes: [] },
         },
         {
           model: Course,
           as: "bookmarkedCourses",
           through: { attributes: [] },
-          // attributes حذف شد تا همه ستون‌ها بیاد
         },
       ],
     });
@@ -93,7 +84,7 @@ class UserService {
   }
 
   async getAllUsersLikes() {
-    const users = await User.findAll({
+    const users = await this.model.findAll({
       attributes: ["id", "full_name", "mobile"],
       include: [
         {
@@ -110,6 +101,16 @@ class UserService {
     });
 
     return users;
+  }
+
+  private async findUserOrFail(id: number | string) {
+    const user = await this.model.findByPk(id);
+
+    if (!user) {
+      throw createHttpError.NotFound(userMessage.USER_NOT_FOUND);
+    }
+
+    return user;
   }
 }
 

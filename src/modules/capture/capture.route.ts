@@ -1,6 +1,6 @@
 import { Router } from "express";
 import captureController from "./capture.controller";
-import { upload } from "../../middleware/upload.middleware";
+import { upload } from "../../middleware/upload/upload.middleware";
 import { rbacGuard } from "../../middleware/guard/rbac.guard";
 import { Permissions } from "../../constant/role.constant";
 import {

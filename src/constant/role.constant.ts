@@ -13,6 +13,8 @@ export enum Permissions {
   USER_BY_REMOVE_ID = "user:by-remove-id",
   USER_BAN = "user:ban/unban",
   USER_CREATE = "user:create",
+  USER_GETALL_BOOKMARK = "user:get-all-bookmark",
+  USER_GETALL_LIKE = "user:get-all-like",
 
   // Category
   CATEGORY_CREATE = "category:create",
@@ -116,6 +118,8 @@ const adminPermissions: Permissions[] = [
   Permissions.USER_BY_REMOVE_ID,
   Permissions.USER_BAN,
   Permissions.USER_CREATE,
+  Permissions.USER_GETALL_BOOKMARK,
+  Permissions.USER_GETALL_LIKE,
 
   // Category
   Permissions.CATEGORY_CREATE,
@@ -214,6 +218,8 @@ const teacherPermissions: Permissions[] = [
   Permissions.CATEGORY_UPDATE_BY_ID,
   Permissions.CATEGORY_GETALL,
   Permissions.CATEGORY_GET_BY_ID,
+  Permissions.USER_GETALL_BOOKMARK,
+  Permissions.USER_GETALL_LIKE,
 
   // Course
   Permissions.COURSE_CREATE,
@@ -290,26 +296,30 @@ const teacherPermissions: Permissions[] = [
   Permissions.BLOG_COMMENT_CREATE,
 ];
 
+const userPermissions: Permissions[] = [
+  Permissions.BLOG_LIKE,
+  Permissions.BLOG_BOOKMARK,
+  Permissions.BLOG_READ,
+  Permissions.BLOG__BOOKMARKS_ME,
+  Permissions.BASKET_CREATE,
+  Permissions.BASKET_GETALL,
+  Permissions.BASKET_UPDATE,
+  Permissions.BASKET_DELETE,
+  Permissions.ORDER_CREATE,
+  Permissions.ORDER_GETALL,
+  Permissions.ORDER_DELETE,
+  Permissions.ORDER_GET_BY_ID,
+  Permissions.TICKET_CREATE,
+  Permissions.TICKET_READ,
+  Permissions.TICKET_READ_ALL,
+  Permissions.TICKET_DELETE_ID,
+  Permissions.BLOG_COMMENT_CREATE,
+  Permissions.USER_GETALL_BOOKMARK,
+  Permissions.USER_GETALL_LIKE,
+];
+
 export const RolePermissions: Record<Roles, Permissions[]> = {
   [Roles.ADMIN]: adminPermissions,
   [Roles.TEACHER]: teacherPermissions,
-  [Roles.USER]: [
-    Permissions.BLOG_LIKE,
-    Permissions.BLOG_BOOKMARK,
-    Permissions.BLOG_READ,
-    Permissions.BLOG__BOOKMARKS_ME,
-    Permissions.BASKET_CREATE,
-    Permissions.BASKET_GETALL,
-    Permissions.BASKET_UPDATE,
-    Permissions.BASKET_DELETE,
-    Permissions.ORDER_CREATE,
-    Permissions.ORDER_GETALL,
-    Permissions.ORDER_DELETE,
-    Permissions.ORDER_GET_BY_ID,
-    Permissions.TICKET_CREATE,
-    Permissions.TICKET_READ,
-    Permissions.TICKET_READ_ALL,
-    Permissions.TICKET_DELETE_ID,
-    Permissions.BLOG_COMMENT_CREATE,
-  ],
+  [Roles.USER]: userPermissions,
 };

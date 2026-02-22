@@ -1,5 +1,5 @@
 import { CreationOptional } from "sequelize";
-import { User } from "../entities/user.model";
+import { User } from "../user.model";
 import { Blog } from "../../blog/entities/blog.model";
 import { Course } from "../../course/entities/course.model";
 

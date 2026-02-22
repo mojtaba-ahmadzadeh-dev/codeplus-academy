@@ -48,7 +48,7 @@ export const rbacGuard = (
       );
 
       if (!hasPermission) {
-        return res.status(403).json({ message: "Forbidden" });
+        return res.status(403).json({ message: "شما دسترسی لازم برای انجام این عملیات را ندارید" });
       }
       next();
     } catch (err) {
