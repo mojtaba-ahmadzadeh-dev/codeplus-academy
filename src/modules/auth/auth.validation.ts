@@ -1,6 +1,8 @@
 import Joi from "joi";
+import { validate } from "../../middleware/validate/validate.middleware";
 import { authMessage } from "../../constant/messages";
 
+// Send OTP validation
 const sendOTPSchema = Joi.object({
   mobile: Joi.string()
     .pattern(/^09\d{9}$/)
@@ -11,6 +13,7 @@ const sendOTPSchema = Joi.object({
     }),
 });
 
+// Check OTP validation
 const checkOTPSchema = Joi.object({
   mobile: Joi.string()
     .pattern(/^09\d{9}$/)
@@ -19,6 +22,7 @@ const checkOTPSchema = Joi.object({
       "string.pattern.base": authMessage.MOBILE_INVALID,
       "any.required": authMessage.MOBILE_REQUIRED,
     }),
+
   code: Joi.string()
     .length(6)
     .pattern(/^\d{6}$/)
@@ -30,5 +34,6 @@ const checkOTPSchema = Joi.object({
     }),
 });
 
-
-export { sendOTPSchema, checkOTPSchema };
+//  Export middlewares
+export const validateSendOTP = validate(sendOTPSchema);
+export const validateCheckOTP = validate(checkOTPSchema);

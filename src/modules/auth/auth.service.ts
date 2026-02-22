@@ -73,6 +73,7 @@ class AuthService {
       where: { user_id: user.id },
       order: [["created_at", "DESC"]],
     });
+    
     if (!otp) throw createHttpError.NotFound(authMessage.OTP_NOT_FOUND);
     if (otp.code !== code)
       throw createHttpError.Unauthorized(authMessage.OTP_INCORRECT);

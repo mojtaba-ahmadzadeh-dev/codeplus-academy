@@ -2,7 +2,6 @@ import { NextFunction, Request, Response } from "express";
 import authService from "./auth.service";
 import { StatusCodes } from "http-status-codes";
 import { authMessage } from "../../constant/messages";
-import { checkOTPSchema, sendOTPSchema } from "./auth.validation";
 import createHttpError from "http-errors";
 import tokenService from "./token.service";
 import { JwtPayload } from "jsonwebtoken";
@@ -22,9 +21,7 @@ class AuthController {
 
   async sendOTP(req: Request, res: Response, next: NextFunction) {
     try {
-      const { mobile } = await sendOTPSchema.validateAsync(req.body, {
-        abortEarly: false,
-      });
+      const { mobile } = req.body;
 
       const { user, isNewUser } = await this.service.sendOTP(mobile);
 
@@ -42,9 +39,7 @@ class AuthController {
 
   async verifyOTP(req: Request, res: Response, next: NextFunction) {
     try {
-      const { mobile, code } = await checkOTPSchema.validateAsync(req.body, {
-        abortEarly: false,
-      });
+      const { mobile, code } = req.body;
 
       const { accessToken, refreshToken, user } = await this.service.verifyOTP(
         mobile,
