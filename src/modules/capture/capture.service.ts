@@ -6,6 +6,12 @@ import { Op } from "sequelize";
 import { CaptureMessages } from "../../constant/messages";
 
 class CaptureService {
+  private captureModel: typeof Capture;
+
+  constructor() {
+    this.captureModel = Capture;
+  }
+
   async createCapture(data: CaptureCreationAttributes): Promise<Capture> {
     const existing = await Capture.findOne({
       where: {
@@ -15,21 +21,20 @@ class CaptureService {
     });
 
     if (existing) {
-      throw new createHttpError.BadRequest("این capture قبلاً اضافه شده است");
+      throw new createHttpError.Conflict("این capture قبلاً اضافه شده است");
     }
 
-    const capture = await Capture.create(data);
+    const capture = await this.captureModel.create(data);
     return capture;
   }
 
   async getAllCaptures() {
-    return Capture.findAll({
+    return this.captureModel.findAll({
       order: [["createdAt", "DESC"]],
     });
   }
 
   async getCaptureById(id: number) {
-    // فقط بر اساس id می‌گردونیم
     const capture = await Capture.findOne({ where: { id } });
     if (!capture) {
       throw new createHttpError.NotFound("Capture پیدا نشد");
@@ -69,13 +74,13 @@ class CaptureService {
   }
 
   async deleteCapture(id: number): Promise<void> {
-  const capture = await Capture.findOne({ where: { id } });
-  if (!capture) {
-    throw new createHttpError.NotFound(CaptureMessages.CAPTURE_NOT_FOUND);
-  }
+    const capture = await Capture.findOne({ where: { id } });
+    if (!capture) {
+      throw new createHttpError.NotFound(CaptureMessages.CAPTURE_NOT_FOUND);
+    }
 
-  await capture.destroy();
-}
+    await capture.destroy();
+  }
 }
 
 export default new CaptureService();

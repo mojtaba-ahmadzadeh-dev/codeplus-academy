@@ -6,7 +6,6 @@ import {
   BlogUpdateAttributes,
   GetAllBlogsParams,
   PaginatedBlogs,
-  PaginatedBookmarkedBlogs,
   ReactionResult,
   ToggleBookmarkResult,
 } from "./types/index.types";
@@ -109,7 +108,7 @@ class BlogService {
       totalPages: Math.ceil(count / l),
       page: p,
       limit: l,
-      sort,
+
       blogs: rows.map((b: any) => {
         const j = b.toJSON();
         return {
@@ -290,10 +289,12 @@ class BlogService {
       limit,
       rows: rows.map((blog: any) => {
         const j = blog.toJSON();
+        const { usersWhoLiked, usersWhoBookmarked, ...rest } = j;
+
         return {
-          ...j,
-          likeCount: j.usersWhoLiked?.length ?? 0,
-          bookmarkCount: j.usersWhoBookmarked?.length ?? 0,
+          ...rest,
+          likeCount: usersWhoLiked?.length ?? 0,
+          bookmarkCount: usersWhoBookmarked?.length ?? 0,
         };
       }),
     };

@@ -1,4 +1,3 @@
-// src/modules/capture/capture.controller.ts
 import { Request, Response, NextFunction } from "express";
 import captureService from "./capture.service";
 import { CaptureCreationAttributes } from "./types/index.types";
@@ -22,12 +21,6 @@ class CaptureController {
     try {
       const courseId =
         req.body.courseId !== undefined ? Number(req.body.courseId) : undefined;
-
-      if (courseId !== undefined && isNaN(courseId)) {
-        return res
-          .status(StatusCodes.BAD_REQUEST)
-          .json({ message: "courseId نامعتبر است" });
-      }
 
       const data: CaptureCreationAttributes = {
         title: req.body.title,
@@ -62,11 +55,6 @@ class CaptureController {
   async getCaptureById(req: Request, res: Response, next: NextFunction) {
     try {
       const id = Number(req.params.id);
-      if (isNaN(id)) {
-        return res
-          .status(StatusCodes.BAD_REQUEST)
-          .json({ message: "ID نامعتبر است" });
-      }
 
       const capture = await this.captureService.getCaptureById(id);
 
