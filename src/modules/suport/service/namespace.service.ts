@@ -14,8 +14,18 @@ class NamespaceService {
   }
 
   async getNamespaces(): Promise<ISupport[]> {
-    const namespaces = await this.model.findAll()
-    return namespaces
+    const namespaces = await this.model.findAll();
+    return namespaces;
+  }
+
+  async removeNamespaceById({ id }: { id: string }): Promise<void> {
+    const namespace = await this.model.findByPk(id);
+
+    if (namespace) {
+      await namespace.destroy();
+    } else {
+      throw createHttpError.NotFound("فضای مورد نظر پیدا نشد");
+    }
   }
 
   async checkExistWithEndpoint(endpoint: string): Promise<void> {

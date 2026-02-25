@@ -96,3 +96,48 @@
  *       500:
  *         description: Internal server error
  */
+
+/**
+ * @swagger
+ * /support/namespace/delete/{id}:
+ *   delete:
+ *     summary: Delete a namespace
+ *     description: Remove a namespace by its ID
+ *     tags: [Support 💬]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Namespace ID to delete
+ *     responses:
+ *       200:
+ *         description: Namespace deleted successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 200
+ *                 message:
+ *                   type: string
+ *                   example: Namespace deleted successfully
+ *       404:
+ *         description: Namespace not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 404
+ *                 message:
+ *                   type: string
+ *                   example: Namespace not found
+ *       500:
+ *         description: Internal server error
+ */

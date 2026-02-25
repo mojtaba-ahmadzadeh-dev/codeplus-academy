@@ -10,6 +10,7 @@ class NamespaceController {
 
     this.createNamespace = this.createNamespace.bind(this);
     this.getNamespaces = this.getNamespaces.bind(this);
+    this.removeNamespaceById = this.removeNamespaceById.bind(this);
   }
 
   async createNamespace(req: Request, res: Response, next: NextFunction) {
@@ -29,12 +30,25 @@ class NamespaceController {
 
   async getNamespaces(req: Request, res: Response, next: NextFunction) {
     try {
-
       const namespaces = await this.namespaceSrvice.getNamespaces();
 
       res.status(StatusCodes.OK).json({
         StatusCodes: StatusCodes.OK,
         namespaces,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async removeNamespaceById(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id } = req.params;
+      await this.namespaceSrvice.removeNamespaceById({ id });
+
+      res.status(StatusCodes.OK).json({
+        statusCode: StatusCodes.OK,
+        message: "فضای گفتگو با موفقعیت حذف شد",
       });
     } catch (error) {
       next(error);
