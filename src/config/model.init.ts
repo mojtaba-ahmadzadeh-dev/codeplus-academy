@@ -17,6 +17,10 @@ import { Ticket } from "../modules/ticket/ticket.model";
 import { Department } from "../modules/department/department.model";
 import { Notification } from "../modules/notification/notification.model";
 import { BlogComment } from "../modules/blog-comment/blog-comment.model";
+import { Room } from "../modules/suport/entities/room.model";
+import { Message } from "../modules/suport/entities/message.model";
+import { Conversation } from "../modules/suport/entities/conversation.model";
+import { Location } from "../modules/suport/entities/location.model";
 
 const initDatabase = async (): Promise<void> => {
   // User → OTP
@@ -204,6 +208,15 @@ const initDatabase = async (): Promise<void> => {
     foreignKey: "blogId",
     as: "blog",
   });
+
+  Room.hasMany(Message, { foreignKey: "roomId", as: "messages" });
+  Message.belongsTo(Room, { foreignKey: "roomId" });
+
+  Room.hasMany(Location, { foreignKey: "roomId", as: "locations" });
+  Location.belongsTo(Room, { foreignKey: "roomId" });
+
+  Conversation.hasMany(Room, { foreignKey: "conversationId", as: "rooms" });
+  Room.belongsTo(Conversation, { foreignKey: "conversationId" });
 
   // sequelize.sync({alter: true})
   console.log("✅ Database associations initialized successfully");

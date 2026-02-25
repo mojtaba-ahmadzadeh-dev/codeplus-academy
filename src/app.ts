@@ -1,23 +1,28 @@
 import express, { Application as ExpressApp } from "express";
-import SwaggerConfig from "./config/swagger.config.js";
-import { Sequelize } from "sequelize"; // Import Sequelize
+import { Sequelize } from "sequelize";
 import dotenv from "dotenv";
 import path from "path";
 import { AllRoutes } from "./routes/index.routes.js";
 import { initDatabase } from "./config/model.init.js";
 import { errorHandler } from "./exception/error-handler.js";
 import cookieParser from "cookie-parser";
+import SwaggerConfig from "./config/swagger.config.js";
+
+import http from "http";
+import { Server } from "socket.io";
+import socketService from "./modules/socket/socket.service.js"; // مسیر سرویس ساکت
 
 export class Application {
   private app: ExpressApp;
   private port: number;
   private sequelize: Sequelize;
+  private server!: http.Server;
+  private io!: Server;
 
   constructor(port: number, sequelize: Sequelize) {
     this.port = port;
     this.sequelize = sequelize;
 
-    // Load environment variables based on NODE_ENV
     const envFile =
       process.env.NODE_ENV === "production"
         ? ".env.production"
@@ -25,66 +30,79 @@ export class Application {
 
     dotenv.config({ path: path.resolve(process.cwd(), envFile) });
 
-    // Create Express application instance
     this.app = express();
 
-    // Initialize core application layers
     this.initializeMiddlewares();
     this.initializeSwagger();
-    this.initializeErrorHandler();
     this.setupRoutes();
     this.initializeErrorHandler();
   }
 
-  /** Register global middlewares */
+  // ==============================
+  // Middlewares
+  // ==============================
+
   private initializeMiddlewares(): void {
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: true }));
     this.app.use(cookieParser());
   }
 
-  /** Setup Swagger documentation */
   private initializeSwagger(): void {
     SwaggerConfig(this.app);
   }
 
-  /** Initialize database connection */
-  async initDatabase(): Promise<void> {
-    try {
-      await this.sequelize.authenticate();
-      console.log("✅ Database connection has been established successfully.");
-    } catch (error) {
-      console.error("❌ Unable to connect to the database:", error);
-      throw error;
-    }
-  }
-
-  async setupRoutes(): Promise<void> {
+  private setupRoutes(): void {
     this.app.use(AllRoutes);
   }
 
-  async initializeErrorHandler(): Promise<void> {
+  private initializeErrorHandler(): void {
     this.app.use(errorHandler);
   }
 
-  /** Start HTTP server */
+  // ==============================
+  // Socket Initialization
+  // ==============================
+
+  private initializeSocket(): void {
+    this.server = http.createServer(this.app);
+
+    this.io = new Server(this.server, {
+      cors: {
+        origin: "*",
+        credentials: true,
+      },
+    });
+
+    // Initialize socket service
+    socketService.init(this.io);
+
+    console.log("✅ Socket.io initialized");
+  }
+
+  // ==============================
+  // Start Server
+  // ==============================
+
   async start(): Promise<void> {
     try {
-      // initialize database with sync
       await initDatabase();
 
-      this.app.listen(this.port, () => {
+      this.initializeSocket();
+
+      this.server.listen(this.port, () => {
         console.log(`🚀 Server running on port ${this.port}`);
         console.log(`📚 Swagger: http://localhost:${this.port}/api-docs`);
-        console.log(`🌍 Environment: ${process.env.NODE_ENV || "development"}`);
+        console.log(
+          `🌍 Environment: ${process.env.NODE_ENV || "development"}`
+        );
       });
     } catch (error) {
-      console.error("Failed to start application:", error);
+      console.error("❌ Failed to start application:", error);
       process.exit(1);
     }
   }
 
-  /** Get Express app instance (for testing or additional configuration) */
   public getApp(): ExpressApp {
     return this.app;
   }

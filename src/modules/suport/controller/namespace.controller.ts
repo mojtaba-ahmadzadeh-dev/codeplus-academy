@@ -1,0 +1,30 @@
+import { Request, Response, NextFunction } from "express";
+import namespaceService from "../service/namespace.service";
+import { StatusCodes } from "http-status-codes";
+
+class NamespaceController {
+  private namespaceSrvice: typeof namespaceService;
+
+  constructor() {
+    this.namespaceSrvice = namespaceService;
+
+    this.createNamespace = this.createNamespace.bind(this)
+  }
+
+  async createNamespace(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { title, endpoint } = req.body;
+
+      await this.namespaceSrvice.createNamespace({ title, endpoint });
+
+      res.status(StatusCodes.CREATED).json({
+        StatusCodes: StatusCodes.CREATED,
+        message: "فضای گفتوگو با موفقیت ساخته شد",
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+}
+
+export default new NamespaceController();
