@@ -141,3 +141,44 @@
  *       500:
  *         description: Internal server error
  */
+
+/**
+ * @swagger
+ * /support/room/create:
+ *   post:
+ *     summary: Create a new room
+ *     description: |
+ *       Create a support room with optional image upload  
+ *       - Room automatically creates conversation  
+ *       - Image is optional  
+ *       - No need to send conversationId
+ *     tags: [Support 💬]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - name
+ *             properties:
+ *               name:
+ *                 type: string
+ *                 example: "General Support"
+ *                 description: Room name
+ *               description:
+ *                 type: string
+ *                 example: "Room for general questions"
+ *                 description: Room description (optional)
+ *               image:
+ *                 type: string
+ *                 format: binary
+ *                 description: Room image (optional)
+ *     responses:
+ *       201:
+ *         description: Room created successfully
+ *       400:
+ *         description: Bad request
+ *       500:
+ *         description: Internal server error
+ */

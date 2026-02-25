@@ -1,6 +1,6 @@
 import { Router } from "express";
 import userController from "./user.controller";
-import { upload } from "../../middleware/upload/upload.middleware";
+
 import { rbacGuard } from "../../middleware/guard/rbac.guard";
 import { Permissions } from "../../constant/role.constant";
 import {
@@ -9,6 +9,7 @@ import {
   validateCreateUser,
   validateUpdateUser,
 } from "./user.validation";
+import { uploadUser } from "../../middleware/upload/upload.middleware";
 
 const userRouter: Router = Router();
 
@@ -39,7 +40,7 @@ userRouter.get(
 userRouter.put(
   "/update/:id",
   rbacGuard([Permissions.USER_BY_UPDATE_ID]),
-  upload.single("avatar"),
+  uploadUser.single("avatar"),
   validateUpdateUser,
   userController.updateUserById,
 );
@@ -59,7 +60,7 @@ userRouter.patch(
 
 userRouter.post(
   "/admin/create",
-  upload.single("avatar"),
+  uploadUser.single("avatar"),
   rbacGuard([Permissions.USER_CREATE]),
   validateCreateUser,
   userController.createUser,

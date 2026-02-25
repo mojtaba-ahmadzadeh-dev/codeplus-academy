@@ -1,6 +1,6 @@
 import { Router } from "express";
 import captureController from "./capture.controller";
-import { upload } from "../../middleware/upload/upload.middleware";
+
 import { rbacGuard } from "../../middleware/guard/rbac.guard";
 import { Permissions } from "../../constant/role.constant";
 import {
@@ -9,6 +9,7 @@ import {
   validateGetCapture,
   validateUpdateCapture,
 } from "./capture.validation";
+import { uploadUser } from "../../middleware/upload/upload.middleware";
 
 const captureRouter = Router();
 
@@ -16,7 +17,7 @@ captureRouter.post(
   "/create",
   rbacGuard([Permissions.CAPTURE_CREATE]),
   validateCreateCapture,
-  upload.single("file"),
+  uploadUser.single("file"),
   captureController.createCapture,
 );
 
@@ -33,7 +34,7 @@ captureRouter.get("/:id", captureController.getCaptureById);
     "/:id",
     rbacGuard([Permissions.CAPTURE_UPDATE]),
     validateUpdateCapture,
-    upload.single("file"),
+    uploadUser.single("file"),
     captureController.updateCapture,
   ));
 

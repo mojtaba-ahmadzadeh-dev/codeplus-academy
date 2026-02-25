@@ -14,8 +14,8 @@ export interface IConversation {
 export interface IRoom {
     id?: string;
     name: string;
-    description: string;
-    image: string;
+    description?: string;
+    image?: string;
     conversationId?: string;
 }
 
@@ -24,7 +24,7 @@ export interface ILocation {
     senderId: number;
     location: object | null;
     dateTime: number;
-    roomId?: number;
+    roomId?: string;
 }
 
 export interface IMessage {

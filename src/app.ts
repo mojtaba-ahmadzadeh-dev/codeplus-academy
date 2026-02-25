@@ -46,6 +46,8 @@ export class Application {
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: true }));
     this.app.use(cookieParser());
+
+    this.app.use("/uploads", express.static("public/uploads"));
   }
 
   private initializeSwagger(): void {
@@ -93,9 +95,7 @@ export class Application {
       this.server.listen(this.port, () => {
         console.log(`🚀 Server running on port ${this.port}`);
         console.log(`📚 Swagger: http://localhost:${this.port}/api-docs`);
-        console.log(
-          `🌍 Environment: ${process.env.NODE_ENV || "development"}`
-        );
+        console.log(`🌍 Environment: ${process.env.NODE_ENV || "development"}`);
       });
     } catch (error) {
       console.error("❌ Failed to start application:", error);
