@@ -13,6 +13,11 @@ class NamespaceService {
     await this.model.create({ title, endpoint });
   }
 
+  async getNamespaces(): Promise<ISupport[]> {
+    const namespaces = await this.model.findAll()
+    return namespaces
+  }
+
   async checkExistWithEndpoint(endpoint: string): Promise<void> {
     const namespaces = await this.model.findOne({ where: { endpoint } });
     if (namespaces)

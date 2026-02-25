@@ -63,3 +63,36 @@
  *       500:
  *         description: Internal server error
  */
+
+/**
+ * @swagger
+ * /support/namespace:
+ *   get:
+ *     summary: Get all namespaces
+ *     description: Retrieve list of all support chat namespaces
+ *     tags: [Support 💬]
+ *     responses:
+ *       200:
+ *         description: Namespaces retrieved successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 StatusCodes:
+ *                   type: integer
+ *                   example: 200
+ *                 namespaces:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: integer
+ *                       title:
+ *                         type: string
+ *                       endpoint:
+ *                         type: string
+ *       500:
+ *         description: Internal server error
+ */
