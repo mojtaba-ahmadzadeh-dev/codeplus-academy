@@ -9,5 +9,14 @@ supportRouter.post(`/namespace/create`, namespaceController.createNamespace);
 supportRouter.get(`/namespace`, namespaceController.getNamespaces);
 supportRouter.delete(`/namespace/delete/:id`, namespaceController.removeNamespaceById);
 supportRouter.post(`/room/create`, uploadRoom.single("image"), roomController.createNewRoom);
+supportRouter.get(
+  "/room",
+  roomController.getAllRooms
+);
+
+supportRouter.delete(
+  `/room/delete/:id`,
+  roomController.removeRoomById
+);
 
 export default supportRouter

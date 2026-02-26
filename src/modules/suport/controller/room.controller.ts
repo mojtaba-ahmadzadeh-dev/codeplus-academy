@@ -9,6 +9,8 @@ class RoomController {
   constructor() {
     this.roomService = roomService;
     this.createNewRoom = this.createNewRoom.bind(this);
+    this.getAllRooms = this.getAllRooms.bind(this);
+    this.removeRoomById = this.removeRoomById.bind(this);
   }
 
   async createNewRoom(req: Request, res: Response, next: NextFunction) {
@@ -26,6 +28,34 @@ class RoomController {
         statusCode: StatusCodes.CREATED,
         message: "اتاق گفتگو با موفقیت ساخته شد",
         room,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async getAllRooms(req: Request, res: Response, next: NextFunction) {
+    try {
+      const rooms = await this.roomService.getAllRooms();
+
+      res.status(StatusCodes.OK).json({
+        statusCode: StatusCodes.OK,
+        rooms,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async removeRoomById(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id } = req.params;
+
+      await roomService.deleteRoomById(Number(id));
+
+      return res.status(200).json({
+        statusCode: 200,
+        message: "اتاق با موفقیت حذف شد",
       });
     } catch (error) {
       next(error);

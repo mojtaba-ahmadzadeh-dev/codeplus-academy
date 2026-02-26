@@ -33,13 +33,34 @@ class RoomService {
 
     if (!createRoom) {
       throw createHttpError.InternalServerError(
-        "مشکلی در ساخت اتاق گفتگو پیش آمده"
+        "مشکلی در ساخت اتاق گفتگو پیش آمده",
       );
     }
 
     return createRoom;
   }
 
+  async getAllRooms(): Promise<IRoom[]> {
+    const rooms = await this.model.findAll();
+    return rooms;
+  }
+
+async deleteRoomById(id: number): Promise<void> {
+  const room = await this.model.findByPk(id);
+
+  if (!room) {
+    throw createHttpError.NotFound("اتاق پیدا نشد");
+  }
+
+  // اگر conversation مرتبط داری، حذفش کن
+  if (room.conversationId) {
+    await this.conversationModel.destroy({
+      where: { id: room.conversationId },
+    });
+  }
+
+  await room.destroy();
+}
   async checkExistWithName(name: string): Promise<void> {
     const room = await this.model.findOne({ where: { name } });
     if (room)

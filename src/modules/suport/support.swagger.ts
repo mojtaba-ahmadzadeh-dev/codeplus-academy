@@ -182,3 +182,83 @@
  *       500:
  *         description: Internal server error
  */
+
+/**
+ * @swagger
+ * /support/room:
+ *   get:
+ *     summary: Get all rooms
+ *     description: Retrieve all support rooms
+ *     tags: [Support 💬]
+ *     responses:
+ *       200:
+ *         description: Rooms retrieved successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 200
+ *                 rooms:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: string
+ *                       name:
+ *                         type: string
+ *                       description:
+ *                         type: string
+ *                       image:
+ *                         type: string
+ *       500:
+ *         description: Internal server error
+ */
+
+/**
+ * @swagger
+ * /support/room/delete/{id}:
+ *   delete:
+ *     summary: Delete a chat room
+ *     description: Delete a room by its ID
+ *     tags: [Support 💬]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: Room ID
+ *     responses:
+ *       200:
+ *         description: Room successfully deleted
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 200
+ *                 message:
+ *                   type: string
+ *                   example: Room successfully deleted
+ *       404:
+ *         description: Room not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 404
+ *                 message:
+ *                   type: string
+ *                   example: Room not found
+ *       500:
+ *         description: Internal server error
+ */
